@@ -1,0 +1,5056 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+<<<<<<< HEAD
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pré-treino Feminino Premium</title>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;800&family=Space+Grotesk:wght@500;700&family=Oswald:wght@500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- GSAP & ScrollTrigger -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <style>
+        :root {
+            --color-primary: #F2A900;
+            /* Laranja Ouro vibrante para a ação base */
+            --color-primary-hover: #D98D00;
+            /* Escurecimento suave do Ouro */
+            --color-primary-strong: #E6A000;
+            /* Destaque Ouro Forte */
+            --color-secondary: rgba(0, 0, 0, 0.05);
+            /* Fundo branco inverte o botão secundário */
+            --color-bg-dark: #0a0a0a;
+            --color-text-dark: #2E2E2E;
+            /* Cinza Escuro Quente */
+            --color-text-light: #ffffff;
+            --color-text-muted: #6B6B6B;
+            /* Cinza Médio Quente */
+            --font-main: 'Inter', sans-serif;
+            --transition-premium: cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html.lenis,
+        html.lenis body {
+            height: auto;
+        }
+
+        .lenis.lenis-smooth {
+            scroll-behavior: auto !important;
+        }
+
+        body,
+        html {
+            width: 100%;
+            overflow-x: hidden;
+            background-color: var(--color-bg-dark);
+        }
+
+        body {
+            font-family: var(--font-main);
+            color: var(--color-text-light);
+            background-color: #F3EFE9;
+            /* Base for premium wellness */
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* --------------------------
+           HERO SECTION: Full Width Pinned
+           -------------------------- */
+        .hero-section {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            /* Premium warm gradient: softly transitions from beige to a subtle golden tint */
+            background: linear-gradient(135deg, #F3EFE9 0%, #FDFBF7 40%, #FFF5E1 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero__video-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100%;
+            object-fit: cover;
+            /* Inicia visualmente focado no lado direito da cena do vídeo (80%) */
+            object-position: 80% center;
+            z-index: 2;
+            /* Transição CSS removida: GSAP controlará o 'object-position' no scroll (scrubbing) */
+        }
+
+        .hero__overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* Enhanced golden glow specifically positioned to highlight the product */
+            background: radial-gradient(circle at 75% 50%, rgba(242, 169, 0, 0.25) 0%, rgba(243, 239, 233, 0) 65%);
+            z-index: 1;
+            /* ATRÁS DO VÍDEO (Z:2) e do TEXTO (Z:3) */
+            pointer-events: none;
+        }
+
+        .hero__container {
+            position: relative;
+            z-index: 3;
+            width: 100%;
+            height: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 22vh 5% 0 5%;
+            /* Força o bloco a começar no topo com respiro, em vez de centralizar */
+            display: flex;
+            align-items: flex-start;
+            /* Cancela a centralização forçada */
+        }
+
+        /* --------------------------
+           HEADER & NAVIGATION
+           -------------------------- */
+        .header {
+            position: absolute;
+            /* Changed from fixed so it stays at the top of the initial load and doesn't conflict during pinning/scroll */
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 1.5rem 5%;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+        }
+
+        .header__logo {
+            max-width: 120px;
+            height: auto;
+            /* Force to black completely, protected from GSAP */
+            filter: brightness(0) drop-shadow(0px 8px 16px rgba(0, 0, 0, 0.08));
+        }
+
+        .hero__content {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            max-width: 650px;
+            position: relative;
+            margin-top: 0;
+        }
+
+        .hero-anim-item {
+            will-change: transform, opacity, filter;
+            opacity: 0;
+            /* JS Control */
+        }
+
+        .hero__eyebrow {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            color: var(--color-primary);
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .hero__eyebrow::before {
+            content: '';
+            display: block;
+            width: 30px;
+            height: 1px;
+            background-color: var(--color-primary);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero__headline {
+            /* Reduced overall size by ~10-15% while maintaining proportions */
+            font-size: clamp(2.25rem, 3.5vw, 3.6rem);
+            /* Max ~57px */
+            font-weight: 900;
+            line-height: 1.15;
+            letter-spacing: -0.5px;
+            text-transform: none;
+            text-shadow: none;
+            color: #1A1A1A;
+            /* Darker near-black for stronger contrast */
+            /* Increased space between headline and paragraph for more breathing room */
+            margin-bottom: 2rem;
+        }
+
+        .hero__headline .highlight {
+            color: var(--color-primary-strong);
+            font-size: 1.08em;
+            /* Kept balance, still prominent but proportional */
+            font-weight: 900;
+            font-style: normal;
+            display: block;
+            margin-top: 0;
+        }
+
+        .hero__subheadline {
+            font-size: clamp(1.125rem, 1.2vw, 1.25rem);
+            /* ~18px to 20px */
+            font-weight: 400;
+            color: var(--color-text-muted);
+            line-height: 1.65;
+            /* Increased line-height for readability */
+            margin-top: 0;
+            /* Increased spacing between paragraph and CTA button */
+            margin-bottom: 2.5rem;
+            text-shadow: none;
+            /* Limit max width to create an elegant narrower column */
+            max-width: 480px;
+        }
+
+        .hero__actions {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0;
+            /* Margin handled by the paragraph above to avoid collapse issues */
+            margin-top: 0;
+        }
+
+        .hero__micro-benefits {
+            font-size: 0.85rem;
+            color: var(--color-text-muted);
+            font-weight: 500;
+            /* INCREASED: Add small but clear spacing between CTA button and the benefit line below */
+            margin-top: 0.75rem;
+        }
+
+        .btn {
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            font-family: var(--font-main);
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.4s var(--transition-premium);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn--primary {
+            /* Vibrant golden gradient */
+            background: linear-gradient(135deg, #F2A900 0%, #FFC133 50%, #E6A000 100%);
+            background-size: 200% 200%;
+            color: #ffffff;
+            border: none;
+            /* Soft diffused shadow for depth */
+            box-shadow: 0 8px 20px rgba(242, 169, 0, 0.3);
+            transition: all 0.5s var(--transition-premium);
+        }
+
+        .btn--primary:hover {
+            /* Smooth micro hover elevation effect */
+            background-position: 100% 100%;
+            box-shadow: 0 12px 28px rgba(242, 169, 0, 0.45);
+            transform: translateY(-2px);
+        }
+
+        .btn--secondary {
+            background-color: transparent;
+            color: var(--color-text-dark);
+            border: 1px solid rgba(46, 46, 46, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .btn--secondary:hover {
+            background-color: var(--color-secondary);
+            border-color: rgba(46, 46, 46, 0.4);
+            transform: translateY(-3px);
+        }
+
+        /* --------------------------
+           NEW ABOUT SECTION (Light Wellness Aesthetic)
+           -------------------------- */
+        .sobre-crealoo {
+            background-color: #FDFBF7;
+            /* Soft warm neutral background */
+            padding: 8rem 5% 6rem 5%;
+            /* Reduzido padding bottom de 12rem para 6rem */
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+
+        .sobre__container {
+            max-width: 1320px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            /* Strict 12-column grid */
+            gap: 2rem;
+            position: relative;
+            z-index: 2;
+            align-items: center;
+        }
+
+        /* LEFT COLUMN: Editorial Text 6 Columns */
+        .sobre__left {
+            grid-column: 1 / 7;
+            /* Occupies 6 columns */
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .sobre__title {
+            font-size: clamp(34px, 4vw, 46px);
+            /* Exact Print Sizing */
+            font-weight: 800;
+            color: #1A1A1A;
+            line-height: 1.1;
+            letter-spacing: -1px;
+            margin-bottom: 0.5rem;
+        }
+
+        .text-highlight {
+            color: #C49B55;
+        }
+
+        .sobre__quote {
+            font-size: clamp(16px, 1.5vw, 18px);
+            /* Exact Print Sizing */
+            color: #1A1A1A;
+            font-weight: 700;
+            line-height: 1.4;
+            margin-bottom: 2.5rem;
+        }
+
+        .sobre__features {
+            display: flex;
+            flex-direction: column;
+            gap: 34px;
+            /* 32-36px requested */
+            margin-bottom: 2rem;
+        }
+
+        .sobre__subtitle {
+            font-size: 16px;
+            font-weight: 400;
+            color: #666666;
+            /* Cor alterada para #666 */
+            margin-top: 40px;
+            margin-bottom: 22px;
+            /* Reduzido espaço em -6px */
+            line-height: 1.1;
+            letter-spacing: 0.5px;
+            position: relative;
+        }
+
+        /* Destacar "RESET 24H" */
+        .highlight-reset {
+            display: block;
+            color: #F2A900;
+            font-size: 34px;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-top: 4px;
+            /* Ajuste para aproximar visualmente (-2px) */
+            line-height: 1.05;
+            letter-spacing: 0.5px;
+        }
+
+        .sobre__features {
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+            margin-bottom: 2rem;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1.25rem;
+            position: relative;
+        }
+
+        /* Minimalist vertical line indicator */
+        .feature-item::before {
+            content: '';
+            flex-shrink: 0;
+            width: 2px;
+            height: 16px;
+            margin-top: 5px;
+            background-color: #C6A24D;
+            border-radius: 1px;
+            opacity: 0.7;
+        }
+
+        .feature-icon {
+            display: none;
+        }
+
+        .feature-text {
+            padding-left: 0;
+        }
+
+        .feature-text h4 {
+            font-size: 17px;
+            color: #1A1A1A;
+            font-weight: 600;
+            margin-bottom: 0.4rem;
+        }
+
+        .feature-text p {
+            font-size: 14px;
+            color: #666666;
+            font-weight: 400;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .sobre__cta-wrapper {
+            margin-top: 24px;
+            display: flex;
+            align-items: flex-start;
+            flex-direction: column;
+            position: relative;
+            z-index: 20;
+            padding-bottom: 24px;
+            /* Reduzido espaço fantasma (era 100px) */
+        }
+
+        /* RIGHT COLUMN */
+        .sobre__right {
+            grid-column: 8 / 13;
+            /* Occupies 5 columns, leaving column 7 as breathing room */
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .image-wrapper {
+            width: 100%;
+            max-width: 650px;
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            grid-template-rows: repeat(12, 1fr);
+            aspect-ratio: 4/5;
+            gap: 0;
+            position: relative;
+        }
+
+        /* Cinematic warm glow behind images */
+        .image-wrapper::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 70%;
+            height: 70%;
+            background: radial-gradient(circle, rgba(242, 169, 0, 0.45) 0%, rgba(242, 169, 0, 0) 70%);
+            filter: blur(40px);
+            z-index: 0;
+            /* Keep it behind all images */
+            pointer-events: none;
+        }
+
+        .image-wrapper img {
+            border-radius: 20px;
+            object-fit: cover;
+            width: 100%;
+            height: 100%;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+            border: 4px solid #ffffff;
+            transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .image-wrapper img:hover {
+            transform: scale(1.05) translateY(-5px);
+            z-index: 10 !important;
+        }
+
+        /* Print Image Arrangement */
+        .img-1 {
+            /* Top right */
+            grid-column: 6 / 13;
+            grid-row: 1 / 7;
+            z-index: 1;
+        }
+
+        .img-2 {
+            /* Middle left */
+            grid-column: 1 / 9;
+            grid-row: 4 / 10;
+            z-index: 2;
+            /* Box under flamingo */
+        }
+
+        .img-3 {
+            /* Bottom right */
+            grid-column: 5 / 13;
+            grid-row: 6 / 13;
+            z-index: 3;
+            /* Flamingo on top */
+        }
+
+        /* Continuous Diagonal Marquee */
+        .marquee {
+            position: absolute;
+            bottom: -10px;
+            /* Colado na base da seção (era 40px) */
+            left: -5%;
+            width: 110%;
+            background: linear-gradient(90deg, #F2A900 0%, #E6A000 100%);
+            padding: 0.6rem 0;
+            /* Reduced height */
+            transform: rotate(-3deg);
+            display: flex;
+            overflow: hidden;
+            z-index: 5;
+            box-shadow: 0 10px 30px rgba(242, 169, 0, 0.1);
+            opacity: 0.65;
+            /* Soften presence */
+        }
+
+        .btn--premium {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px 48px;
+            /* Efeito do Hero Botão Primário Restabelecido */
+            background: linear-gradient(135deg, #F2A900 0%, #FFC133 50%, #E6A000 100%);
+            background-size: 200% 200%;
+            border: none;
+
+            color: #ffffff;
+            font-size: 16px;
+            font-family: var(--font-main);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            border-radius: 50px;
+            /* Fully rounded to match the top Hero button */
+            text-decoration: none;
+
+            position: relative;
+            z-index: 20;
+            /* Ensured it stays strictly above marquee */
+            margin-bottom: 24px;
+
+            /* Soft diffused shadow for depth */
+            box-shadow: 0 8px 20px rgba(242, 169, 0, 0.3);
+            transition: all 0.5s var(--transition-premium);
+            /* Infinite Luxury Attention Animation */
+            animation: premiumPulse 3s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+        }
+
+        .btn--premium:hover {
+            /* Smooth micro hover elevation effect do Hero restaurado */
+            background-position: 100% 100%;
+            box-shadow: 0 12px 28px rgba(242, 169, 0, 0.45);
+            transform: translateY(-2px);
+            /* Pause pulse on hover for interaction clarity */
+            animation-play-state: paused;
+        }
+
+        /* Animação Contínua de Luxo para o CTA */
+        @keyframes premiumPulse {
+            0% {
+                box-shadow: 0 8px 20px rgba(242, 169, 0, 0.3);
+                transform: scale(1);
+            }
+
+            50% {
+                /* Forte Glow amarelado e leve aumento para "respirar" */
+                box-shadow: 0 15px 40px rgba(242, 169, 0, 0.6), 0 0 15px rgba(255, 215, 0, 0.4);
+                transform: scale(1.03);
+            }
+
+            100% {
+                box-shadow: 0 8px 20px rgba(242, 169, 0, 0.3);
+                transform: scale(1);
+            }
+        }
+
+        .marquee-content {
+            display: flex;
+            align-items: center;
+            white-space: nowrap;
+            animation: marquee 20s linear infinite;
+        }
+
+        .marquee-item {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: white;
+            padding: 0 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        @keyframes marquee {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        /* --------------------------
+           NEW ABOUT SECTION: TECHNOLOGY
+           -------------------------- */
+        .technology {
+            background-color: #FFFFFF;
+            /* Puro contraste de tecnologia */
+            padding: 4rem 5% 10rem 5%;
+            /* Top padding reduzido de 8rem para 4rem */
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+
+        .tech__container {
+            max-width: 1280px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .tech__left {
+            grid-column: 1 / 7;
+            /* Expand back to 6 columns */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        /* Portrait acting as a transparent background watermark */
+        .tech__bg-portrait {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: top center;
+            /* Transparente effect over white background */
+            mix-blend-mode: multiply;
+            opacity: 0.15;
+            filter: grayscale(100%);
+            /* Subtle transparent tone */
+            z-index: 1;
+            /* Behind grid content */
+            pointer-events: none;
+        }
+
+        .tech__eyebrow {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            color: #888888;
+            font-weight: 600;
+            margin-bottom: 24px;
+            display: block;
+        }
+
+        .tech__headline {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            margin-bottom: 32px;
+        }
+
+        .tech__headline-line1 {
+            font-size: clamp(36px, 4vw, 44px);
+            font-weight: 700;
+            color: #1A1A1A;
+            line-height: 1.05;
+            letter-spacing: -1px;
+            /* Inicial state for GSAP */
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .tech__headline-line2 {
+            font-size: clamp(20px, 2vw, 24px);
+            font-weight: 400;
+            color: #666666;
+            /* Subdued contrast */
+            line-height: 1.2;
+            letter-spacing: -0.5px;
+            /* Inicial state for GSAP */
+            opacity: 0;
+            transform: translateY(15px);
+        }
+
+        .highlight-real {
+            color: #C6A24D;
+            /* Elegant yellow */
+        }
+
+        .tech__paragraph {
+            font-size: 16px;
+            color: #666666;
+            line-height: 1.7;
+            font-weight: 400;
+            margin: 0;
+            max-width: 95%;
+        }
+
+        .tech__right {
+            grid-column: 7 / 13;
+            /* Use the remaining 6 columns */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .tech__composition {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+
+        .tech__ingredient {
+            padding: 24px 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+            /* Minimalist separator */
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+        }
+
+        .tech__ingredient:first-child {
+            border-top: 1px solid rgba(0, 0, 0, 0.08);
+        }
+
+        .ingredient-name {
+            font-size: 20px;
+            font-weight: 500;
+            color: #1A1A1A;
+        }
+
+        .ingredient-role {
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #C6A24D;
+            font-weight: 600;
+        }
+
+
+        /* --------------------------
+           NEW ABOUT SECTION: CONVERSION (DESIRE)
+           -------------------------- */
+        .conversion {
+            position: relative;
+            width: 100%;
+            min-height: 100vh;
+            /* Fullscreen impact */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            z-index: 10;
+            padding: 5rem 5%;
+        }
+
+        /* Video de Fundo Fullscreen */
+        .conv__video-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            overflow: hidden;
+            background-color: #000;
+            /* Fallback */
+        }
+
+        .conv__video-bg video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        /* Overlay para legibilidade e clima dramático quente */
+        .conversion::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(26, 26, 26, 0.3) 0%, rgba(242, 169, 0, 0.6) 100%);
+            z-index: -1;
+        }
+
+        /* Todo o conteúdo textual por cima do overlay */
+        .conv__content {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            max-width: 1000px;
+        }
+
+        .conv__headline {
+            font-size: clamp(40px, 6vw, 56px);
+            /* Aumentado um pouco para fullscreen */
+            font-weight: 700;
+            color: #FFFFFF;
+            /* Branco absoluto pelo contraste no vídeo */
+            margin-bottom: 12px;
+            text-align: center;
+            line-height: 1.1;
+            letter-spacing: -1px;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            /* Projeção extra */
+        }
+
+        .conv__subheadline {
+            font-size: 24px;
+            font-weight: 600;
+            color: #FFFFFF;
+            margin-bottom: 64px;
+            text-align: center;
+            letter-spacing: 1px;
+            opacity: 0.95;
+            text-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .conv__video-wrapper video {
+            width: 100%;
+            height: auto;
+            border-radius: 20px;
+            display: block;
+            object-fit: cover;
+            border: 2px solid rgba(255, 255, 255, 0.4);
+        }
+
+        .btn--huge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px 64px;
+            background-color: #FFFFFF;
+            /* Botão branco para brilhar no vídeo escuro/quente */
+            color: #1A1A1A;
+            /* Texto preto/chumbo */
+            font-size: 18px;
+            font-weight: 800;
+            /* Mais peso pra segurar o branco */
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            border-radius: 12px;
+            text-decoration: none;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+            /* Sombra preta forte */
+            transition: all 0.4s var(--transition-premium);
+        }
+
+        .btn--huge:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.6);
+            background-color: #FDFBF7;
+        }
+
+        @media (max-width: 992px) {
+            .sobre__container {
+                grid-template-columns: 1fr;
+            }
+
+            .sobre__left,
+            .sobre__right {
+                grid-column: 1 / -1;
+            }
+
+            .sobre__images {
+                min-height: 450px;
+                margin-top: 4rem;
+            }
+
+            .img-1 {
+                width: 50%;
+                right: 5%;
+            }
+
+            .img-2 {
+                width: 50%;
+                left: 5%;
+            }
+
+            .img-3 {
+                width: 45%;
+                bottom: -10%;
+                right: 25%;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .header {
+                justify-content: center;
+                padding: 1.5rem 5%;
+                background: linear-gradient(to bottom, rgba(243, 239, 233, 0.9) 0%, rgba(243, 239, 233, 0) 100%);
+            }
+
+            .hero__content {
+                max-width: 100%;
+                align-items: center;
+                text-align: center;
+                margin-top: 0;
+            }
+
+            .hero__actions {
+                align-items: center;
+            }
+
+            .hero__eyebrow {
+                justify-content: center;
+            }
+
+            .hero__eyebrow::before {
+                display: none;
+            }
+
+            .hero__actions {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .sobre__container {
+                gap: 4rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .sobre-crealoo {
+                padding: 5rem 5% 8rem 5%;
+            }
+
+            .sobre__title {
+                font-size: 2.2rem;
+            }
+
+            .img-1 {
+                width: 55%;
+                right: -5%;
+            }
+
+            .img-2 {
+                width: 55%;
+                left: 0%;
+            }
+
+            .img-3 {
+                width: 50%;
+                bottom: -5%;
+                right: 10%;
+            }
+
+            .marquee {
+                bottom: 20px;
+                padding: 0.7rem 0;
+            }
+        }
+    </style>
+=======
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crea Babi - Creatina Feminina Premium</title>
+
+  <!-- GSAP -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;800;900&display=swap"
+    rel="stylesheet">
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', 'sans-serif'] },
+        }
+      }
+    }
+  </script>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      overflow-x: hidden;
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #fff5f6 0%, #ffe4e6 100%);
+      color: #111827;
+    }
+
+    .bg-layer {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      background: linear-gradient(180deg, rgba(255, 241, 242, 0) 0%, rgba(254, 205, 211, 0.5) 100%);
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+
+    /* Botão Premium */
+    .btn-buy {
+      background-color: #e11d48;
+      color: white;
+      padding: 1.25rem 3rem;
+      border-radius: 9999px;
+      font-weight: 800;
+      font-size: 1.125rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 10px 25px -5px rgba(225, 29, 72, 0.4);
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-buy:hover {
+      background-color: #be123c;
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 20px 30px -10px rgba(225, 29, 72, 0.5);
+    }
+
+    /* Garantir que o texto inicial não trave clicks do botão enquanto sobreposto */
+    .hero-text-container {
+      will-change: transform, opacity, filter;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-text-container::before {
+      content: "";
+      position: absolute;
+      inset: -40px;
+      background: linear-gradient(to right,
+          rgba(0, 0, 0, 0.6),
+          rgba(0, 0, 0, 0.3),
+          transparent);
+      filter: blur(40px);
+      z-index: -1;
+    }
+
+    .hero-text-container h2,
+    .hero-text-container h1 {
+      font-weight: 800;
+      letter-spacing: -1.5px;
+      line-height: 1.05;
+      color: #fff;
+
+      text-shadow:
+        0 4px 20px rgba(0, 0, 0, 0.5),
+        0 2px 6px rgba(0, 0, 0, 0.4);
+    }
+
+    .text-rose-400 {
+      color: #9e1b32;
+      /* Strong Ruby */
+      font-weight: 800;
+      display: inline-block;
+      position: relative;
+    }
+
+
+
+    /* Immersive Scroll Styles */
+    .horizontal-track {
+      display: flex !important;
+      flex-direction: row !important;
+      flex-wrap: nowrap !important;
+      width: 100% !important;
+      height: 100vh !important;
+      will-change: transform;
+    }
+
+    .step-slide {
+      position: relative !important;
+      overflow: hidden !important;
+      flex-shrink: 0 !important;
+      width: 100vw !important;
+      height: 100vh !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Layers */
+    .slide-layer {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .layer-bg {
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    .layer-mid {
+      z-index: 2;
+      justify-content: center;
+      padding: 0;
+
+      /* Subtle lighting overlay on top of the image */
+      &::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(circle at center, transparent 30%, rgba(0, 0, 0, 0.1) 100%);
+        pointer-events: none;
+      }
+    }
+
+    .layer-fg {
+      z-index: 4;
+    }
+
+    .layer-overlay {
+      z-index: 2.5;
+      /* Strong directional veil — keeps text zone clean on every slide */
+      background: linear-gradient(
+        to right,
+        rgba(0, 0, 0, 0.75) 0%,
+        rgba(0, 0, 0, 0.45) 35%,
+        rgba(0, 0, 0, 0.15) 60%,
+        transparent 80%
+      );
+      pointer-events: none;
+      opacity: 1;
+    }
+
+    .layer-text {
+      z-index: 3;
+      justify-content: flex-start;
+      text-align: left;
+      padding-left: 10%;
+      padding-right: 52%; /* Hard left-half safe zone — product always unobstructed */
+      pointer-events: auto;
+    }
+
+    /* Close-range contrast cushion — covers the full text safe zone */
+    .layer-text::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to right,
+        rgba(0, 0, 0, 0.30) 0%,
+        rgba(0, 0, 0, 0.14) 50%,
+        transparent 65%
+      );
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .layer-text h2,
+    .layer-text p {
+      opacity: 0;
+      filter: blur(8px);
+      transform: translateY(20px);
+    }
+
+    /* First slide text is pre-visible — no entrance animation needed */
+    .step-slide:first-child .layer-text h2,
+    .step-slide:first-child .layer-text p {
+      opacity: 1;
+      filter: blur(0px);
+      transform: translateY(0);
+    }
+
+    .layer-text h2 {
+      color: #ffffff;
+      font-size: clamp(2.4rem, 5.5vw, 5.5rem); /* Dominant campaign scale */
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      font-weight: 900;
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.30);
+    }
+
+    .layer-text p {
+      font-size: clamp(1rem, 1.8vw, 1.35rem);
+      color: rgba(255, 255, 255, 0.75); /* Stepped back for hierarchy */
+      font-weight: 400;
+      line-height: 1.6;
+      max-width: 38ch;
+    }
+
+    .layer-text span {
+      color: #9e1b32; /* Rich ruby — vivid against the dark contrast zone */
+      font-weight: 900;
+      letter-spacing: -0.01em;
+    }
+
+    /* Liquid/Gradient BG */
+    .liquid-bg {
+      position: absolute;
+      width: 150%;
+      height: 150%;
+      top: -25%;
+      left: -25%;
+      filter: blur(80px);
+      opacity: 0.55;
+      background: radial-gradient(circle at center, var(--bg-accent) 0%, transparent 70%);
+    }
+
+    /* Floating model / Cover Images */
+    .model-img {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+      position: absolute !important;
+      top: 0 !important;
+      left: 0 !important;
+      z-index: 2;
+      filter: drop-shadow(0 20px 50px rgba(0, 0, 0, 0.15));
+      opacity: 1;
+    }
+
+    /* 🍒 Luxury Cherry Highlights & Jewelry Accents */
+    .step-slide::before {
+      content: '';
+      position: absolute;
+      width: 40vw;
+      height: 40vw;
+      background: radial-gradient(circle, rgba(225, 29, 72, 0.1) 0%, transparent 70%);
+      filter: blur(100px);
+      z-index: 1;
+      pointer-events: none;
+      animation: softPulse 10s ease-in-out infinite alternate;
+    }
+
+    @keyframes softPulse {
+      from {
+        opacity: 0.3;
+        transform: scale(1);
+      }
+
+      to {
+        opacity: 0.6;
+        transform: scale(1.1);
+      }
+    }
+
+    /* Integrated Cherry Accent (Jewelry Style) */
+    .layer-mid::after {
+      content: '';
+      position: absolute;
+      width: 45px;
+      height: 45px;
+      background: url('assets/images/single_cherry,_isolated,_202604091223-Photoroom.png') no-repeat center/contain;
+      z-index: 5;
+      filter: drop-shadow(0 15px 25px rgba(225, 29, 72, 0.2));
+      opacity: 0.9;
+      pointer-events: none;
+      transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Position accents intentionally per slide */
+    .step-slide:nth-child(1) .layer-mid::after {
+      bottom: 20%;
+      right: 28%;
+      transform: rotate(-15deg);
+    }
+
+    .step-slide:nth-child(2) .layer-mid::after {
+      top: 25%;
+      left: 32%;
+      width: 55px;
+      height: 55px;
+      transform: rotate(10deg);
+    }
+
+    .step-slide:nth-child(3) .layer-mid::after {
+      bottom: 15%;
+      left: 25%;
+      opacity: 0.6;
+      filter: blur(1px) drop-shadow(0 10px 20px rgba(0, 0, 0, 0.1));
+    }
+
+    .step-slide:nth-child(4) .layer-mid::after {
+      top: 15%;
+      right: 25%;
+      transform: rotate(20deg);
+    }
+
+    /* Faint background texture icon */
+    .layer-bg::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 80vh;
+      height: 80vh;
+      background: url('assets/images/single_cherry,_isolated,_202604091223-Photoroom.png') no-repeat center/contain;
+      opacity: 0.02;
+      filter: grayscale(1) brightness(1.5);
+      z-index: 0;
+      pointer-events: none;
+    }
+  </style>
+>>>>>>> 716430c2e6cf059d93c1e839679bd023697ae8a3
+</head>
+
+<body>
+
+<<<<<<< HEAD
+    <section class="hero-section" id="hero">
+        <!-- VÍDEO OTIMIZADO APPLE-STYLE: CANVAS DE SEQUÊNCIA DE IMAGENS (ZERO LAG) -->
+        <canvas id="hero-canvas" class="hero__video-bg"></canvas>
+        <div class="hero__overlay"></div>
+
+        <header class="header">
+            <div class="hero-anim-item">
+                <img src="../@assets/29658988-9df9-45e8-ad8f-23fe08af6022.png" alt="Logo" class="header__logo">
+            </div>
+        </header>
+
+        <div class="hero__container">
+            <div class="hero__content" id="master-text-block">
+                <!-- Wrapper que receberá a animação do scroll -->
+                <div class="hero-anim-wrapper">
+                    <span class="hero__eyebrow hero-anim-item">PERFORMANCE PREMIUM</span>
+                    <h1 class="hero__headline hero-anim-item">
+                        Ative seu foco. Sustente sua energia. <br />
+                        <span class="highlight">Eleve seu treino.</span>
+                    </h1>
+                    <p class="hero__subheadline hero-anim-item">
+                        Pré-treino funcional com energia limpa e sustentada — foco estável do primeiro ao último minuto.
+                    </p>
+                    <div class="hero__actions hero-anim-item">
+                        <a href="#comprar" class="btn btn--primary">Quero ativar meu dia</a>
+                        <div class="hero__micro-benefits">
+                            Sem cafeína &bull; Sem crash &bull; Energia sustentada 24h
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="sobre-crealoo" id="sobre">
+        <div class="sobre__container">
+            <!-- Coluna Esquerda: Texto, Benefícios e CTA -->
+            <div class="sobre__left">
+                <h2 class="sobre__title scroll-anim-item">
+                    <span class="text-highlight">Energia</span> que sustenta sua evolução.<br>
+                    <span class="text-highlight">Foco</span> que acompanha sua intensidade.
+                </h2>
+
+                <p class="sobre__quote scroll-anim-item">Uma nova geração de pré-treino.<br>Alta performance com
+                    estabilidade real
+                    &mdash; sem picos artificiais, sem queda brusca.</p>
+
+                <div class="sobre__features scroll-anim-item">
+                    <h3 class="sobre__subtitle">A diferença<br><span class="highlight-reset">RESET 24H</span></h3>
+
+                    <div class="feature-item">
+                        <div class="feature-text">
+                            <h4>Energia Inteligente</h4>
+                            <p>Ativação progressiva e estável, do primeiro ao último minuto.</p>
+                        </div>
+                    </div>
+
+                    <div class="feature-item">
+                        <div class="feature-text">
+                            <h4>Clareza Mental Sustentada</h4>
+                            <p>Foco firme, sem agitação, sem ansiedade e tremedeira.</p>
+                        </div>
+                    </div>
+
+                    <div class="feature-item">
+                        <div class="feature-text">
+                            <h4>Equilíbrio Estratégico</h4>
+                            <p>Performance intensa e de longo alcance sem sobrecarregar seu corpo.</p>
+                        </div>
+                    </div>
+
+                    <div class="feature-item">
+                        <div class="feature-text">
+                            <h4>Constância Real</h4>
+                            <p>Menos desgaste. Mais resultados limpos ao longo da semana.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sobre__cta-wrapper scroll-anim-item">
+                    <a href="#composicao" class="btn--premium">
+                        Ver composição completa
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-left: 12px;">
+                            <path d="M5 12h14" />
+                            <path d="m12 5 7 7-7 7" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Coluna Direita: Colagem de Imagens Agrupada -->
+            <div class="sobre__right scroll-anim-item">
+                <div class="image-wrapper">
+                    <!-- img-1: Woman (Portrait) -->
+                    <img src="../9ea64c24-1bd3-4487-8fc2-23312cc97825.png" alt="Bem-Estar Vora" class="img-1" />
+                    <!-- img-2: Product/Tub (Landscape) -->
+                    <img src="../Generated Image February 27, 2026 - 6_15PM.png" alt="Produto Vora Premium"
+                        class="img-2" />
+                    <!-- img-3: Detail (Square) -->
+                    <img src="../Generated Image February 20, 2026 - 10_48PM.png" alt="Detalhe Vora Life"
+                        class="img-3" />
+                </div>
+            </div>
+
+            <!-- Faixa Animada com Logo e Nome rodando -->
+            <div class="marquee">
+                <div class="marquee-content">
+                    <!-- Duplicado para loop infinito -->
+                    <div class="marquee-item"><img src="../@assets/29658988-9df9-45e8-ad8f-23fe08af6022.png"
+                            style="height: 24px; filter: brightness(0) invert(1);" alt="Icon"> Reset 24h</div>
+                    <div class="marquee-item"><img src="../@assets/29658988-9df9-45e8-ad8f-23fe08af6022.png"
+                            style="height: 24px; filter: brightness(0) invert(1);" alt="Icon"> Reset 24h</div>
+                    <div class="marquee-item"><img src="../@assets/29658988-9df9-45e8-ad8f-23fe08af6022.png"
+                            style="height: 24px; filter: brightness(0) invert(1);" alt="Icon"> Reset 24h</div>
+                    <div class="marquee-item"><img src="../@assets/29658988-9df9-45e8-ad8f-23fe08af6022.png"
+                            style="height: 24px; filter: brightness(0) invert(1);" alt="Icon"> Reset 24h</div>
+                    <div class="marquee-item"><img src="../@assets/29658988-9df9-45e8-ad8f-23fe08af6022.png"
+                            style="height: 24px; filter: brightness(0) invert(1);" alt="Icon"> Reset 24h</div>
+                    <div class="marquee-item"><img src="../@assets/29658988-9df9-45e8-ad8f-23fe08af6022.png"
+                            style="height: 24px; filter: brightness(0) invert(1);" alt="Icon"> Reset 24h</div>
+                    <div class="marquee-item"><img src="../@assets/29658988-9df9-45e8-ad8f-23fe08af6022.png"
+                            style="height: 24px; filter: brightness(0) invert(1);" alt="Icon"> Reset 24h</div>
+                    <div class="marquee-item"><img src="../@assets/29658988-9df9-45e8-ad8f-23fe08af6022.png"
+                            style="height: 24px; filter: brightness(0) invert(1);" alt="Icon"> Reset 24h</div>
+                </div>
+            </div>
+    </section>
+
+    <!-- Seção de Tecnologia Avançada -->
+    <section class="technology" id="tecnologia">
+        <!-- Floating Transparent Portrait Background -->
+        <img src="./assets/5d23773a-4da2-4fdc-9cc1-2031cb25ea25.jpg" alt="Especialista Performance"
+            class="tech__bg-portrait">
+
+        <div class="tech__container">
+            <!-- Left Column: Copy -->
+            <div class="tech__left scroll-anim-item">
+                <span class="tech__eyebrow">Tecnologia Avançada</span>
+                <h2 class="tech__headline">
+                    <span class="tech__headline-line1 anim-line-1">ESTABILIDADE <span
+                            class="highlight-real">REAL</span>.</span>
+                    <span class="tech__headline-line2 anim-line-2">Performance sob controle.</span>
+                </h2>
+                <p class="tech__paragraph">Nossa matriz de ativos foi milimetricamente calculada para entregar energia
+                    limpa, foco dilatado e resistência sistêmica sem agredir o sistema nervoso central feminino.</p>
+            </div>
+
+            <!-- Right Column: Minimalist Ingredients Map -->
+            <div class="tech__right scroll-anim-item">
+                <div class="tech__composition">
+                    <div class="tech__ingredient">
+                        <span class="ingredient-name">Palatinose™ + TCM</span>
+                        <span class="ingredient-role">Liberação Gradual</span>
+                    </div>
+                    <div class="tech__ingredient">
+                        <span class="ingredient-name">Cafeína Microencapsulada</span>
+                        <span class="ingredient-role">Sem Pico / Sem Crash</span>
+                    </div>
+                    <div class="tech__ingredient">
+                        <span class="ingredient-name">Neuro-Complex (Taurina + Tirosina)</span>
+                        <span class="ingredient-role">Foco Absoluto</span>
+                    </div>
+                    <div class="tech__ingredient">
+                        <span class="ingredient-name">Blend Vitamínico Premium</span>
+                        <span class="ingredient-role">Sustentação Sistêmica</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Seção de Conversão / Desejo Absoluto (Fullscreen Video) -->
+    <section class="conversion" id="comprar">
+        <!-- The Fullscreen Video Background -->
+        <div class="conv__video-bg">
+            <video src="../Lemons_falling_sachet_opening_e26d169c44.mp4" autoplay loop muted playsinline
+                poster=""></video>
+        </div>
+
+        <!-- The Content Overlay -->
+        <div class="conv__content">
+            <h2 class="conv__headline scroll-anim-item">O pré-treino que entrega performance e beleza.</h2>
+            <h3 class="conv__subheadline scroll-anim-item">Força. Foco. Glow.</h3>
+
+            <a href="#checkout" class="btn--huge scroll-anim-item">QUERO MINHA RESET 24H AGORA</a>
+        </div>
+    </section>
+
+    <!-- NEW VERTICAL COMPARATIVE SECTION -->
+    <style>
+        /* 1. SEÇÃO PRINCIPAL 50/50 (TECH PREMIUM) */
+        .comp-tech-master {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            /* Fundo editorial com um tom levemente amarelado (baunilha/creme claro) em vez de branco puro */
+            background: linear-gradient(to right, #FFFCF2 0%, #FFF5D1 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        #comp-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            /* Opacidade ajustada para shapes sólidos e coloridos (sem invert) */
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        .comp-tech-container {
+            width: 100%;
+            height: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* COLUNA ESQUERDA: TEXTO E LINHAS */
+        .comp-tech-left {
+            padding-left: 8%;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            z-index: 3;
+        }
+
+        .comp-tech-left h2 {
+            font-family: 'Oswald', 'Space Grotesk', sans-serif;
+            font-size: clamp(40px, 5.5vw, 80px);
+            /* Fonte levemente menor para o subheadline */
+            font-weight: 600;
+            /* Peso menor para contraste */
+            text-transform: uppercase;
+            /* Cor profunda para contrastar com o fundo branco (Estilo Apple) */
+            color: #1D1D1F;
+            line-height: 0.95;
+            letter-spacing: -1px;
+            margin: 0;
+            position: relative;
+        }
+
+        .comp-tech-left h2 .line-reveal {
+            /* overflow: hidden removido para permitir o efeito elástico ("estouro") da Nike-style animation */
+            display: block;
+            margin-bottom: -5px;
+            padding-bottom: 5px;
+        }
+
+        .comp-tech-left h2 .text-inner {
+            display: block;
+            transform-origin: left bottom;
+            /* Hero-style initial state (blur, down, scaled) em vez de hard-cut mask */
+            opacity: 0;
+            filter: blur(25px);
+            transform: translateY(60px) scale(0.95);
+            will-change: transform, opacity, filter;
+        }
+
+        /* Classe específica para a tela gerada pelo GSAP */
+        .comp-tech-left h2 span.nike-anim-state {
+            /* O GSAP define o estado inicial via JS (fromTo) */
+            opacity: 0;
+            filter: blur(25px);
+            display: inline-block;
+            transform-origin: left bottom;
+            will-change: transform, opacity, filter;
+        }
+
+        .comp-tech-left h2 span {
+            display: inline-block;
+            margin-top: 5px;
+            /* Amarelo vibrante e esportivo a pedido do usuário, com um ponto de brilho branco no meio (Dourado de Luxo) */
+            background: linear-gradient(110deg, #F2A900 0%, #E69500 40%, #FFF5D1 50%, #F2A900 60%, #E69500 100%);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
+            font-size: clamp(60px, 8.5vw, 120px);
+            /* Glow amarelo natural */
+            filter: drop-shadow(0 2px 10px rgba(242, 169, 0, 0.25));
+        }
+
+        /* Efeito Luxo Nike: A luz varrendo todo o texto */
+        .comp-tech-left h2 span.animate-shine {
+            animation: textShine 1.5s ease-in-out forwards;
+        }
+
+        @keyframes textShine {
+            0% {
+                background-position: 200% center;
+            }
+
+            100% {
+                background-position: -200% center;
+            }
+        }
+
+        /* LINHAS TÉCNICAS VETORIZADAS */
+        .tech-lines-wrapper {
+            position: absolute;
+            top: 50%;
+            left: 0%;
+            /* Alinhado para sobrepor o H2 inteiro */
+            width: 100%;
+            /* Cobre toda a coluna esquerda até a modelo */
+            height: 600px;
+            transform: translateY(-50%);
+            z-index: 5;
+            /* Z-index alto para ficar por cima do texto */
+            pointer-events: none;
+        }
+
+        .tech-connection-lines {
+            width: 100%;
+            height: 100%;
+            overflow: visible;
+        }
+
+        .tech-line-path {
+            fill: none;
+            /* Fio escuro metálico elegante para contrastar no branco */
+            stroke: rgba(0, 0, 0, 0.4);
+            stroke-width: 1.2px;
+            /* Efeito Draw */
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            transition: stroke-dashoffset 1.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        .comp-tech-master.is-active .tech-line-path {
+            stroke-dashoffset: 0;
+        }
+
+        /* Glow na ponta quando anima */
+        .tech-line-path {
+            filter: drop-shadow(0 0 6px rgba(212, 175, 55, 0.0));
+        }
+
+        .comp-tech-master.is-active .tech-line-path {
+            filter: drop-shadow(0 0 6px rgba(212, 175, 55, 0.4));
+            transition: filter 1s ease 1s;
+            /* Glow entra dps de desenhar (agora dourado) */
+        }
+
+        /* TEXTOS SECUNDÁRIOS / LABELS TÉCNICAS */
+        .tech-label {
+            position: absolute;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: 2px;
+            /* Texto escuro no fundo branco */
+            color: #1D1D1F;
+            line-height: 1.3;
+            opacity: 0;
+            transform: translateX(-15px);
+            transition: all 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        .tech-card {
+            background: rgba(255, 255, 255, 0.85);
+            /* Efeito vidro leitoso mais denso para legibilidade sobre o texto */
+            backdrop-filter: blur(16px);
+            /* Efeito vidro mais forte */
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            /* Borda sutil escura */
+            padding: 14px 24px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            /* Sombra separadora elegante */
+            pointer-events: auto;
+            /* Para permitir hover se necessário futuramente */
+        }
+
+        .comp-tech-master.is-active .tech-label {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Posições baseadas na imagem de referência Vora, sobrepondo as letras */
+        .label-1 {
+            top: 15%;
+            left: 25%;
+            /* Em cima de "COMUM" / "IMPULSO" */
+            transition-delay: 1.0s;
+        }
+
+        .label-2 {
+            top: 50%;
+            left: 35%;
+            /* Em cima de "É" / espaço do meio */
+            transition-delay: 1.0s;
+        }
+
+        .label-3 {
+            top: 85%;
+            left: 30%;
+            /* Em cima de "CONTROLE" */
+            transition-delay: 1.0s;
+        }
+
+        /* COLUNA DIREITA: MODELO DOMINANTE */
+        .comp-tech-right {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            /* Preenche tudo */
+            display: flex;
+            align-items: flex-end;
+            /* Ancora modelo no rodapé, ou center se quiser solta */
+            justify-content: flex-end;
+            z-index: 2;
+        }
+
+        /* O glow amarelo suave a pedido do usuário */
+        .comp-tech-right::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            height: 80%;
+            background: radial-gradient(circle, #FFC247 0%, transparent 60%);
+            opacity: 0.2;
+            filter: blur(60px);
+            z-index: 0;
+            /* Abaixo da modelo */
+            pointer-events: none;
+        }
+
+        .tech-model-hero {
+            position: absolute;
+            bottom: 0px;
+            right: -5%;
+            /* Pode recortar levemente a borda direita para parecer imensa */
+            width: auto;
+            max-width: none;
+            height: 120vh;
+            /* Altura vazando para sensação "larger than life" */
+            min-height: 100%;
+            object-fit: cover;
+            object-position: top center;
+            z-index: 1;
+            filter: drop-shadow(-10px 20px 40px rgba(0, 0, 0, 0.1));
+            /* Sombra reduzida drasticamente para combinar com fundo claro */
+            /* Máscara adaptada para mesclar o recorte à estrutura branca e evitar borda dura */
+            -webkit-mask-image: linear-gradient(to right, transparent 0%, white 15%, white 100%);
+            mask-image: linear-gradient(to right, transparent 0%, white 15%, white 100%);
+        }
+
+        /* Keep the glowing line effect mapping to the new row */
+        .comp-list-line {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 2px;
+            width: 0%;
+            /* Inicia em 0, GSAP anima para 100% */
+            background: linear-gradient(90deg, #D4AF37, transparent);
+            /* Gradiente dourado elegante */
+            z-index: 3;
+        }
+
+        /* 2. SEÇÕES DE IMAGEM */
+        .comp-immersive {
+            min-height: 100vh;
+            position: relative;
+            z-index: 2;
+            /* Garante que essas seções fiquem sobre o CTA, eliminando a linha de corte */
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+        }
+
+        .comp-immersive .img-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transform: scale(1.1);
+            will-change: transform;
+            z-index: 0;
+        }
+
+        .comp-immersive .overlay-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.5) 50%, transparent 100%);
+            opacity: 0.4;
+            z-index: 1;
+        }
+
+        .comp-immersive .content-layer {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 5%;
+        }
+
+        .comp-text-block {
+            max-width: 650px;
+        }
+
+        .comp-text-block h3 {
+            font-size: clamp(70px, 8vw, 110px);
+            font-weight: 800;
+            color: #FFF;
+            text-transform: uppercase;
+            line-height: 1;
+            letter-spacing: 2px;
+            margin: 0 0 2rem 0;
+            opacity: 0;
+            transform: translateY(70px) scale(0.9);
+            filter: blur(10px);
+        }
+
+        .comp-text-block p {
+            font-size: 22px;
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.6;
+            margin: 0 0 4rem 0;
+        }
+
+        .comp-benefits {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .comp-benefit-item {
+            padding: 24px 0;
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .comp-benefit-item .b-text {
+            font-size: 24px;
+            color: #FFF;
+            font-weight: 400;
+            opacity: 0;
+            letter-spacing: 0.5px;
+            transform: translateX(-15px);
+        }
+
+        .comp-benefit-item .b-line {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 1px;
+            width: 0%;
+            background-color: rgba(198, 162, 77, 0.5);
+        }
+
+        .comp-benefit-item .b-glow {
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            height: 5px;
+            width: 0%;
+            background: rgba(198, 162, 77, 0.4);
+            filter: blur(4px);
+            opacity: 0;
+        }
+
+        /* Esconder os elementos de texto par o GSAP animar a entrada */
+        .line-reveal {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .comp-final-cta {
+            position: relative;
+            overflow: visible;
+            /* Modificado de hidden para evitar cortar o topo */
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7) 0%, #000000 120px);
+            padding: 120px 5%;
+            padding-top: 80px;
+            /* Adicionado padding para afastar o vídeo da transição */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            /* Centraliza verticalmente o lado inteiro */
+            align-items: flex-end;
+            /* Alinha no final na direita */
+            margin-top: -120px;
+            z-index: 1;
+        }
+
+        .final-cta__texture {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: radial-gradient(rgba(255, 194, 71, 0.9) 1.5px, transparent 1.5px);
+            background-size: 40px 40px;
+            opacity: 0.10;
+            z-index: 0;
+            /* Textura bem lá atrás */
+            pointer-events: none;
+        }
+
+        .final-cta__backglow {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 50%, rgba(255, 170, 0, 0.25), transparent 60%);
+            z-index: 0;
+            /* Fica no mesmo nível da textura original ou acima, porém antes do vídeo */
+            pointer-events: none;
+        }
+
+        .final-cta__right-light {
+            position: absolute;
+            top: -25%;
+            right: 0;
+            width: 100%;
+            /* Cobre tudo para a luz espalhar sem bater na parede da div */
+            height: 150%;
+            /* Desce abaixo do container para não criar a linha horizontal fina */
+            /* Duas luzes sobrepostas por cima do vídeo: um ouro suave no centro-direita e um âmbar mais quente no topo direito */
+            background:
+                radial-gradient(circle at 85% 40%, rgba(255, 150, 0, 0.3) 0%, transparent 45%),
+                radial-gradient(circle at 100% 60%, rgba(255, 200, 50, 0.2) 0%, transparent 50%);
+            mix-blend-mode: screen;
+            /* Faz com que a luz some aos pixels embaixo, criando efeito luminoso premium sem opacidade morta */
+            z-index: 1;
+            /* Acima do vídeo, mas não de botões/texto */
+            pointer-events: none;
+        }
+
+
+
+        .final-cta__video-bg {
+            position: absolute;
+            top: 0;
+            /* Começa do topo após o padding do container devido a ser position absolute num relativo */
+            left: 0;
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+            /* Foca no atleta para mantê-lo bem visível em resoluções diferentes */
+            object-position: left center;
+            z-index: 0;
+            /* Atrás do overlay */
+            background-color: transparent;
+            /* Escala mais agressiva para certificar que a marca d'água Veo no canto inferior direito suma da tela */
+            transform: scale(1.1);
+            transform-origin: center center;
+        }
+
+        .final-cta__vignette {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            /* Acima do vídeo */
+            pointer-events: none;
+            background: radial-gradient(circle at center, transparent 40%, rgba(0, 0, 0, 0.5) 100%);
+        }
+
+        .final-cta__overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            /* Acima do vídeo, abaixo do texto */
+            pointer-events: none;
+            /* Gradiente colocado por cima do video, onde "preto" dissolve e as cores criam luz na direita */
+            background: linear-gradient(to right, transparent 0%, transparent 40%, #2b1c06 70%, #5a3a08 100%);
+            mix-blend-mode: screen;
+            /* Transforma as cores em uma luz que interage perfeitamente com o fundo preto do vídeo sem manchar a pele do atleta */
+        }
+
+        .comp-section-transition {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 120px;
+            background: linear-gradient(to bottom,
+                    rgba(0, 0, 0, 0) 0%,
+                    rgba(0, 0, 0, 0.7) 70%,
+                    rgba(0, 0, 0, 1) 100%);
+            z-index: 5;
+            /* Fica acima das imagens da seção anterior para dissolver de modo suave na seção preta do CTA */
+            pointer-events: none;
+        }
+
+        .comp-final-cta-content {
+            position: relative;
+            z-index: 3;
+            max-width: 500px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: center;
+            /* Centraliza o conteúdo verticalmente */
+            gap: 0;
+            /* Espaço removido a favor das margens manuais da nova divisória dourada */
+            text-align: left;
+        }
+
+        /* Removido pseudo-elemento ::before anterior que ficava escondido atrás do flex */
+
+        .comp-final-cta-title {
+            font-size: clamp(48px, 6vw, 75px);
+            font-weight: 900;
+            color: #F8B324;
+            text-transform: uppercase;
+            letter-spacing: -0.5px;
+            margin: 0 0 10px 0;
+            /* Margem aplicada para melhor respiro acima do separador */
+            text-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            line-height: 1.05;
+            max-width: 420px;
+            /* Incrementando impacto sugerido pelo painel */
+        }
+
+        .comp-final-cta-divider {
+            width: 60px;
+            height: 3px;
+            background: #F5A623;
+            margin-top: 18px;
+            margin-bottom: 30px;
+            /* Mantendo espaçamento inferior existente */
+        }
+
+        /* Master Container para unificar as seções de Praticidade */
+        .sache-master-container {
+            background: linear-gradient(90deg, #f6f3ee 0%, #fefcf8 100%);
+            position: relative;
+            z-index: 10;
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .sache-master-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: radial-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+            background-size: 30px 30px;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.7;
+        }
+
+        .sache-section {
+            background: transparent;
+            padding: 4rem 5% 10rem 5%;
+            position: relative;
+            z-index: 2;
+        }
+
+        .sache__container {
+            max-width: 1250px;
+            /* Alargado ligeiramente para os cards */
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 40% 1fr;
+            gap: 6rem;
+            align-items: center;
+        }
+
+        .sache__left {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            z-index: 2;
+        }
+
+        /* Glow Dourado Suave atrás da imagem */
+        .sache__left::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 130%;
+            height: 130%;
+            background: radial-gradient(circle, rgba(245, 180, 0, 0.12) 0%, transparent 70%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .sache__image {
+            width: 100%;
+            max-width: 500px;
+            border-radius: 24px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.1);
+            object-fit: cover;
+            aspect-ratio: 4/5;
+        }
+
+        .sache__right {
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .sache__label {
+            display: inline-block;
+            background: #F5B400;
+            color: #111;
+            font-size: 0.85rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 6px 16px;
+            border-radius: 100px;
+            margin-bottom: 2rem;
+            align-self: flex-start;
+        }
+
+        .sache__title {
+            font-size: clamp(38px, 4.5vw, 54px);
+            /* Tamanho maior */
+            font-weight: 900;
+            color: #111111 !important;
+            text-transform: uppercase;
+            letter-spacing: -1.5px;
+            margin-bottom: 1.5rem;
+            line-height: 1;
+        }
+
+        .sache__subtitle {
+            font-size: clamp(18px, 1.5vw, 20px);
+            color: #444444 !important;
+            font-weight: 500;
+            line-height: 1.5;
+            margin-bottom: 3rem;
+            max-width: 90%;
+        }
+
+        /* Removido o divider (.sache__divider) */
+
+        .sache__list {
+            list-style: none;
+            padding: 0;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .sache__item {
+            background: #ffffff;
+            border-radius: 14px;
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1.1rem;
+            font-size: 1.05rem;
+            color: #111111 !important;
+            font-weight: 600;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(0, 0, 0, 0.03);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .sache__item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.08);
+            border-color: rgba(245, 180, 0, 0.2);
+        }
+
+        .sache__icon {
+            color: #F5B400;
+            width: 22px;
+            height: 22px;
+            flex-shrink: 0;
+        }
+
+        /* Formas Decorativas */
+        .sache__shape {
+            position: absolute;
+            pointer-events: none;
+            z-index: 0;
+            filter: blur(60px);
+            /* Reduzido levemente para mais definição */
+            border-radius: 50%;
+            opacity: 0.35;
+            /* Aumentado para visibilidade real */
+            animation: floatShape 25s infinite alternate ease-in-out;
+        }
+
+        .sache__shape--1 {
+            width: 600px;
+            height: 600px;
+            background: #F5B400;
+            top: 20%;
+            left: -10%;
+        }
+
+        .sache__shape--2 {
+            width: 700px;
+            height: 700px;
+            background: #e5e0d8;
+            bottom: -10%;
+            right: -15%;
+            animation-delay: -5s;
+        }
+
+        @keyframes floatShape {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            100% {
+                transform: translate(30px, -20px) scale(1.05);
+            }
+        }
+
+        @media (max-width: 991px) {
+            .sache__container {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .sache__right {
+                order: 2;
+                align-items: center;
+                text-align: center;
+            }
+
+            .sache__left {
+                order: 1;
+            }
+
+            .sache__label {
+                align-self: center;
+            }
+
+            .sache__title {
+                text-align: center;
+            }
+
+            .sache__subtitle {
+                text-align: center;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .sache__list {
+                grid-template-columns: 1fr;
+                gap: 1.25rem;
+                width: 100%;
+            }
+
+            .sache-section {
+                padding: 3rem 5% 6rem 5%;
+            }
+        }
+
+        /* --------------------------
+           NEW SACHÊ INTRO SECTION
+           -------------------------- */
+        .sache-intro {
+            background: transparent;
+            padding: 6rem 5% 0 5%;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .sache-intro__container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .sache-intro__title {
+            font-size: clamp(42px, 5.5vw, 72px);
+            font-weight: 900;
+            color: #111;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+            line-height: 1;
+            margin-bottom: 2rem;
+            word-wrap: break-word;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+            text-shadow: 0 0 20px rgba(245, 180, 0, 0.15);
+        }
+
+        .highlight-gold {
+            color: #F5B400;
+        }
+
+        .sache-intro__text {
+            font-size: clamp(18px, 1.5vw, 22px);
+            color: #444;
+            max-width: 680px;
+            margin: 0 auto;
+            line-height: 1.6;
+            font-weight: 400;
+        }
+
+        @media (max-width: 768px) {
+            .sache-intro {
+                padding: 4rem 5% 0 5%;
+            }
+
+            .sache-intro__title {
+                font-size: clamp(32px, 8vw, 42px);
+            }
+        }
+
+        .btn-premium-gold {
+            background: linear-gradient(180deg, #FFC247, #F5A623);
+            color: #000;
+            font-size: 22px;
+            font-weight: 900;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 24px 60px;
+            border: none;
+            border-radius: 50px;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 10px 40px rgba(255, 180, 0, 0.35);
+            /* Melhorando o glow */
+            transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+            /* Ajustado tempo para 0.3s */
+            position: relative;
+            overflow: hidden;
+            transform-origin: center center;
+            z-index: 10;
+            animation: pulse-glow 2s infinite;
+        }
+
+        .btn-premium-gold:hover {
+            transform: scale(1.04);
+        }
+
+        .btn-premium-gold::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(120deg, transparent 0%, rgba(255, 255, 255, 0.6) 50%, transparent 100%);
+            transform: translateX(-100%);
+            z-index: 1;
+            /* Below the text span */
+            pointer-events: none;
+        }
+
+        .btn-premium-gold span {
+            position: relative;
+            z-index: 10;
+        }
+
+        .btn-premium-gold:hover {
+            transform: scale(1.06);
+            box-shadow: 0px 0px 60px rgba(255, 190, 80, 0.8);
+            color: #000;
+        }
+
+        .btn-premium-gold:hover::before {
+            animation: shine-sweep 0.8s ease-in-out;
+        }
+
+        .btn-premium-gold:active {
+            transform: scale(0.98);
+        }
+
+        @keyframes pulse-glow {
+            0% {
+                box-shadow: 0 0 25px rgba(255, 180, 60, 0.4);
+            }
+
+            50% {
+                box-shadow: 0 0 45px rgba(255, 180, 60, 0.65);
+            }
+
+            100% {
+                box-shadow: 0 0 25px rgba(255, 180, 60, 0.4);
+            }
+        }
+
+        @keyframes shine-sweep {
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
+
+        @media(max-width: 900px) {
+            .comp-intro-container {
+                grid-template-columns: 1fr;
+                gap: 4rem;
+            }
+        }
+
+        /* --------------------------
+           TESTIMONIALS VIDEO SECTION
+           -------------------------- */
+        .testimonials-section {
+            background: #f2eee8;
+            padding: 120px 5%;
+            position: relative;
+            z-index: 20;
+            color: #111111;
+            overflow: hidden;
+        }
+
+        .testimonials-section::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: radial-gradient(#000000 1px, transparent 1px);
+            background-size: 30px 30px;
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .testimonials__container {
+            max-width: 1400px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .testimonials__title {
+            font-size: clamp(36px, 6vw, 72px);
+            font-weight: 900;
+            text-transform: uppercase;
+            line-height: 1;
+            margin-bottom: 2rem;
+            letter-spacing: -2px;
+            color: #111111;
+        }
+
+        .testimonials__rating {
+            margin-bottom: 5rem;
+        }
+
+        .testimonials__stars {
+            color: #F5B400;
+            font-size: 1.8rem;
+            letter-spacing: 3px;
+            margin-bottom: 0.8rem;
+            display: block;
+        }
+
+        .testimonials__rating-text {
+            font-size: 1.2rem;
+            color: #555555;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        /* Slider Styles */
+        .testimonials__slider-container {
+            position: relative;
+            margin-top: 3rem;
+        }
+
+        .testimonials__slider-container::before {
+            content: '';
+            position: absolute;
+            top: 60%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            height: 90%;
+            background: radial-gradient(circle at center, rgba(245, 180, 0, 0.25), transparent 65%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .testimonials__slider-viewport {
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            padding: 2rem 0;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .testimonials__slider-viewport::-webkit-scrollbar {
+            display: none;
+        }
+
+        .testimonials__slider-track {
+            display: flex;
+            gap: 2rem;
+            padding: 0 10%;
+        }
+
+        .testimonials__card {
+            flex-shrink: 0;
+            width: 330px;
+            aspect-ratio: 9/16;
+            background: #ffffff;
+            border-radius: 18px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        .testimonials__card:hover {
+            transform: scale(1.03);
+        }
+
+        /* CTA Button */
+        .testimonials__cta {
+            margin-top: 5rem;
+            display: flex;
+            justify-content: center;
+            position: relative;
+            z-index: 50;
+            /* Garantir que o botão não seja coberto pela seção seguinte */
+        }
+
+        .testimonials__btn {
+            background: #F5B400;
+            color: #000;
+            padding: 18px 45px;
+            border-radius: 40px;
+            font-weight: 800;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(245, 180, 0, 0.35);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-decoration: none;
+        }
+
+        .testimonials__btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 40px rgba(245, 180, 0, 0.45);
+        }
+
+        .testimonials__video-placeholder {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.4) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .testimonials__play-btn {
+            width: 64px;
+            height: 64px;
+            background: rgba(245, 180, 0, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+        }
+
+        .testimonials__card:hover .testimonials__play-btn {
+            background: #F5B400;
+            transform: scale(1.1);
+            box-shadow: 0 0 30px rgba(245, 180, 0, 0.4);
+        }
+
+        .testimonials__play-btn svg {
+            width: 24px;
+            height: 24px;
+            fill: #000;
+            margin-left: 4px;
+        }
+
+        /* Nav Arrows */
+        .testimonials__nav {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            transform: translateY(-50%);
+            display: flex;
+            justify-content: space-between;
+            padding: 0 2%;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .testimonials__arrow {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            color: #111111;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            pointer-events: auto;
+            transition: all 0.3s ease;
+        }
+
+        .testimonials__arrow:hover {
+            background: #F5B400;
+            border-color: #F5B400;
+            color: #000;
+        }
+
+        @media (max-width: 768px) {
+            .testimonials__card {
+                width: 260px;
+            }
+
+            .testimonials__slider-track {
+                padding: 0 5%;
+                gap: 1rem;
+            }
+
+            .testimonials__nav {
+                display: none;
+            }
+        }
+
+        /* --------------------------
+           PERFORMANCE ACTIVATION SECTION
+           -------------------------- */
+
+        /* --------------------------
+           FLOATING BENEFITS SECTION
+           -------------------------- */
+        .floating-benefits {
+            position: relative;
+            z-index: 20;
+            overflow: hidden;
+            text-align: center;
+            padding: 120px 0;
+            background-color: #000;
+        }
+
+        /* BACKGROUND: Cinematic Image with Parallax & Overlay */
+        .floating-benefits::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('assets/beneficios-bg.jpg.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed; /* Parallax Effect */
+            opacity: 0.6;
+            z-index: 1;
+        }
+
+        /* Dark Gradient Overlay for Readability */
+        .floating-benefits::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, 
+                rgba(0,0,0,0.8) 0%, 
+                rgba(0,0,0,0.4) 50%, 
+                rgba(0,0,0,0.8) 100%);
+            z-index: 2;
+        }
+
+        /* ---- BLOCK 1: HEADER ---- */
+        .float__container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .float__header {
+            width: 100%;
+            max-width: 860px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+            z-index: 5;
+            padding: 0 5%;
+        }
+
+        .float__title-wrapper {
+            margin-bottom: 24px;
+        }
+
+        .float__title {
+            font-size: clamp(32px, 5vw, 60px);
+            font-weight: 950;
+            text-transform: uppercase;
+            line-height: 1.1;
+            color: #fff;
+            letter-spacing: -1px;
+            text-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .float__title span {
+            color: #F5B400;
+        }
+
+        .float__subtitle {
+            font-size: clamp(16px, 1.8vw, 20px);
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+            max-width: 700px;
+            margin: 0 auto 0;
+            font-weight: 400;
+        }
+
+        /* Pill Label */
+        .float__label {
+            display: inline-block;
+            background: rgba(245, 180, 0, 0.15);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(245, 180, 0, 0.3);
+            border-radius: 999px;
+            padding: 8px 24px;
+            font-size: 0.75rem;
+            font-weight: 800;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: #F5B400;
+            margin-bottom: 30px;
+        }
+
+        /* ---- BLOCK 2: PRODUCT + CARDS ---- */
+        .float__arena {
+            width: 100%;
+            padding: 60px 5% 80px;
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            grid-template-rows: auto auto;
+            gap: 24px;
+            align-items: center;
+            justify-items: center;
+            position: relative;
+            z-index: 3;
+        }
+
+        /* Product image — full width below header */
+        .float__product-wrapper {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin-top: 0;
+            margin-bottom: 0;
+            position: relative;
+            z-index: 3;
+            overflow: hidden;
+        }
+
+        .float__product-img {
+            width: 100%;
+            max-width: 100%;
+            height: auto;
+            display: block;
+            object-fit: cover;
+        }
+
+        /* Cards grid below the image */
+        .float__cards-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+            width: 100%;
+            max-width: 900px;
+            margin: 40px auto 0;
+        }
+
+        /* Card layout positions */
+        .float__card--1 {
+            grid-column: 1;
+            grid-row: 1;
+        }
+
+        .float__card--2 {
+            grid-column: 1;
+            grid-row: 2;
+        }
+
+        .float__card--3 {
+            grid-column: 3;
+            grid-row: 1;
+        }
+
+        .float__card--4 {
+            grid-column: 3;
+            grid-row: 2;
+        }
+
+        /* ---- CARD STYLE ---- */
+        .float__card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 20px;
+            padding: 24px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            text-align: left;
+            width: 100%;
+            max-width: 320px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .float__card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0s;
+        }
+
+        .float__card:hover::after {
+            left: 100%;
+            transition: 1s ease-in-out;
+        }
+
+        .float__card:hover {
+            transform: scale(1.05) translateY(-10px);
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 50px rgba(245, 180, 0, 0.2);
+            border-color: rgba(245, 180, 0, 0.5);
+        }
+
+        .float__card-icon {
+            width: 60px;
+            height: 60px;
+            min-width: 60px;
+            background: linear-gradient(135deg, #F5B400 0%, #E6A000 100%);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            box-shadow: 0 8px 25px rgba(245, 180, 0, 0.3);
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .float__card:hover .float__card-icon {
+            transform: scale(1.1) rotate(8deg);
+            box-shadow: 0 10px 30px rgba(245, 180, 0, 0.5);
+        }
+
+        .float__card-content {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .float__card-title {
+            font-weight: 800;
+            font-size: 1rem;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .float__card-desc {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.5;
+        }
+
+        /* ---- RESPONSIVE ---- */
+        @media (max-width: 900px) {
+            .float__arena {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto;
+                gap: 20px;
+                margin-top: 60px;
+            }
+
+            .float__product-wrapper {
+                grid-column: 1;
+                grid-row: auto;
+                order: -1;
+            }
+
+            .float__card--1,
+            .float__card--2,
+            .float__card--3,
+            .float__card--4 {
+                grid-column: 1;
+                grid-row: auto;
+                max-width: 480px;
+                width: 90%;
+            }
+
+            .float__product-img {
+                width: 260px;
+            }
+    </style>
+
+    <section id="comparativo-master">
+        <!-- BLOCO 1 - INTRO COMPARATIVA 100VH 50/50 -->
+        <section class="comp-tech-master" id="comp-intro-sec">
+            <!-- RESTAURANDO O CANVAS PARA OS ELEMENTOS E GSAP FUNCIONAREM -->
+            <canvas id="comp-canvas"></canvas>
+
+            <div class="comp-tech-container">
+                <!-- Coluna Esquerda: Texto Forte -->
+                <div class="comp-tech-left">
+                    <h2 id="comp-headline">
+                        <div class="line-reveal">
+                            <div class="text-inner">Energia comum<br>é impulso.</div>
+                        </div>
+                        <div class="line-reveal">
+                            <div class="text-inner"><span class="nike-anim-state"
+                                    data-text="Reset 24h é controle.">Reset 24h é controle.</span>
+                            </div>
+                        </div>
+                    </h2>
+
+                    <!-- CTA Adicionado a Pedido do Usuário logo após o título -->
+                    <div class="line-reveal" style="margin-top: 5rem;">
+                        <div class="text-inner">
+                            <a href="#checkout" class="btn--premium">Garantir Meu Foco Agora</a>
+                        </div>
+                    </div>
+
+                    <!-- Removed Tech Lines and Glass Cards per user request -->
+                </div>
+
+                <!-- Coluna Direita: Modelo Dominante (Restaurada) -->
+                <div class="comp-tech-right">
+                    <img src="../Design sem nome (18).png" alt="Comparativo Reset 24h Modelo" class="tech-model-hero" />
+                </div>
+            </div>
+        </section>
+
+        <!-- BLOCO 2 - GLUTATIONA 120VH -->
+        <section class="comp-immersive" id="comp-sec-1">
+            <img src="../Generated Image February 28, 2026 - 3_20PM.png" class="img-layer" alt="Glutationa">
+            <div class="overlay-layer"></div>
+            <div class="content-layer">
+                <div class="comp-text-block">
+                    <h3>Glutationa.</h3>
+                    <p>O mestre dos antioxidantes. Atua diretamente na eliminação de toxinas celulares e protege o corpo
+                        do estresse oxidativo dos treinos intensos.</p>
+                    <div class="comp-benefits">
+                        <div class="comp-benefit-item">
+                            <span class="b-text">Clareza Mental Prolongada</span>
+                            <div class="b-line"></div>
+                            <div class="b-glow"></div>
+                        </div>
+                        <div class="comp-benefit-item">
+                            <span class="b-text">Desintoxicação Celular Profunda</span>
+                            <div class="b-line"></div>
+                            <div class="b-glow"></div>
+                        </div>
+                        <div class="comp-benefit-item">
+                            <span class="b-text">Proteção Contra Radicais Livres</span>
+                            <div class="b-line"></div>
+                            <div class="b-glow"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- BLOCO 3 - COLÁGENO 120VH -->
+        <section class="comp-immersive" id="comp-sec-2">
+            <img src="../Generated Image February 28, 2026 - 2_47PM.png" class="img-layer" alt="Colágeno">
+            <div class="overlay-layer"></div>
+            <div class="content-layer">
+                <div class="comp-text-block">
+                    <h3>Colágeno.</h3>
+                    <p>O único pré-treino formulado para atuar silenciosamente como um tratamento de beleza, promovendo
+                        sustentação e elasticidade para a pele.</p>
+                    <div class="comp-benefits">
+                        <div class="comp-benefit-item">
+                            <span class="b-text">Máxima Elasticidade Estrutural</span>
+                            <div class="b-line"></div>
+                            <div class="b-glow"></div>
+                        </div>
+                        <div class="comp-benefit-item">
+                            <span class="b-text">Sustentação Firme da Pele</span>
+                            <div class="b-line"></div>
+                            <div class="b-glow"></div>
+                        </div>
+                        <div class="comp-benefit-item">
+                            <span class="b-text">Viço Perfeito</span>
+                            <div class="b-line"></div>
+                            <div class="b-glow"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- BLOCO 4 - CONSTÂNCIA 120VH -->
+        <section class="comp-immersive" id="comp-sec-3">
+            <img src="../Generated Image February 28, 2026 - 3_39PM.png" class="img-layer" alt="Constância">
+            <div class="overlay-layer"></div>
+            <div class="content-layer">
+                <div class="comp-text-block">
+                    <h3>Constância.</h3>
+                    <p>Energia sustentada e recuperação milimetricamente arquitetada para um corpo blindado rumo ao
+                        próximo nível.</p>
+                    <div class="comp-benefits">
+                        <div class="comp-benefit-item">
+                            <span class="b-text">Energia Contínua Sem Crash</span>
+                            <div class="b-line"></div>
+                            <div class="b-glow"></div>
+                        </div>
+                        <div class="comp-benefit-item">
+                            <span class="b-text">Blindagem Imunológica e Articular</span>
+                            <div class="b-line"></div>
+                            <div class="b-glow"></div>
+                        </div>
+                        <div class="comp-benefit-item">
+                            <span class="b-text">Recuperação Celular Orgânica</span>
+                            <div class="b-line"></div>
+                            <div class="b-glow"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- OVERLAY DE TRANSIÇÃO SUAVE -->
+            <div class="comp-section-transition"></div>
+        </section>
+
+        <!-- BLOCO 5 - CTA FINAL DRÁMATICO -->
+        <section class="comp-final-cta">
+            <div class="final-cta__texture"></div>
+            <div class="final-cta__backglow"></div>
+            <canvas id="final-cta-canvas" class="final-cta__video-bg"></canvas>
+
+            <!-- Luzes por Cima do Vídeo na Direita -->
+            <div class="final-cta__right-light"></div>
+
+            <!-- Efeitos por cima do vídeo removidos para manter o fundo limpo e uniforme -->
+
+            <div class="comp-final-cta-content">
+                <h2 class="comp-final-cta-title">
+                    <span>A decisão</span>
+                    <span>é <span class="highlight-accent">agora.</span></span>
+                </h2>
+                <div class="comp-final-cta-divider"></div>
+                <a href="#checkout" class="btn-premium-gold"><span>Ativar Performance</span></a>
+            </div>
+        </section>
+
+        <!-- ÁREA DE PRATICIDADE UNIFICADA -->
+        <div class="sache-master-container">
+            <!-- Formas Decorativas de Fundo Unificadas -->
+            <div class="sache__shape sache__shape--1"></div>
+            <div class="sache__shape sache__shape--2"></div>
+
+            <!-- BLOCO 6 - INTRO PRATICIDADE -->
+            <section class="sache-intro scroll-anim-item">
+                <div class="sache-intro__container">
+                    <h2 class="sache-intro__title">
+                        FEITO PARA ACOMPANHAR<br>
+                        O <span class="highlight-gold">SEU DIA</span>
+                    </h2>
+                    <p class="sache-intro__text">
+                        Não é mais um pote na sua rotina.<br>
+                        É um sachê que cabe na mochila, na bolsa e acompanha você em qualquer lugar.
+                    </p>
+                </div>
+            </section>
+
+            <!-- BLOCO 7 - PRATICIDADE DO SACHÊ -->
+            <section class="sache-section" id="praticidade">
+                <div class="sache__container">
+                    <!-- Esquerda: Imagem Lifestyle / Social Proof -->
+                    <div class="sache__left">
+                        <img src="../assets/Generated Image March 05, 2026 - 9_20AM.png"
+                            alt="A praticidade do sachê no dia a dia" class="sache__image">
+                    </div>
+
+                    <!-- Direita: Título e Lista de Benefícios -->
+                    <div class="sache__right">
+                        <span class="sache__label">Praticidade</span>
+                        <h2 class="sache__title">POR QUE ELE É TÃO PRÁTICO</h2>
+                        <p class="sache__subtitle">Dose individual que cabe na mochila, na bolsa ou na rotina de quem
+                            não
+                            para.</p>
+                        <div class="sache__list">
+                            <div class="sache__item scroll-anim-item">
+                                <svg class="sache__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="3" stroke-linecap="round" stroke-linejoin="round" width="22"
+                                    height="22">
+                                    <path d="M20 6L9 17l-5-5"></path>
+                                </svg>
+                                Dose individual
+                            </div>
+                            <div class="sache__item scroll-anim-item">
+                                <svg class="sache__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="3" stroke-linecap="round" stroke-linejoin="round" width="22"
+                                    height="22">
+                                    <path d="M20 6L9 17l-5-5"></path>
+                                </svg>
+                                Cabe na mochila ou bolsa
+                            </div>
+                            <div class="sache__item scroll-anim-item">
+                                <svg class="sache__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="3" stroke-linecap="round" stroke-linejoin="round" width="22"
+                                    height="22">
+                                    <path d="M20 6L9 17l-5-5"></path>
+                                </svg>
+                                Perfeito para viagens
+                            </div>
+                            <div class="sache__item scroll-anim-item">
+                                <svg class="sache__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="3" stroke-linecap="round" stroke-linejoin="round" width="22"
+                                    height="22">
+                                    <path d="M20 6L9 17l-5-5"></path>
+                                </svg>
+                                Zero bagunça
+                            </div>
+                            <div class="sache__item scroll-anim-item">
+                                <svg class="sache__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="3" stroke-linecap="round" stroke-linejoin="round" width="22"
+                                    height="22">
+                                    <path d="M20 6L9 17l-5-5"></path>
+                                </svg>
+                                Mantém sua rotina
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- BLOCO 8 - DEPOIMENTOS EM VÍDEO -->
+        <section class="testimonials-section">
+            <div class="testimonials__container">
+                <h2 class="testimonials__title scroll-anim-item">
+                    MAIS DE 2.100 PESSOAS<br>
+                    JÁ ATIVARAM SUA PERFORMANCE
+                </h2>
+                <div class="testimonials__rating scroll-anim-item">
+                    <span class="testimonials__stars">⭐⭐⭐⭐⭐</span>
+                    <p class="testimonials__rating-text">4.9 estrelas • +2.100 avaliações reais</p>
+                </div>
+
+                <div class="testimonials__slider-container">
+                    <div class="testimonials__slider-viewport" id="testimonials-slider">
+                        <div class="testimonials__slider-track">
+                            <!-- Card 1 -->
+                            <div class="testimonials__card">
+                                <div class="testimonials__video-placeholder">
+                                    <div class="testimonials__play-btn">
+                                        <svg viewBox="0 0 24 24">
+                                            <path d="M8 5v14l11-7z" />
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Card 2 -->
+                            <div class="testimonials__card">
+                                <div class="testimonials__video-placeholder">
+                                    <div class="testimonials__play-btn">
+                                        <svg viewBox="0 0 24 24">
+                                            <path d="M8 5v14l11-7z" />
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Card 3 -->
+                            <div class="testimonials__card">
+                                <div class="testimonials__video-placeholder">
+                                    <div class="testimonials__play-btn">
+                                        <svg viewBox="0 0 24 24">
+                                            <path d="M8 5v14l11-7z" />
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Card 4 -->
+                            <div class="testimonials__card">
+                                <div class="testimonials__video-placeholder">
+                                    <div class="testimonials__play-btn">
+                                        <svg viewBox="0 0 24 24">
+                                            <path d="M8 5v14l11-7z" />
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Card 5 -->
+                            <div class="testimonials__card">
+                                <div class="testimonials__video-placeholder">
+                                    <div class="testimonials__play-btn">
+                                        <svg viewBox="0 0 24 24">
+                                            <path d="M8 5v14l11-7z" />
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="testimonials__nav">
+                        <button class="testimonials__arrow testimonials__arrow--prev" id="slider-prev">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="15 18 9 12 15 6"></polyline>
+                            </svg>
+                        </button>
+                        <button class="testimonials__arrow testimonials__arrow--next" id="slider-next">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="9 18 15 12 9 6"></polyline>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="testimonials__cta scroll-anim-item">
+                    <a href="#checkout" class="testimonials__btn">
+                        ATIVAR MINHA PERFORMANCE
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção: Benefícios Flutuantes (O QUE MUDA) -->
+        <section class="floating-benefits">
+            <!-- Decorative blobs -->
+            <div class="liquid-blob blob-1" style="width: 400px; height: 400px; top: 10%; left: 5%;"></div>
+            <div class="liquid-blob blob-2" style="width: 500px; height: 500px; bottom: 5%; right: 5%; opacity: 0.2;">
+            </div>
+
+            <div class="float__container">
+
+                <!-- BLOCK 1: HEADER -->
+                <div class="float__header scroll-anim-item">
+                    <span class="float__label">Benefícios</span>
+                    <div class="float__title-wrapper">
+                        <h2 class="float__title">
+                            O QUE MUDA<br>
+                            QUANDO VOCÊ ATIVA SUA PERFORMANCE
+                        </h2>
+                    </div>
+                    <p class="float__subtitle">
+                        Depois de alguns dias usando, você começa a sentir mais energia, foco e intensidade no treino.
+                    </p>
+                </div>
+
+                <!-- BLOCK 3: CARDS GRID -->
+                <div class="float__cards-grid">
+                    <div class="float__card float__card--1 scroll-anim-item">
+                        <div class="float__card-icon">⚡</div>
+                        <div class="float__card-content">
+                            <span class="float__card-title">Mais energia</span>
+                            <span class="float__card-desc">Energia estável para treinar melhor.</span>
+                        </div>
+                    </div>
+                    <div class="float__card float__card--2 scroll-anim-item">
+                        <div class="float__card-icon">🧠</div>
+                        <div class="float__card-content">
+                            <span class="float__card-title">Mais foco mental</span>
+                            <span class="float__card-desc">Mais concentração durante o treino.</span>
+                        </div>
+                    </div>
+                    <div class="float__card float__card--3 scroll-anim-item">
+                        <div class="float__card-icon">💪</div>
+                        <div class="float__card-content">
+                            <span class="float__card-title">Treinos mais intensos</span>
+                            <span class="float__card-desc">Mais disposição e resistência.</span>
+                        </div>
+                    </div>
+                    <div class="float__card float__card--4 scroll-anim-item">
+                        <div class="float__card-icon">⚖️</div>
+                        <div class="float__card-content">
+                            <span class="float__card-title">Energia limpa</span>
+                            <span class="float__card-desc">Sem crash depois do treino.</span>
+                        </div>
+                    </div>
+                </div><!-- /.float__cards-grid -->
+
+            </div><!-- /.float__container -->
+        </section>
+    </section>
+
+    <!-- PREMIUM PRICING SECTION -->
+    <style>
+        .pricing__image-container {
+            width: 100%;
+            height: 220px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+        .pricing__image {
+            max-width: 95%;
+            max-height: 95%;
+            object-fit: contain;
+            filter: drop-shadow(0 20px 40px rgba(0,0,0,0.15));
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: transform, filter;
+        }
+        .pricing__card:hover .pricing__image {
+            transform: scale(1.1) translateY(-10px);
+        }
+        .pricing-section {
+            background: #FDFBF7;
+            padding: 8rem 5%;
+            position: relative;
+            overflow: hidden;
+            z-index: 10;
+        }
+        .pricing-section::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            height: 80%;
+            background: radial-gradient(circle, rgba(242, 169, 0, 0.05) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+        .pricing__container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+        .pricing__title-wrapper {
+            text-align: center;
+            margin-bottom: 5rem;
+        }
+        .pricing__title {
+            font-size: clamp(34px, 4vw, 46px);
+            font-weight: 800;
+            color: #1A1A1A;
+            line-height: 1.1;
+            letter-spacing: -1px;
+        }
+        .pricing__grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
+            align-items: center;
+        }
+        .pricing__card {
+            background: #FFFFFF;
+            border-radius: 20px;
+            padding: 3.5rem 2.5rem;
+            text-align: center;
+            position: relative;
+            transition: box-shadow 0.6s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.6s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            border: 1px solid rgba(0, 0, 0, 0.04);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.03);
+            will-change: transform, opacity, filter;
+        }
+        .pricing__card:hover {
+            transform: translateY(-10px) !important;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.08);
+            border-color: rgba(242, 169, 0, 0.2);
+        }
+        .pricing__card--popular {
+            background: linear-gradient(180deg, #FFFFFF 0%, #FFFCF5 100%);
+            border: 1px solid rgba(242, 169, 0, 0.3);
+            box-shadow: 0 20px 40px rgba(242, 169, 0, 0.1);
+        }
+        .pricing__card--popular:hover {
+            transform: translateY(-10px) scale(1.05) !important;
+            box-shadow: 0 30px 60px rgba(242, 169, 0, 0.15);
+            border-color: rgba(242, 169, 0, 0.5);
+        }
+        .pricing__badge {
+            position: absolute;
+            top: -16px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #F2A900 0%, #E6A000 100%);
+            color: #FFF;
+            padding: 8px 24px;
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            box-shadow: 0 8px 20px rgba(242, 169, 0, 0.3);
+            white-space: nowrap;
+        }
+        .pricing__months {
+            font-size: 14px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 0.8rem;
+            font-weight: 700;
+        }
+        .pricing__original-price {
+            font-size: 15px;
+            color: #999;
+            text-decoration: line-through;
+            margin-bottom: 0.2rem;
+            display: block;
+        }
+        .pricing__price {
+            font-size: 68px;
+            font-weight: 800;
+            color: #1A1A1A;
+            line-height: 1;
+            margin-bottom: 0.3rem;
+            letter-spacing: -3px;
+            display: flex;
+            align-items: baseline;
+            justify-content: center;
+            gap: 4px;
+        }
+        .pricing__currency {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1A1A1A;
+            opacity: 0.9;
+            letter-spacing: 0;
+        }
+        .pricing__installments {
+            display: block;
+            font-size: 17px;
+            color: #1a1a1a;
+            font-weight: 700;
+            margin-bottom: 0.8rem;
+        }
+        .pricing__save-badge {
+            background: #f0fdf4;
+            color: #16a34a;
+            padding: 6px 14px;
+            border-radius: 100px;
+            font-size: 12px;
+            font-weight: 800;
+            display: inline-block;
+            margin-bottom: 1.5rem;
+            border: 1px solid #dcfce7;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .pricing__divider {
+            width: 40px;
+            height: 2px;
+            background: #C6A24D;
+            margin: 2.5rem auto;
+            border-radius: 2px;
+            opacity: 0.6;
+        }
+        .pricing__btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 18px 32px;
+            border-radius: 50px;
+            font-size: 15px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-decoration: none;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .pricing__btn--outline {
+            background: transparent;
+            color: #1A1A1A;
+            border: 1px solid rgba(0,0,0,0.15);
+        }
+        .pricing__btn--outline:hover {
+            background: #1A1A1A;
+            color: #FFF;
+            border-color: #1A1A1A;
+        }
+        .pricing__btn--solid {
+            background: linear-gradient(135deg, #F2A900 0%, #FFC133 50%, #E6A000 100%);
+            background-size: 200% 200%;
+            color: #ffffff;
+            border: none;
+            box-shadow: 0 8px 20px rgba(242, 169, 0, 0.3);
+        }
+        .pricing__btn--solid:hover {
+            background-position: 100% 100%;
+            box-shadow: 0 12px 28px rgba(242, 169, 0, 0.45);
+        }
+        @media (max-width: 992px) {
+            .pricing__grid {
+                grid-template-columns: 1fr;
+                max-width: 420px;
+                margin: 0 auto;
+            }
+        }
+        .pricing__features {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 2rem 0;
+            text-align: left;
+        }
+        .pricing__features li {
+            font-size: 15px;
+            color: #666666;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+        }
+        .pricing__features li svg {
+            width: 18px;
+            height: 18px;
+            color: #C6A24D;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+        .faq-section {
+            background: #FFFFFF;
+            padding: 8rem 5%;
+            position: relative;
+        }
+        .faq__container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .faq__title {
+            text-align: center;
+            font-size: clamp(32px, 4vw, 44px);
+            font-weight: 800;
+            color: #1A1A1A;
+            margin-bottom: 4rem;
+            letter-spacing: -1px;
+        }
+        .faq__item {
+            border-bottom: 1px solid rgba(0,0,0,0.08);
+            padding: 1.5rem 0;
+            cursor: pointer;
+            position: relative;
+        }
+        .faq__question {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1A1A1A;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: color 0.3s ease;
+            margin: 0;
+        }
+        .faq__item:hover .faq__question {
+            color: #C6A24D;
+        }
+        .faq__icon {
+            position: relative;
+            width: 20px;
+            height: 20px;
+            transition: transform 0.4s ease;
+        }
+        .faq__icon::before, .faq__icon::after {
+            content: '';
+            position: absolute;
+            background: #1A1A1A;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            transition: all 0.4s ease;
+        }
+        .faq__icon::before { width: 14px; height: 2px; }
+        .faq__icon::after { width: 2px; height: 14px; }
+        
+        .faq__item.active .faq__icon { transform: rotate(180deg); }
+        .faq__item.active .faq__icon::after { height: 0; }
+        .faq__item.active .faq__question { color: #C6A24D; }
+        
+        .faq__answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .faq__answer-inner {
+            padding-top: 1rem;
+            font-size: 16px;
+            color: #666666;
+            line-height: 1.6;
+        }
+        .footer {
+            background: #111111;
+            padding: 6rem 5% 2rem 5%;
+            color: #FFFFFF;
+        }
+        .footer__container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 4rem;
+            margin-bottom: 4rem;
+        }
+        .footer__brand img {
+            height: 30px;
+            filter: brightness(0) invert(1);
+            margin-bottom: 1.5rem;
+        }
+        .footer__brand p {
+            color: #888888;
+            font-size: 15px;
+            line-height: 1.6;
+            max-width: 300px;
+        }
+        .footer__title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: #FFFFFF;
+        }
+        .footer__links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .footer__links li {
+            margin-bottom: 12px;
+        }
+        .footer__links a {
+            color: #888888;
+            text-decoration: none;
+            font-size: 15px;
+            transition: color 0.3s ease;
+        }
+        .footer__links a:hover {
+            color: #C6A24D;
+        }
+        .footer__bottom {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #666666;
+            font-size: 14px;
+        }
+        @media (max-width: 768px) {
+            .footer__bottom {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+        }
+    </style>
+
+    <section class="pricing-section" id="pricing">
+        <div class="pricing__container">
+            <div class="pricing__title-wrapper pricing-title-anim">
+                <h2 class="pricing__title">Escolha sua experiência.</h2>
+            </div>
+            <div class="pricing__grid">
+                <!-- Card 1 -->
+                <div class="pricing__card pricing-card-anim">
+                    <div class="pricing__image-container">
+                        <img src="assets/pote-1.png.png" onerror="this.src='pote-1.png.png'" alt="1 Pote Reset 24h" class="pricing__image">
+                    </div>
+                    <div class="pricing__months">Experiência 1 Mês</div>
+                    <div class="pricing__original-price">De R$ 247,00</div>
+                    <div class="pricing__price">
+                        <span class="pricing__currency">R$</span>197
+                    </div>
+                    <div class="pricing__installments">ou 12x de R$ 19,78</div>
+                    <div class="pricing__save-badge">Economize R$ 50,00</div>
+                    <div class="pricing__divider"></div>
+                    <ul class="pricing__features">
+                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"></path></svg> 1 Pote (30 Doses)</li>
+                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"></path></svg> R$ 6,56 por dose</li>
+                    </ul>
+                    <a href="#checkout" class="pricing__btn pricing__btn--outline">Quero ativar meu foco</a>
+                </div>
+                
+                <!-- Card 2 (Popular) -->
+                <div class="pricing__card pricing__card--popular pricing-card-anim">
+                    <div class="pricing__badge">Mais popular</div>
+                    <div class="pricing__image-container">
+                        <img src="assets/pote-2.png.png" onerror="this.src='pote-2.png.png'" alt="2 Potes Reset 24h" class="pricing__image">
+                    </div>
+                    <div class="pricing__months">Experiência 2 Meses</div>
+                    <div class="pricing__original-price">De R$ 494,00</div>
+                    <div class="pricing__price">
+                        <span class="pricing__currency">R$</span>297
+                    </div>
+                    <div class="pricing__installments">ou 12x de R$ 29,82</div>
+                    <div class="pricing__save-badge">Economize R$ 197,00</div>
+                    <div class="pricing__divider"></div>
+                    <ul class="pricing__features">
+                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"></path></svg> 2 Potes (60 Doses)</li>
+                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"></path></svg> <b>Frete Grátis</b></li>
+                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"></path></svg> R$ 4,95 por dose</li>
+                    </ul>
+                    <a href="#checkout" class="pricing__btn pricing__btn--solid">Quero ativar meu foco</a>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="pricing__card pricing-card-anim">
+                    <div class="pricing__image-container">
+                        <img src="assets/pote-3.png.png" onerror="this.src='pote-3.png.png'" alt="3 Potes Reset 24h" class="pricing__image">
+                    </div>
+                    <div class="pricing__months">Experiência 3 Meses</div>
+                    <div class="pricing__original-price">De R$ 741,00</div>
+                    <div class="pricing__price">
+                        <span class="pricing__currency">R$</span>397
+                    </div>
+                    <div class="pricing__installments">ou 12x de R$ 39,86</div>
+                    <div class="pricing__save-badge">Economize R$ 344,00</div>
+                    <div class="pricing__divider"></div>
+                    <ul class="pricing__features">
+                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"></path></svg> 3 Potes (90 Doses)</li>
+                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"></path></svg> <b>Frete Grátis</b></li>
+                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"></path></svg> E-book Nutrição Extra</li>
+                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"></path></svg> R$ 4,41 por dose</li>
+                    </ul>
+                    <a href="#checkout" class="pricing__btn pricing__btn--outline">Quero ativar meu foco</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PERGUNTAS FREQUENTES -->
+    <section class="faq-section" id="faq">
+        <div class="faq__container">
+            <h2 class="faq__title faq-anim-item">Perguntas Frequentes</h2>
+            
+            <div class="faq__item faq-anim-item">
+                <h3 class="faq__question">Como devo tomar o Reset 24h?<span class="faq__icon"></span></h3>
+                <div class="faq__answer">
+                    <div class="faq__answer-inner">Misture 1 scoop (medidor incluso) em 200ml de água gelada. Tome aproximadamente 20 a 30 minutos antes do seu treino para máxima ativação.</div>
+                </div>
+            </div>
+            
+            <div class="faq__item faq-anim-item">
+                <h3 class="faq__question">Tem efeitos colaterais como ansiedade ou taquicardia?<span class="faq__icon"></span></h3>
+                <div class="faq__answer">
+                    <div class="faq__answer-inner">Não. Nossa fórmula foi desenvolvida com cafeína microencapsulada e palatinose para entregar uma curva de energia estável, evitando os picos agressivos e as quedas bruscas (crash) comuns em pré-treinos convencionais.</div>
+                </div>
+            </div>
+            
+            <div class="faq__item faq-anim-item">
+                <h3 class="faq__question">Quebra o jejum?<span class="faq__icon"></span></h3>
+                <div class="faq__answer">
+                    <div class="faq__answer-inner">O Reset 24h contém uma pequena quantidade de carboidratos de baixo índice glicêmico (Palatinose) para energia sustentada, o que pode interromper jejuns restritos dependendo do seu protocolo. Recomendamos consultar seu nutricionista.</div>
+                </div>
+            </div>
+            
+            <div class="faq__item faq-anim-item">
+                <h3 class="faq__question">Qual o prazo de entrega?<span class="faq__icon"></span></h3>
+                <div class="faq__answer">
+                    <div class="faq__answer-inner">O prazo médio é de 3 a 7 dias úteis para Sul e Sudeste, e de 5 a 12 dias úteis para as demais regiões do Brasil. Enviaremos o código de rastreio para o seu e-mail assim que despachado.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer__container">
+            <div class="footer__brand">
+                <img src="../@assets/29658988-9df9-45e8-ad8f-23fe08af6022.png" alt="Reset 24h">
+                <p>Performance, clareza e foco sustentado. Uma nova geração de suplementação premium desenvolvida para o metabolismo feminino.</p>
+            </div>
+            <div>
+                <h4 class="footer__title">Links Úteis</h4>
+                <ul class="footer__links">
+                    <li><a href="#hero">Início</a></li>
+                    <li><a href="#sobre">Sobre o Reset</a></li>
+                    <li><a href="#tecnologia">Tecnologia</a></li>
+                    <li><a href="#pricing">Comprar Agora</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="footer__title">Políticas</h4>
+                <ul class="footer__links">
+                    <li><a href="#">Termos de Uso</a></li>
+                    <li><a href="#">Política de Privacidade</a></li>
+                    <li><a href="#">Trocas e Devoluções</a></li>
+                    <li><a href="#">Rastrear Pedido</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer__bottom">
+            <span>&copy; 2026 Reset 24h. Todos os direitos reservados.</span>
+            <span>CNPJ: 00.000.000/0001-00</span>
+        </div>
+    </footer>
+
+    <script>
+        // FAQ Accordion Script
+        document.addEventListener('DOMContentLoaded', () => {
+            const faqItems = document.querySelectorAll('.faq__item');
+            faqItems.forEach(item => {
+                const question = item.querySelector('.faq__question');
+                question.addEventListener('click', () => {
+                    const isActive = item.classList.contains('active');
+                    // Close all
+                    faqItems.forEach(i => {
+                        i.classList.remove('active');
+                        i.querySelector('.faq__answer').style.maxHeight = null;
+                    });
+                    // Open if it wasn't active
+                    if (!isActive) {
+                        item.classList.add('active');
+                        const answer = item.querySelector('.faq__answer');
+                        answer.style.maxHeight = answer.scrollHeight + "px";
+                    }
+                });
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            if(typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+                // Title
+                gsap.set('.pricing-title-anim', { opacity: 0, y: 40, filter: "blur(10px)" });
+                ScrollTrigger.create({
+                    trigger: '.pricing-title-anim',
+                    start: "top 85%",
+                    animation: gsap.to('.pricing-title-anim', {
+                        opacity: 1,
+                        y: 0,
+                        filter: "blur(0px)",
+                        duration: 1.2,
+                        ease: "power3.out"
+                    }),
+                    toggleActions: "play none none reverse"
+                });
+
+                const tl = gsap.timeline({
+                    scrollTrigger: {
+                        trigger: ".pricing__grid",
+                        start: "top 80%",
+                        toggleActions: "play none none reverse"
+                    }
+                });
+
+                const cards = document.querySelectorAll('.pricing-card-anim');
+                cards.forEach((card, index) => {
+                    const isPopular = card.classList.contains('pricing__card--popular');
+                    gsap.set(card, { 
+                        opacity: 0, 
+                        y: 60, 
+                        scale: isPopular ? 1.05 : 1, 
+                        filter: "blur(15px)" 
+                    });
+
+                    tl.to(card, {
+                        opacity: 1,
+                        y: 0,
+                        scale: isPopular ? 1.05 : 1,
+                        filter: "blur(0px)",
+                        duration: 1.2,
+                        ease: "power3.out"
+                    }, index * 0.2);
+                });
+
+                // FAQ Animation
+                gsap.set('.faq-anim-item', { opacity: 0, y: 30 });
+                ScrollTrigger.create({
+                    trigger: ".faq__container",
+                    start: "top 85%",
+                    animation: gsap.to('.faq-anim-item', {
+                        opacity: 1,
+                        y: 0,
+                        duration: 0.8,
+                        stagger: 0.15,
+                        ease: "power2.out"
+                    }),
+                    toggleActions: "play none none reverse"
+                });
+            }
+        });
+    </script>
+    <!-- O SCRIPT 100% LIMPO E OTIMIZADO - SOMENTE GSAP PURAMENTE SINCRONIZADO A 60FPS -->
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const canvas = document.getElementById('hero-canvas');
+            const context = canvas.getContext('2d');
+            const heroItems = gsap.utils.toArray('.hero-anim-item');
+
+            // Resolução nativa da sequência de quadros
+            canvas.width = 1920;
+            canvas.height = 1080;
+
+            const frameCount = 192; // Total de imagens na pasta
+            const currentFrame = index => (
+                `../assets/hero-sequence/ezgif-frame-${(index + 1).toString().padStart(3, '0')}.jpg`
+            );
+
+            const images = [];
+            const sequence = {
+                frame: 0
+            };
+
+            // Pre-load de todas as imagens para a RAM (Zero Lag no scroll)
+            for (let i = 0; i < frameCount; i++) {
+                const img = new Image();
+                img.src = currentFrame(i);
+                images.push(img);
+            }
+
+            // Função super-otimizada de pintura de tela
+            function render() {
+                context.clearRect(0, 0, canvas.width, canvas.height);
+                context.drawImage(images[sequence.frame], 0, 0);
+            }
+
+            // Pinta o primeiro frame assim que ele carregar
+            images[0].onload = render;
+
+            // 1. ANIMAÇÃO DE ENTRADA DO TEXTO (Cinemática Limpa - Estilo Apple Load)
+            gsap.set(heroItems, { opacity: 0, y: 60, filter: "blur(30px)", scale: 0.95 });
+            gsap.to(heroItems, {
+                opacity: 1, y: 0, filter: "blur(0px)", scale: 1,
+                duration: 1.8, stagger: 0.15, ease: "power3.out", delay: 0.2
+            });
+
+            // 2. TIMELINE MASTER DE SCROLL
+            let scrollMaster = gsap.timeline({
+                scrollTrigger: {
+                    trigger: "#hero",
+                    start: "top top",
+                    end: "+=3000",      // Perímetro de scroll ativo
+                    pin: true,
+                    scrub: 1,           // Amortecimento natural suave do GSAP
+                    anticipatePin: 1
+                }
+            });
+
+            // A) TEXTO VAI EMBORA E FICA BORRADO DE FORMA CASCATA
+            scrollMaster.fromTo(heroItems,
+                { y: 0, opacity: 1, filter: "blur(0px)", scale: 1 },
+                {
+                    y: -150,
+                    opacity: 0,
+                    filter: "blur(20px)",
+                    scale: 0.9,
+                    duration: 1,
+                    stagger: 0.1,
+                    ease: "power2.inOut"
+                }, 0
+            );
+
+            // B) O CANVAS SE MOVE DA DIREITA PARA O CENTRO ACOMPANHANDO O SCROLL
+            scrollMaster.to(canvas, {
+                objectPosition: "50% center",
+                duration: 2,
+                ease: "none"
+            }, 0);
+
+            // C) SCRUBBING DAS FOTOS NA RAM ATRELADO 100% AO SCROLL DO MOUSE (ZERO LAG, GPU NATIVE!)
+            scrollMaster.to(sequence, {
+                frame: frameCount - 1,
+                snap: "frame",     // Arredonda pra não buscar "frame 1.5"
+                ease: "none",
+                duration: 2,
+                onUpdate: render   // Dispara o desenho da foto a cada milímetro do scroll
+            }, 0);
+
+            // 3. EDITORIAL TEXT ENTRANCE (Energetic Overshoot)
+            const scrollAnimItems = gsap.utils.toArray('.scroll-anim-item');
+            gsap.set(scrollAnimItems, { opacity: 0, y: 40, scale: 0.95 }); /* Energetic start state */
+
+            scrollAnimItems.forEach(item => {
+                ScrollTrigger.create({
+                    trigger: item,
+                    start: "top 85%",
+                    animation: gsap.to(item, {
+                        opacity: 1,
+                        y: 0,
+                        scale: 1,
+                        duration: 0.8,
+                        ease: "back.out(1.5)" /* Physical overshoot */
+                    }),
+                    toggleActions: "play none none reverse"
+                });
+            });
+
+            // 3. NOVA ESTRUTURA COMPARATIVA (Scroll Progressivo)
+
+            // A) Intro Comparativa (Parallax DS Style Reveal)
+            const tlIntro = gsap.timeline({
+                scrollTrigger: {
+                    trigger: '.comp-intro',
+                    start: "top 75%", // Inicia quando a seção aparece 25% na tela
+                    toggleActions: "play none none reverse" // Executa na ida, reverte levemente na volta se subir rápido
+                }
+            });
+
+            // 1. Textos da esquerda integrando na scroll timeline normal (sem delay infinito)
+            const titleLines = gsap.utils.toArray('.line-reveal');
+            tlIntro.to(titleLines, {
+                opacity: 1,
+                y: 0,
+                duration: 1.0, // Rápido mas fluido
+                stagger: 0.15,
+                ease: "power2.out"
+            });
+
+            // 2. Cards da direita (subir 20px + fade in) em cascata
+            const compRows = gsap.utils.toArray('.comp-ds-row');
+            tlIntro.to(compRows, {
+                opacity: 1,
+                y: 0,
+                duration: 0.8,
+                stagger: 0.12,
+                ease: "power2.out"
+            }, "-=0.6"); // Mais justo em relação ao texto
+
+            // 3. Linha dourada dos cards (width 0 -> 100%) - Animação suave e sofisticada
+            const goldLines = gsap.utils.toArray('.comp-list-line');
+            tlIntro.to(goldLines, {
+                width: "100%",
+                duration: 1.5,
+                stagger: 0.15,
+                ease: "power2.inOut"
+            }, "-=0.6"); // Inicia enquanto os cards estão revelando
+
+            // B) Seções Imersivas (Progressive Domino Effect)
+            const immersiveSections = gsap.utils.toArray('.comp-immersive');
+
+            immersiveSections.forEach((sec, index) => {
+                const img = sec.querySelector('.img-layer');
+                const overlay = sec.querySelector('.overlay-layer');
+                const title = sec.querySelector('h3');
+                const p = sec.querySelector('p');
+                const benefits = sec.querySelectorAll('.comp-benefit-item');
+
+                // 1. ANTECIPAÇÃO DA SEÇÃO ANTERIOR (Quando esta seção começa a entrar)
+                if (index > 0) {
+                    const prevSec = immersiveSections[index - 1];
+                    const prevImg = prevSec.querySelector('.img-layer');
+                    const prevOverlay = prevSec.querySelector('.overlay-layer');
+
+                    // Esmaga e escurece a anterior conforme esta rola pra cima
+                    gsap.timeline({
+                        scrollTrigger: {
+                            trigger: sec,
+                            start: "top bottom",      // Esta seção tocou a base da tela
+                            end: "top 20%",           // Subiu quase tudo
+                            scrub: true
+                        }
+                    })
+                        .to(prevImg, { scale: 0.97, ease: "none" }, 0)
+                        .to(prevOverlay, { opacity: 0.8, ease: "none" }, 0);
+                }
+
+                // 2. ENTRADA DESTA SEÇÃO (Domínio Físico)
+                gsap.fromTo(sec,
+                    { y: 80, opacity: 0 },
+                    {
+                        y: 0, opacity: 1,
+                        ease: "power2.out",
+                        scrollTrigger: {
+                            trigger: sec,
+                            start: "top 90%",
+                            end: "top 30%",
+                            scrub: 1
+                        }
+                    }
+                );
+
+                // 3. ENTRADA DE CONTEÚDO (FASE 1)
+                const tlContent = gsap.timeline({
+                    scrollTrigger: {
+                        trigger: sec,
+                        start: "top 50%",
+                        toggleActions: "play none none reverse"
+                    }
+                });
+
+                tlContent.to(title, { y: 0, scale: 1, filter: "blur(0px)", opacity: 1, duration: 0.8, ease: "back.out(1.5)" })
+                    .to(p, { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" }, "-=0.4");
+
+                // 4. BENEFÍCIOS (FASE 2 Animados em Cadeia Ligeira)
+                benefits.forEach((b) => {
+                    const bTime = "-=0.2";
+                    tlContent.to(b.querySelector('.b-line'), { width: '100%', duration: 0.5 }, bTime)
+                        .to(b.querySelector('.b-glow'), { opacity: 1, width: '40%', left: '100%', duration: 0.8 }, "-=0.5")
+                        .to(b.querySelector('.b-text'), { opacity: 1, x: 0, duration: 0.4 }, "-=0.6");
+                });
+            });
+
+            // 4. FLOATING PRODUCT ANIMATION
+            const product = document.getElementById("product-3d");
+            const glow = document.getElementById("product-glow");
+
+            if (product) {
+                gsap.to(product, {
+                    y: "-25px",
+                    rotationY: 4,
+                    rotationX: 2,
+                    duration: 4.5,
+                    repeat: -1,
+                    yoyo: true,
+                    ease: "sine.inOut"
+                });
+            }
+
+            if (glow) {
+                gsap.to(glow, {
+                    scale: 1.15,
+                    opacity: 0.6,
+                    duration: 4,
+                    repeat: -1,
+                    yoyo: true,
+                    ease: "sine.inOut"
+                });
+            }
+
+            // Floating Benefits Redesign Master Timeline
+            const floatTl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: ".floating-benefits",
+                    start: "top 70%",
+                    toggleActions: "play none none reverse"
+                }
+            });
+
+            floatTl.to(".float__title", {
+                y: 0,
+                duration: 1.5,
+                ease: "expo.out"
+            })
+                .to(".float__subtitle", {
+                    y: 0,
+                    opacity: 1,
+                    duration: 1,
+                    ease: "power2.out"
+                }, "-=1")
+                .to(".float__card", {
+                    opacity: 1,
+                    y: 0,
+                    scale: 1,
+                    duration: 1,
+                    stagger: 0.2,
+                    ease: "elastic.out(1, 0.75)"
+                }, "-=0.8");
+
+            // Ambient Liquid Blobs Animation
+            gsap.set(".liquid-blob", { xPercent: -50, yPercent: -50 });
+
+            gsap.to(".blob-1", {
+                x: "100%",
+                y: "30%",
+                duration: 15,
+                repeat: -1,
+                yoyo: true,
+                ease: "sine.inOut"
+            });
+
+            gsap.to(".blob-2", {
+                x: "-50%",
+                y: "80%",
+                duration: 20,
+                repeat: -1,
+                yoyo: true,
+                ease: "sine.inOut",
+                delay: -5
+            });
+
+            // Card Floating Loops (Enhanced)
+            gsap.to(".float__card--1", { y: "-=30", rotation: 2, duration: 4, repeat: -1, yoyo: true, ease: "sine.inOut" });
+            gsap.to(".float__card--2", { y: "+=25", rotation: -2, duration: 4.5, repeat: -1, yoyo: true, ease: "sine.inOut", delay: 1 });
+            gsap.to(".float__card--3", { y: "-=25", rotation: 1.5, duration: 5, repeat: -1, yoyo: true, ease: "sine.inOut", delay: 0.5 });
+            gsap.to(".float__card--4", { y: "+=30", rotation: -1.5, duration: 4.2, repeat: -1, yoyo: true, ease: "sine.inOut", delay: 1.5 });
+
+
+            // Parallax image
+            gsap.to(".scroll-parallax-item", {
+                y: -60,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: "#sobre",
+                    start: "top bottom",
+                    end: "bottom top",
+                    scrub: true
+                }
+            });
+
+            // 5. TECHNOLOGY HEADLINE ANIMATION (Tension and Delay)
+            const tlTech = gsap.timeline({
+                scrollTrigger: {
+                    trigger: ".tech__headline",
+                    start: "top 80%",
+                    toggleActions: "play none none reverse"
+                }
+            });
+            tlTech.to(".anim-line-1", { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" })
+                .to(".anim-line-2", { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" }, "-=0.5");
+
+            // 6. FINAL CTA CANVAS VIDEO SCRUB
+            const finalCanvas = document.getElementById('final-cta-canvas');
+            if (finalCanvas) {
+                const finalCtx = finalCanvas.getContext('2d');
+                finalCanvas.width = 1920;
+                finalCanvas.height = 1080;
+
+                const finalFrameCount = 120; // 120 frames in ezgif folder
+                const finalCurrentFrame = index => (
+                    `../assets/ezgif-488c9496b30944d4-jpg/ezgif-frame-${(index + 1).toString().padStart(3, '0')}.jpg`
+                );
+
+                const finalImages = [];
+                const finalSequence = { frame: 0 };
+
+                // Preload final sequence images
+                for (let i = 0; i < finalFrameCount; i++) {
+                    const img = new Image();
+                    img.src = finalCurrentFrame(i);
+                    finalImages.push(img);
+                }
+
+                function finalRender() {
+                    finalCtx.clearRect(0, 0, finalCanvas.width, finalCanvas.height);
+                    if (finalImages[finalSequence.frame] && finalImages[finalSequence.frame].complete) {
+                        finalCtx.drawImage(finalImages[finalSequence.frame], 0, 0);
+                    }
+                }
+
+                finalImages[0].onload = finalRender;
+
+                gsap.to(finalSequence, {
+                    frame: finalFrameCount - 1,
+                    snap: "frame",
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: ".comp-final-cta",
+                        start: "top top",
+                        end: "+=1500", // Pinned for 1500px, adjust if you want more/less scroll duration
+                        pin: true,
+                        scrub: 1,
+                        anticipatePin: 1
+                    },
+                    onUpdate: finalRender
+                });
+
+                // Mover a textura levemente para dar profundidade infinita
+                gsap.to('.final-cta__texture', {
+                    y: -150,
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: ".comp-final-cta",
+                        start: "top bottom",
+                        end: "bottom top",
+                        scrub: 2
+                    }
+                });
+            }
+
+            // 7. TESTIMONIALS SLIDER LOGIC
+            const slider = document.getElementById('testimonials-slider');
+            const prevBtn = document.getElementById('slider-prev');
+            const nextBtn = document.getElementById('slider-next');
+
+            if (slider && prevBtn && nextBtn) {
+                const scrollAmount = 350;
+
+                nextBtn.addEventListener('click', () => {
+                    slider.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+                });
+
+                prevBtn.addEventListener('click', () => {
+                    slider.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+                });
+            }
+        });
+    </script>
+    <script type="module">
+        import * as THREE from "https://esm.sh/three@0.160.0";
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const canvas = document.getElementById('comp-canvas');
+            if (!canvas) return;
+
+            const scene = new THREE.Scene();
+            // Match the canvas size to the section
+            const section = document.getElementById('comp-intro-sec');
+            const camera = new THREE.PerspectiveCamera(75, section.clientWidth / section.clientHeight, 0.1, 1000);
+
+            const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+            renderer.setSize(section.clientWidth, section.clientHeight);
+            renderer.setClearColor(0x000000, 0); // Transparent background!
+
+            camera.position.z = 15;
+
+            const parallaxGroups = [new THREE.Group(), new THREE.Group(), new THREE.Group()];
+
+            parallaxGroups.forEach(group => {
+                scene.add(group);
+                // Enable sorting so transparent shapes render correctly back-to-front
+                group.renderOrder = 1;
+            });
+
+            // Cores alteradas para Amarelo/Dourado a pedido do usuário
+            const yellowMaterial = new THREE.MeshBasicMaterial({
+                color: 0xF2A900, // Amarelo Vivo
+                transparent: true,
+                opacity: 0.85
+            });
+
+            const goldMaterial = new THREE.MeshBasicMaterial({
+                color: 0xD4AF37, // Ouro Elegante
+                transparent: true,
+                opacity: 0.85
+            });
+
+            const darkGreyMaterial = new THREE.MeshBasicMaterial({
+                color: 0x2C2C2C, // Cinza escuro (Pesos)
+                transparent: true,
+                opacity: 0.9
+            });
+
+            function createPreWorkoutGeometry(type, size, material) {
+                let geometry;
+                switch (type) {
+                    case 'dumbbell': {
+                        // Haltere de academia sólido e robusto
+                        const points = [];
+                        points.push(new THREE.Vector2(0, -size * 0.8));
+                        points.push(new THREE.Vector2(size * 0.6, -size * 0.8)); // Plate edge bottom
+                        points.push(new THREE.Vector2(size * 0.6, -size * 0.3)); // Plate top
+                        points.push(new THREE.Vector2(size * 0.15, -size * 0.3)); // Handle bottom
+                        points.push(new THREE.Vector2(size * 0.15, size * 0.3)); // Handle top
+                        points.push(new THREE.Vector2(size * 0.6, size * 0.3)); // Top plate bottom
+                        points.push(new THREE.Vector2(size * 0.6, size * 0.8)); // Top plate edge
+                        points.push(new THREE.Vector2(0, size * 0.8));
+                        geometry = new THREE.LatheGeometry(points, 24);
+                        break;
+                    }
+                    case 'hex_dumbbell': {
+                        // Haltere hexagonal pesado (Inconfundível geometria de peso)
+                        geometry = new THREE.CylinderGeometry(size * 0.6, size * 0.6, size * 1.5, 6);
+                        break;
+                    }
+                    case 'plate': {
+                        // Anilha redonda grossa
+                        geometry = new THREE.CylinderGeometry(size * 0.8, size * 0.8, size * 0.3, 32);
+                        break;
+                    }
+                    case 'barbell_plate': {
+                        // Outro tipo de anilha com buraco no meio (Torus grosso)
+                        geometry = new THREE.TorusGeometry(size * 0.6, size * 0.3, 16, 32);
+                        break;
+                    }
+                    default:
+                        geometry = new THREE.BoxGeometry(size, size, size);
+                }
+
+                const mesh = new THREE.Mesh(geometry, material);
+                mesh.userData.shapeType = type; // Store for unique animations
+                return mesh;
+            } // Close createPreWorkoutGeometry function
+
+            const shapes = [];
+            // Apenas pesos de academia clássicos (halteres puros) para dar o mesmo efeito de academia pesada previsível a cada carregamento
+            const types = ['dumbbell', 'hex_dumbbell'];
+
+            // Materiais sólidos e opacos amarelos/dourados (removendo qualquer material cinza/escuro)
+            const materials = [yellowMaterial, goldMaterial, yellowMaterial, goldMaterial];
+
+            // Um modificador randômico leve 
+            const randOp = () => (Math.random() - 0.5) * 0.1;
+
+            // Função helper para calcular o tamanho baseado no tipo
+            function getSize(type, baseRange, minVal) {
+                let size = Math.random() * baseRange + minVal;
+                if (type === 'hex_dumbbell') return size * 1.2;
+                return size * 1.0;
+            }
+
+            // Layer 1 - Foreground (Aumentado para 8 elementos flutuando pela área)
+            for (let i = 0; i < 8; i++) {
+                const type = types[Math.floor(Math.random() * types.length)];
+                const baseMat = materials[Math.floor(Math.random() * materials.length)];
+
+                const mat = baseMat.clone();
+                mat.opacity = baseMat.opacity + randOp();
+
+                // Tamanho dinâmico e posições
+                const mesh = createPreWorkoutGeometry(type, getSize(type, 1.2, 0.8), mat);
+                mesh.position.set((Math.random() - 0.5) * 50, (Math.random() - 0.5) * 35, Math.random() * 8 + 6);
+                mesh.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI);
+                parallaxGroups[0].add(mesh);
+                shapes.push({ mesh: mesh, layer: 0, type: type, rotationSpeed: (Math.random() - 0.5) * 0.02 });
+            }
+
+            // Layer 2 - Mid-ground (Aumentado para 12 elementos de transição)
+            for (let i = 0; i < 12; i++) {
+                const type = types[Math.floor(Math.random() * types.length)];
+                const baseMat = materials[Math.floor(Math.random() * materials.length)];
+
+                const mat = baseMat.clone();
+                mat.opacity = baseMat.opacity - 0.01 + randOp();
+
+                const mesh = createPreWorkoutGeometry(type, getSize(type, 1.4, 0.9), mat);
+                mesh.position.set((Math.random() - 0.5) * 70, (Math.random() - 0.5) * 50, Math.random() * 10 - 2);
+                mesh.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI);
+                parallaxGroups[1].add(mesh);
+                shapes.push({ mesh: mesh, layer: 1, type: type, rotationSpeed: (Math.random() - 0.5) * 0.015 });
+            }
+
+            // Layer 3 - Background (Profundo, Aumentado para 16 elementos muito grandes/espalhados)
+            for (let i = 0; i < 16; i++) {
+                const type = types[Math.floor(Math.random() * types.length)];
+                const baseMat = materials[Math.floor(Math.random() * materials.length)];
+
+                const mat = baseMat.clone();
+                mat.opacity = Math.max(0.02, Math.min(0.06, baseMat.opacity - 0.02 + randOp()));
+
+                const mesh = createPreWorkoutGeometry(type, getSize(type, 1.5, 1.0), mat);
+                mesh.position.set((Math.random() - 0.5) * 80, (Math.random() - 0.5) * 60, Math.random() * 15 - 15);
+                mesh.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI);
+
+                parallaxGroups[2].add(mesh);
+                shapes.push({ mesh: mesh, layer: 2, type: type, rotationSpeed: (Math.random() - 0.5) * 0.01 });
+            }
+
+
+            let mouseX = 0;
+            let mouseY = 0;
+
+            // Track mouse isolated to the section for maximum performance
+            section.addEventListener('mousemove', (event) => {
+                const rect = section.getBoundingClientRect();
+                // Calculate mouse position relative to section center
+                const relX = event.clientX - rect.left;
+                const relY = event.clientY - rect.top;
+                mouseX = (relX / rect.width) * 2 - 1;
+                mouseY = -(relY / rect.height) * 2 + 1;
+            });
+
+            // Map Scroll to Parallax Layers inside the section natively
+            // More dramatic parallax spread
+            gsap.to(parallaxGroups[0].position, {
+                y: 25, // Move up as we scroll down (Forefront)
+                ease: "none",
+                scrollTrigger: {
+                    trigger: section,
+                    start: "top bottom",
+                    end: "bottom top",
+                    scrub: 1.5 // Smoother scrubbing
+                }
+            });
+            gsap.to(parallaxGroups[1].position, {
+                y: 12, // Midground
+                ease: "none",
+                scrollTrigger: {
+                    trigger: section,
+                    start: "top bottom",
+                    end: "bottom top",
+                    scrub: 1.5
+                }
+            });
+            gsap.to(parallaxGroups[2].position, {
+                y: -10, // Moves slightly opposite for deep background effect
+                ease: "none",
+                scrollTrigger: {
+                    trigger: section,
+                    start: "top bottom",
+                    end: "bottom top",
+                    scrub: 1.5
+                }
+            });
+
+            // Apple-style Typography Reveal Animation (Masking & Shine)
+            const headlineTl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: "#comp-intro-sec",
+                    start: "top 60%", // fires when section is 60% in view
+                    toggleActions: "play none none reverse"
+                }
+            });
+
+            // Anima primeiro a DIV container (para todo o texto subir com efeito BLUR HERO)
+            headlineTl.to(".comp-tech-left .text-inner", {
+                y: 0,
+                opacity: 1,
+                filter: "blur(0px)",
+                scale: 1,
+                duration: 1.5,
+                stagger: 0.15,
+                ease: "power3.out",
+            });
+
+            // Nike-Style Premium Elastic Snap on the yellow text ONLY usando fromTo para forçar sobreposição CSS pesada + Blush Hero Effect
+            headlineTl.fromTo(".comp-tech-left h2 span.nike-anim-state", {
+                y: 100,
+                scale: 0.85,
+                skewY: 8,
+                opacity: 0,
+                filter: "blur(20px)"
+            }, {
+                y: 0,
+                scale: 1,
+                skewY: 0,
+                opacity: 1,
+                filter: "blur(0px)",
+                duration: 1.6,
+                ease: "elastic.out(1, 0.5)", // Chicote Nike vigoroso
+                onReverseComplete: () => {
+                    document.querySelector(".comp-tech-left h2 span")?.classList.remove("animate-shine");
+                }
+            }, "-=1.0").call(() => {
+                document.querySelector(".comp-tech-left h2 span")?.classList.add("animate-shine");
+            }, [], "-=0.2");
+
+            // Novo Efeito: O texto E a modelo vão embora ficando borrados, mas SOMENTE quando a seção já está de fato subindo para longe
+            gsap.to(".comp-tech-left, .comp-tech-right", {
+                y: -150,
+                opacity: 0,
+                filter: "blur(20px)",
+                scale: 0.9,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: "#comp-intro-sec",
+                    start: "top -10%", // Retarda muito o início: só começa a embaçar quando o título já estiver tocando o teto da tela
+                    end: "bottom 85%", // Prolonga o fim: só desaparece totalmente quando a seção já estiver bem curta
+                    scrub: 1.5 // Sincroniza o fade exatamente com a rodinha do mouse
+                }
+            });
+
+            // Tech Showcase Glassmorphism & SVG Animation Trigger
+            ScrollTrigger.create({
+                trigger: "#comp-intro-sec",
+                start: "top 50%",
+                onEnter: () => document.getElementById("comp-intro-sec")?.classList.add("is-active"),
+                onLeaveBack: () => document.getElementById("comp-intro-sec")?.classList.remove("is-active")
+            });
+
+            function animate() {
+                requestAnimationFrame(animate);
+
+                // Mouse parallax effect smoothly interpolated
+                parallaxGroups[0].rotation.x += (mouseY * 0.08 - parallaxGroups[0].rotation.x) * 0.05;
+                parallaxGroups[0].rotation.y += (mouseX * 0.08 - parallaxGroups[0].rotation.y) * 0.05;
+                parallaxGroups[1].rotation.x += (mouseY * 0.04 - parallaxGroups[1].rotation.x) * 0.05;
+                parallaxGroups[1].rotation.y += (mouseX * 0.04 - parallaxGroups[1].rotation.y) * 0.05;
+                parallaxGroups[2].rotation.x += (mouseY * 0.02 - parallaxGroups[2].rotation.x) * 0.05;
+                parallaxGroups[2].rotation.y += (mouseX * 0.02 - parallaxGroups[2].rotation.y) * 0.05;
+
+                const time = Date.now() * 0.001;
+
+                // Individual energetic shape animations (spins and heavy floating)
+                shapes.forEach((shapeData) => {
+                    const { mesh, rotationSpeed, type } = shapeData;
+
+                    if (type === 'barbell_plate') {
+                        // Anilha vazada rodando pelo eixo
+                        mesh.rotation.x += rotationSpeed * 1.5;
+                        mesh.rotation.y += rotationSpeed * 1.5;
+                    } else if (type === 'dumbbell' || type === 'plate' || type === 'hex_dumbbell') {
+                        // Weights tumbling heavily
+                        mesh.rotation.x += rotationSpeed * 0.8;
+                        mesh.rotation.z += rotationSpeed * 0.5;
+                        mesh.rotation.y += rotationSpeed * 1.0;
+                    }
+
+                    // Snappier, energetic vertical bounce / float
+                    mesh.position.y += Math.sin(time * 2.5 + mesh.position.x) * 0.015;
+                });
+
+                renderer.render(scene, camera);
+            }
+
+            window.addEventListener('resize', () => {
+                if (!section || !camera || !renderer) return;
+                camera.aspect = section.clientWidth / section.clientHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(section.clientWidth, section.clientHeight);
+            });
+
+            // Very clean bounding box to halt intensive 3D operations when explicitly out of view
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        animate();
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            observer.observe(section);
+        });
+    </script>
+=======
+  <div class="bg-layer" id="scroll-bg"></div>
+
+  <!-- 🎯 HERO SECTION (FULL VIDEO BACKGROUND) -->
+  <section
+    class="hero-section h-screen w-full relative overflow-hidden flex items-center justify-center lg:justify-start">
+
+    <!-- CANVAS EM TELA CHEIA (VIDEO) -->
+    <canvas id="hero-canvas" class="absolute top-0 left-0 w-full h-full object-cover z-0"></canvas>
+
+    <!-- OVERLAY SUAVE (Degradê escurinho na esquerda para destacar o texto, transparente na direita para brilhar o produto) -->
+    <div class="absolute inset-0 bg-gradient-to-r from-black/50 via-black/25 to-transparent z-0"></div>
+
+    <!-- TEXT CONTROLS -->
+    <div
+      class="hero-text-container px-6 sm:px-12 lg:px-24 w-full h-full flex flex-col justify-center text-left max-w-7xl mx-auto">
+      <div class="w-full lg:w-[50%] pt-20">
+        <h1
+          class="text-4xl sm:text-5xl lg:text-[5rem] font-black leading-[1.05] tracking-tight text-white mb-6 text-balance drop-shadow-2xl">
+          A primeira creatina feminina que não estufa
+        </h1>
+        <p
+          class="text-xl sm:text-2xl lg:text-3xl text-white/90 font-medium mb-10 max-w-lg leading-relaxed text-balance drop-shadow-lg">
+          Com prebióticos + eletrólitos. Mais leveza, melhor absorção e mais resultado.
+        </p>
+        <button class="btn-buy shadow-2xl">
+          Comprar agora
+        </button>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- 🎯 HORIZONTAL SCROLL SECTION (FULL REWRITE) -->
+  <section id="horizontal-section" class="overflow-hidden bg-[#fff8f8]">
+    <div class="horizontal-track">
+
+      <!-- STEP 1: Melhor absorção -->
+      <div class="step-slide" style="--bg-accent: #ffe4e6;">
+        <div class="slide-layer layer-bg">
+          <div class="liquid-bg"></div>
+        </div>
+        <div class="slide-layer layer-mid">
+          <img src="assets/images/performance.png" alt="Wellness Model" class="model-img">
+        </div>
+        <div class="slide-layer layer-overlay"></div>
+
+        <div class="slide-layer layer-text">
+          <div class="max-w-xl">
+            <h2 class="font-black mb-6">
+              Seu corpo não absorve<br><span class="text-rose-400">como deveria</span>
+            </h2>
+            <p class="font-medium max-w-md">Você treina, se dedica… mas o resultado não acompanha.
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- STEP 2: Menos desconforto -->
+      <div class="step-slide" style="--bg-accent: #fee2e2;">
+        <div class="slide-layer layer-bg">
+          <div class="liquid-bg" style="background: radial-gradient(circle at center, #fecdd3 0%, transparent 70%);">
+          </div>
+        </div>
+        <div class="slide-layer layer-mid">
+          <img src="assets/images/lifestyle.png" alt="Confident Model" class="model-img">
+        </div>
+        <div class="slide-layer layer-overlay"></div>
+
+        <div class="slide-layer layer-text">
+          <div class="max-w-xl">
+            <h2 class="font-black mb-6">
+              Chega de<br><span class="text-rose-400">inchaço e desconforto</span>
+            </h2>
+            <p class="font-medium max-w-md">Inchaço, peso no corpo e sensação ruim depois do treino não
+              são normais.</p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- STEP 3: Mais leveza no corpo -->
+      <div class="step-slide" style="--bg-accent: #ffffff;">
+        <div class="slide-layer layer-bg">
+          <div class="liquid-bg" style="background: radial-gradient(circle at center, #fff1f2 0%, transparent 70%);">
+          </div>
+        </div>
+        <div class="slide-layer layer-mid">
+          <img src="assets/images/product.png" alt="Dynamic Model" class="model-img">
+        </div>
+        <div class="slide-layer layer-overlay"></div>
+
+        <div class="slide-layer layer-text">
+          <div class="max-w-xl">
+            <h2 class="font-black mb-6">
+              Não é só creatina<br><span class="text-rose-400">é absorção inteligente</span>
+            </h2>
+            <p class="font-medium max-w-md">Com prebióticos + eletrólitos, seu corpo absorve melhor e
+              responde de verdade.</p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- STEP 4: Resultados consistentes -->
+      <div class="step-slide" style="--bg-accent: #e11d48;">
+        <div class="slide-layer layer-bg">
+          <div class="liquid-bg" style="background: radial-gradient(circle at center, #be123c 0%, transparent 70%);">
+          </div>
+        </div>
+        <div class="slide-layer layer-mid">
+          <img src="assets/images/ultra_premium_product_202604141308.png" alt="Aesthetic Model" class="model-img">
+        </div>
+        <div class="slide-layer layer-overlay"></div>
+
+        <div class="slide-layer layer-text">
+          <div class="max-w-xl">
+            <h2 class="font-black mb-6">
+              Leveza no corpo<br><span class="text-rose-400">resultado de verdade</span>
+            </h2>
+            <p class="font-medium max-w-md">Mais conforto, mais energia, mais resultado no seu
+              corpo.</p>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 3. PROVA -->
+  <section class="py-32 px-6 w-full animate-on-scroll relative z-20">
+    <div class="max-w-3xl mx-auto text-center">
+      <h3 class="text-2xl md:text-4xl font-extrabold text-gray-900 leading-snug tracking-tight italic mb-8">
+        "Eu sempre quis os benefícios da creatina, mas odiava me sentir inchada o dia todo. A Crea Babi finalmente
+        entregou a leveza que eu procurava."
+      </h3>
+      <div class="w-12 h-1 bg-rose-300 mx-auto rounded-full mb-4"></div>
+      <p class="font-bold text-gray-900">Mariana P.</p>
+      <p class="text-rose-600 text-sm font-semibold">Cliente Verificada</p>
+    </div>
+  </section>
+
+  <!-- 4. CTA FINAL -->
+  <section
+    class="py-32 px-6 w-full flex flex-col items-center text-center animate-on-scroll relative overflow-hidden z-20 object-contain">
+    <div class="absolute inset-0 bg-white/40 backdrop-blur-3xl z-0 border-t border-white/50"></div>
+    <div class="relative z-10 w-full max-w-4xl flex flex-col items-center">
+      <h2 class="text-4xl md:text-5xl font-black text-gray-900 mb-6 tracking-tight text-balance">
+        Você está pronta para se sentir mais leve e mais forte?
+      </h2>
+      <p class="text-xl text-gray-600 mb-10 max-w-lg font-medium">
+        Adquira agora e transforme seus treinos.
+      </p>
+      <button class="btn-buy">
+        Comprar agora
+      </button>
+    </div>
+  </section>
+
+  <footer class="py-10 text-center relative z-20">
+    <p class="text-gray-400 text-sm font-medium">© 2026 Crea Babi. Todos os direitos reservados.</p>
+  </footer>
+
+  <script>
+    gsap.registerPlugin(ScrollTrigger);
+
+    // 1. FADE SECTION SCROLL
+    const fadeSections = document.querySelectorAll('.animate-on-scroll');
+    fadeSections.forEach((sec) => {
+      gsap.from(sec, {
+        y: 60,
+        opacity: 0,
+        duration: 1,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: sec,
+          start: "top 85%",
+          toggleActions: "play none none reverse"
+        }
+      });
+    });
+
+    // 2. TIMELINE DO HERO (PIN + VIDEO + TEXT FADE/BLUR)
+    const frameCount = 150;
+    const currentFrame = index => `assets/frames/ezgif-frame-${(index + 1).toString().padStart(3, '0')}.png`;
+
+    const images = [];
+    const imageSeq = { frame: 0 };
+
+    for (let i = 0; i < frameCount; i++) {
+      const img = new Image();
+      img.src = currentFrame(i);
+      images.push(img);
+    }
+
+    const canvas = document.getElementById("hero-canvas");
+    const context = canvas?.getContext("2d");
+
+    if (canvas) {
+
+      // Função responsiva para tela inteira (Object Cover real)
+      function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        render();
+      }
+      window.addEventListener("resize", resizeCanvas);
+
+      images[0].onload = resizeCanvas;
+
+      function render() {
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        let img = images[imageSeq.frame];
+        if (img && img.complete) {
+          // Object-cover matemática (Alinhando o vídeo à DIREITA para não chocar com o texto)
+          let hRatio = canvas.width / img.width;
+          let vRatio = canvas.height / img.height;
+          let ratio = Math.max(hRatio, vRatio);
+          let centerShift_x = (canvas.width - img.width * ratio) * 0.85; // Move o centro pra direita (85% invés de 50%)
+          let centerShift_y = (canvas.height - img.height * ratio) / 2;
+          context.drawImage(img, 0, 0, img.width, img.height,
+            centerShift_x, centerShift_y, img.width * ratio, img.height * ratio);
+        }
+      }
+
+      // Timeline que prende o painel
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: ".hero-section",
+          start: "top top",
+          end: "+=2000", // Fixa por 2000px
+          scrub: 0.5,
+          pin: true
+        }
+      });
+
+      // Passo 1: O texto sai "fazendo blur e fade" assim que comecamos a rolar.
+      tl.to(".hero-text-container", {
+        opacity: 0,
+        filter: "blur(20px)",
+        y: -100, // sobe desfocando
+        duration: 20 // Ocupa os primeiros 20 "frames" da timeline
+      }, 0);
+
+      // Passo 2: O canvas toca os frames de vídeo em paralelo (0 a 150)
+      tl.to(imageSeq, {
+        frame: frameCount - 1,
+        snap: "frame",
+        ease: "none",
+        duration: 150, // dura a timeline inteira
+        onUpdate: render
+      }, 0);
+    }
+
+    // 3. HORIZONTAL SCROLL ANIMATION (SLOWED DOWN + PAUSE)
+    const horizontalSection = document.querySelector('#horizontal-section');
+    const horizontalTrack = document.querySelector('.horizontal-track');
+    const slides = document.querySelectorAll('.step-slide');
+
+    if (horizontalSection && horizontalTrack && slides.length > 0) {
+      const numSlides = slides.length;
+      // Each slide = exactly 1 viewport width of scroll
+      const scrollDistance = window.innerWidth * (numSlides - 1);
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: horizontalSection,
+          pin: true,
+          scrub: true,          // Strict 1:1 — stops the instant scroll stops
+          start: "top top",
+          end: () => "+=" + scrollDistance,
+          invalidateOnRefresh: true,
+        }
+      });
+
+      // Single tween: track slides exactly proportional to scroll.
+      // overflow:hidden on both section and each slide clips everything neatly.
+      tl.to(horizontalTrack, {
+        xPercent: -100 * (numSlides - 1),
+        ease: "none",
+        duration: 1  // Normalized — ScrollTrigger maps this to scrollDistance
+      }, 0);
+
+      // Text entrance/exit — mathematically aligned to physical slide positions.
+      // step = fraction of timeline per slide. Slide i centers at t = i * step.
+      // fromTo guarantees correct state when scrubbing in both directions.
+      const step = 1 / (numSlides - 1);
+      const entranceDur = step * 0.35; // Text fully visible by the time slide centers
+      const exitDur    = step * 0.28; // Text fully gone by the time next slide centers
+
+      slides.forEach((slide, i) => {
+        const h2 = slide.querySelector('.layer-text h2');
+        const p  = slide.querySelector('.layer-text p');
+        const slideCenter = i * step;
+
+        // ENTRANCE — skip slide 0 (pre-visible via CSS)
+        if (i > 0) {
+          const eStart = slideCenter - entranceDur; // Starts before slide centers
+
+          tl.fromTo(h2,
+            { opacity: 0, y: 20, filter: 'blur(8px)' },
+            { opacity: 1, y: 0,  filter: 'blur(0px)', ease: 'power2.out', duration: entranceDur },
+            eStart
+          );
+
+          // Paragraph: very subtle stagger behind headline
+          tl.fromTo(p,
+            { opacity: 0, y: 14, filter: 'blur(5px)' },
+            { opacity: 1, y: 0,  filter: 'blur(0px)', ease: 'power2.out', duration: entranceDur },
+            eStart + step * 0.05
+          );
+        }
+
+        // EXIT — all slides except the last
+        if (i < numSlides - 1) {
+          const xStart = (i + 1) * step - exitDur; // Ends exactly when next slide centers
+
+          tl.fromTo(h2,
+            { opacity: 1, y: 0,   filter: 'blur(0px)' },
+            { opacity: 0, y: -12, filter: 'blur(6px)', ease: 'power2.in', duration: exitDur },
+            xStart
+          );
+
+          tl.fromTo(p,
+            { opacity: 1, y: 0,  filter: 'blur(0px)' },
+            { opacity: 0, y: -8, filter: 'blur(4px)', ease: 'power2.in', duration: exitDur },
+            xStart
+          );
+        }
+      });
+    }
+
+    window.addEventListener("load", function () {
+
+      if (document.querySelector(".hero-text")) {
+
+        gsap.from(".hero-text h1", {
+          y: 80,
+          opacity: 0,
+          duration: 1.2,
+          ease: "power3.out"
+        });
+
+        gsap.from(".hero-text p", {
+          y: 40,
+          opacity: 0,
+          duration: 1,
+          delay: 0.4,
+          ease: "power3.out"
+        });
+
+      }
+
+    });
+  </script>
+>>>>>>> 716430c2e6cf059d93c1e839679bd023697ae8a3
+</body>
+
+</html>

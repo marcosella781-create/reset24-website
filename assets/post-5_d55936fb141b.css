@@ -1,0 +1,61 @@
+.elementor-kit-5{--e-global-color-primary:#FF86AA;--e-global-color-secondary:#DA2B68;--e-global-color-text:#FFFFFF;--e-global-color-accent:#FF86AA;--e-global-typography-primary-font-family:"Bricolage Grotesque";--e-global-typography-primary-font-size:62px;--e-global-typography-primary-font-weight:800;--e-global-typography-primary-line-height:1.2em;--e-global-typography-secondary-font-family:"Bricolage Grotesque";--e-global-typography-secondary-font-size:22px;--e-global-typography-secondary-font-weight:500;--e-global-typography-secondary-line-height:1.2em;--e-global-typography-text-font-family:"Bricolage Grotesque";--e-global-typography-text-font-size:22px;--e-global-typography-text-font-weight:400;--e-global-typography-text-line-height:1.2em;--e-global-typography-accent-font-family:"Bricolage Grotesque";--e-global-typography-accent-font-size:20px;--e-global-typography-accent-font-weight:600;--e-global-typography-accent-line-height:1.2em;}.elementor-kit-5 e-page-transition{background-color:#FFBC7D;}.elementor-section.elementor-section-boxed > .elementor-container{max-width:1440px;}.e-con{--container-max-width:1440px;--container-default-padding-top:0px;--container-default-padding-right:0px;--container-default-padding-bottom:0px;--container-default-padding-left:0px;}.elementor-widget:not(:last-child){--kit-widget-spacing:16px;}.elementor-element{--widgets-spacing:16px 16px;--widgets-spacing-row:16px;--widgets-spacing-column:16px;}{}h1.entry-title{display:var(--page-title-display);}.site-header .site-branding{flex-direction:column;align-items:stretch;}.site-header{padding-inline-end:0px;padding-inline-start:0px;}.site-footer .site-branding{flex-direction:column;align-items:stretch;}@media(max-width:1024px){.elementor-kit-5{--e-global-typography-primary-font-size:46px;--e-global-typography-primary-line-height:1.2em;--e-global-typography-secondary-font-size:20px;--e-global-typography-secondary-line-height:1.2em;--e-global-typography-text-font-size:18px;--e-global-typography-text-line-height:1.2em;--e-global-typography-accent-font-size:18px;--e-global-typography-accent-line-height:1.2em;}.elementor-section.elementor-section-boxed > .elementor-container{max-width:1024px;}.e-con{--container-max-width:1024px;}}@media(max-width:767px){.elementor-kit-5{--e-global-typography-primary-font-size:40px;--e-global-typography-primary-line-height:1.2em;--e-global-typography-secondary-font-size:20px;--e-global-typography-secondary-line-height:1.2em;--e-global-typography-text-font-size:18px;--e-global-typography-text-line-height:1.2em;--e-global-typography-accent-font-size:16px;--e-global-typography-accent-line-height:1.2em;}.elementor-section.elementor-section-boxed > .elementor-container{max-width:767px;}.e-con{--container-max-width:767px;}}/* Start Custom Fonts CSS */@font-face {
+	font-family: 'Bricolage Grotesque';
+	font-style: normal;
+	font-weight: 400;
+	font-display: auto;
+	src: url("BricolageGrotesque-Regular_a18c27ef6535.eot");
+	src: url("BricolageGrotesque-Regular_3df957b284a9.eot") format('embedded-opentype'),
+		url("BricolageGrotesque-Regular_65491dc001bc.woff2") format('woff2'),
+		url("BricolageGrotesque-Regular_7b5590771874.woff") format('woff'),
+		url("BricolageGrotesque-Regular_37d8b4d5bab8.ttf") format('truetype'),
+		url("BricolageGrotesque-Regular_f8a2eb80d03a.svg") format('svg');
+}
+@font-face {
+	font-family: 'Bricolage Grotesque';
+	font-style: normal;
+	font-weight: 500;
+	font-display: auto;
+	src: url("BricolageGrotesque-Medium_65e4655e8195.eot");
+	src: url("BricolageGrotesque-Medium_ae18f15b2def.eot") format('embedded-opentype'),
+		url("BricolageGrotesque-Medium_74a9904223a1.woff2") format('woff2'),
+		url("BricolageGrotesque-Medium_bc7455e8e951.woff") format('woff'),
+		url("BricolageGrotesque-Medium_d880bce0c6a1.ttf") format('truetype'),
+		url("BricolageGrotesque-Medium_f7451812dcca.svg") format('svg');
+}
+@font-face {
+	font-family: 'Bricolage Grotesque';
+	font-style: normal;
+	font-weight: 600;
+	font-display: auto;
+	src: url("BricolageGrotesque-SemiBold_a3db8be1f157.eot");
+	src: url("BricolageGrotesque-SemiBold_dadd711ce0f7.eot") format('embedded-opentype'),
+		url("BricolageGrotesque-SemiBold_99b228fbfbd0.woff2") format('woff2'),
+		url("BricolageGrotesque-SemiBold_a27cca8a2fd9.woff") format('woff'),
+		url("BricolageGrotesque-SemiBold_06dc46b00d7c.ttf") format('truetype'),
+		url("BricolageGrotesque-SemiBold_99a32b282311.svg") format('svg');
+}
+@font-face {
+	font-family: 'Bricolage Grotesque';
+	font-style: normal;
+	font-weight: 700;
+	font-display: auto;
+	src: url("BricolageGrotesque-Bold_0b844135baac.eot");
+	src: url("BricolageGrotesque-Bold_8f24cb6a531f.eot") format('embedded-opentype'),
+		url("BricolageGrotesque-Bold_eb8ff213c5c5.woff2") format('woff2'),
+		url("BricolageGrotesque-Bold_0aaa2f97189b.woff") format('woff'),
+		url("BricolageGrotesque-Bold_1ffb4306014a.ttf") format('truetype'),
+		url("BricolageGrotesque-Bold_b104c6762e0d.svg") format('svg');
+}
+@font-face {
+	font-family: 'Bricolage Grotesque';
+	font-style: normal;
+	font-weight: 800;
+	font-display: auto;
+	src: url("BricolageGrotesque-ExtraBold_1e11925a9c68.eot");
+	src: url("BricolageGrotesque-ExtraBold_56722eb78604.eot") format('embedded-opentype'),
+		url("BricolageGrotesque-ExtraBold_929b24c6977e.woff2") format('woff2'),
+		url("BricolageGrotesque-ExtraBold_f662f6b146d9.woff") format('woff'),
+		url("BricolageGrotesque-ExtraBold_ff5cef1a6890.ttf") format('truetype'),
+		url("BricolageGrotesque-ExtraBold_366419607b14.svg") format('svg');
+}
+/* End Custom Fonts CSS */

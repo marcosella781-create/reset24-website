@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crea Babi - Creatina Feminina Premium</title>
+
+  <!-- GSAP -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;800;900&display=swap"
+    rel="stylesheet">
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', 'sans-serif'] },
+        }
+      }
+    }
+  </script>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      overflow-x: hidden;
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #fff5f6 0%, #ffe4e6 100%);
+      color: #111827;
+    }
+
+    .bg-layer {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      background: linear-gradient(180deg, rgba(255, 241, 242, 0) 0%, rgba(254, 205, 211, 0.5) 100%);
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+
+    /* Botão Premium */
+    .btn-buy {
+      background-color: #e11d48;
+      color: white;
+      padding: 1.25rem 3rem;
+      border-radius: 9999px;
+      font-weight: 800;
+      font-size: 1.125rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 10px 25px -5px rgba(225, 29, 72, 0.4);
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-buy:hover {
+      background-color: #be123c;
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 20px 30px -10px rgba(225, 29, 72, 0.5);
+    }
+
+    /* Garantir que o texto inicial não trave clicks do botão enquanto sobreposto */
+    .hero-text-container {
+      will-change: transform, opacity, filter;
+    }
+
+    /* Immersive Scroll Styles */
+    .horizontal-track {
+      display: flex !important;
+      flex-direction: row !important;
+      flex-wrap: nowrap !important;
+      width: 100% !important;
+      /* Constrained to viewport, children will overflow */
+      height: 100vh !important;
+      will-change: transform;
+    }
+
+    .step-slide {
+      position: relative !important;
+      overflow: hidden !important;
+      flex-shrink: 0 !important;
+      width: 100vw !important;
+      height: 100vh !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Layers */
+    .slide-layer {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .layer-bg {
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    .layer-mid {
+      z-index: 2;
+      justify-content: center;
+      padding: 0;
+
+      /* Subtle lighting overlay on top of the image */
+      &::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(circle at center, transparent 30%, rgba(0, 0, 0, 0.1) 100%);
+        pointer-events: none;
+      }
+    }
+
+    .layer-fg {
+      z-index: 4;
+    }
+
+    .layer-overlay {
+      z-index: 2.5;
+      background: linear-gradient(to right, rgba(0, 0, 0, 0.4) 0%, transparent 75%);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      -webkit-mask-image: linear-gradient(to right, black 0%, transparent 60%);
+      mask-image: linear-gradient(to right, black 0%, transparent 60%);
+      pointer-events: none;
+
+      /* Soft luxury light leak */
+      &::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to right, rgba(225, 29, 72, 0.05) 0%, transparent 50%);
+        pointer-events: none;
+      }
+    }
+
+    .layer-text {
+      z-index: 3;
+      justify-content: flex-start;
+      text-align: left;
+      padding-left: 12%;
+      pointer-events: auto;
+      /* Soft glassmorphism */
+      background: linear-gradient(to right, rgba(255, 255, 255, 0.05) 0%, transparent 100%);
+      backdrop-filter: blur(5px);
+    }
+
+    /* Liquid/Gradient BG */
+    .liquid-bg {
+      position: absolute;
+      width: 150%;
+      height: 150%;
+      top: -25%;
+      left: -25%;
+      filter: blur(60px);
+      opacity: 0.6;
+      background: radial-gradient(circle at center, var(--bg-accent) 0%, transparent 70%);
+      transition: background 0.8s ease;
+    }
+
+    /* Floating model / Cover Images */
+    .model-img {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+      position: absolute !important;
+      top: 0 !important;
+      left: 0 !important;
+      z-index: 2;
+      filter: drop-shadow(0 20px 50px rgba(0, 0, 0, 0.15));
+      will-change: transform, opacity;
+    }
+
+    /* 🍒 Luxury Cherry Highlights & Jewelry Accents */
+    .step-slide::before {
+      content: '';
+      position: absolute;
+      width: 40vw;
+      height: 40vw;
+      background: radial-gradient(circle, rgba(225, 29, 72, 0.1) 0%, transparent 70%);
+      filter: blur(100px);
+      z-index: 1;
+      pointer-events: none;
+      animation: softPulse 10s ease-in-out infinite alternate;
+    }
+
+    @keyframes softPulse {
+      from {
+        opacity: 0.3;
+        transform: scale(1);
+      }
+
+      to {
+        opacity: 0.6;
+        transform: scale(1.1);
+      }
+    }
+
+    /* Integrated Cherry Accent (Jewelry Style) */
+    .layer-mid::after {
+      content: '';
+      position: absolute;
+      width: 45px;
+      height: 45px;
+      background: url('single_cherry,_isolated,_202604091223-Photoroom.png') no-repeat center/contain;
+      z-index: 5;
+      filter: drop-shadow(0 15px 25px rgba(225, 29, 72, 0.2));
+      opacity: 0.9;
+      pointer-events: none;
+      transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Position accents intentionally per slide */
+    .step-slide:nth-child(1) .layer-mid::after {
+      bottom: 20%;
+      right: 28%;
+      transform: rotate(-15deg);
+    }
+
+    .step-slide:nth-child(2) .layer-mid::after {
+      top: 25%;
+      left: 32%;
+      width: 55px;
+      height: 55px;
+      transform: rotate(10deg);
+    }
+
+    .step-slide:nth-child(3) .layer-mid::after {
+      bottom: 15%;
+      left: 25%;
+      opacity: 0.6;
+      filter: blur(1px) drop-shadow(0 10px 20px rgba(0, 0, 0, 0.1));
+    }
+
+    .step-slide:nth-child(4) .layer-mid::after {
+      top: 15%;
+      right: 25%;
+      transform: rotate(20deg);
+    }
+
+    /* Faint background texture icon */
+    .layer-bg::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 80vh;
+      height: 80vh;
+      background: url('single_cherry,_isolated,_202604091223-Photoroom.png') no-repeat center/contain;
+      opacity: 0.02;
+      filter: grayscale(1) brightness(1.5);
+      z-index: 0;
+      pointer-events: none;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="bg-layer" id="scroll-bg"></div>
+
+  <!-- 🎯 HERO SECTION (FULL VIDEO BACKGROUND) -->
+  <section
+    class="hero-section h-screen w-full relative overflow-hidden flex items-center justify-center lg:justify-start">
+
+    <!-- CANVAS EM TELA CHEIA (VIDEO) -->
+    <canvas id="hero-canvas" class="absolute top-0 left-0 w-full h-full object-cover z-0"></canvas>
+
+    <!-- OVERLAY SUAVE (Degradê escurinho na esquerda para destacar o texto, transparente na direita para brilhar o produto) -->
+    <div class="absolute inset-0 bg-gradient-to-r from-black/50 via-black/25 to-transparent z-0"></div>
+
+    <!-- TEXT CONTROLS -->
+    <div
+      class="hero-text-container relative z-10 px-6 sm:px-12 lg:px-24 w-full h-full flex flex-col justify-center text-left max-w-7xl mx-auto">
+      <div class="w-full lg:w-[50%] pt-20">
+        <h1
+          class="text-4xl sm:text-5xl lg:text-[5rem] font-black leading-[1.05] tracking-tight text-white mb-6 text-balance drop-shadow-2xl">
+          A primeira creatina feminina que não estufa
+        </h1>
+        <p
+          class="text-xl sm:text-2xl lg:text-3xl text-white/90 font-medium mb-10 max-w-lg leading-relaxed text-balance drop-shadow-lg">
+          Com prebióticos + eletrólitos. Mais leveza, melhor absorção e mais resultado.
+        </p>
+        <button class="btn-buy shadow-2xl">
+          Comprar agora
+        </button>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- 🎯 HORIZONTAL SCROLL SECTION (FULL REWRITE) -->
+  <section id="horizontal-section" class="overflow-hidden bg-[#fff8f8]">
+    <div class="horizontal-track">
+
+      <!-- STEP 1: Melhor absorção -->
+      <div class="step-slide" style="--bg-accent: #ffe4e6;">
+        <div class="slide-layer layer-bg">
+          <div class="liquid-bg"></div>
+        </div>
+        <div class="slide-layer layer-mid">
+          <img src="assets/images/performance.jpg" alt="Wellness Model" class="model-img">
+        </div>
+        <div class="slide-layer layer-overlay"></div>
+
+        <div class="slide-layer layer-text">
+          <div class="max-w-xl">
+            <h2 class="text-6xl md:text-8xl font-black text-white leading-none mb-6">
+              Melhor <span class="text-rose-400">absorção</span>
+            </h2>
+            <p class="text-2xl text-white/80 font-medium max-w-md">Uso total pelo seu organismo para resultados reais.
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- STEP 2: Menos desconforto -->
+      <div class="step-slide" style="--bg-accent: #fee2e2;">
+        <div class="slide-layer layer-bg">
+          <div class="liquid-bg" style="background: radial-gradient(circle at center, #fecdd3 0%, transparent 70%);">
+          </div>
+        </div>
+        <div class="slide-layer layer-mid">
+          <img src="assets/images/lifestyle.jpg" alt="Confident Model" class="model-img">
+        </div>
+        <div class="slide-layer layer-overlay"></div>
+
+        <div class="slide-layer layer-text">
+          <div class="max-w-xl">
+            <h2 class="text-6xl md:text-8xl font-black text-white leading-none mb-6">
+              Menos <span class="text-rose-400">desconforto</span>
+            </h2>
+            <p class="text-2xl text-white/80 font-medium max-w-md">Acabe com a sensação de inchaço abdominal
+              definitivamente.</p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- STEP 3: Mais leveza no corpo -->
+      <div class="step-slide" style="--bg-accent: #ffffff;">
+        <div class="slide-layer layer-bg">
+          <div class="liquid-bg" style="background: radial-gradient(circle at center, #fff1f2 0%, transparent 70%);">
+          </div>
+        </div>
+        <div class="slide-layer layer-mid">
+          <img src="assets/images/product.jpg" alt="Dynamic Model" class="model-img">
+        </div>
+        <div class="slide-layer layer-overlay"></div>
+
+        <div class="slide-layer layer-text">
+          <div class="max-w-xl">
+            <h2 class="text-6xl md:text-8xl font-black text-white leading-none mb-6">
+              Mais <span class="text-rose-400">leveza</span>
+            </h2>
+            <p class="text-2xl text-white/80 font-medium max-w-md">Sinta-se bem e leve durante todo o seu dia.</p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- STEP 4: Resultados consistentes -->
+      <div class="step-slide" style="--bg-accent: #e11d48;">
+        <div class="slide-layer layer-bg">
+          <div class="liquid-bg"
+            style="background: radial-gradient(circle at center, #be123c 0%, transparent 70%); opacity: 0.4;"></div>
+        </div>
+        <div class="slide-layer layer-mid">
+          <img src="assets/images/detail.jpg" alt="Aesthetic Model" class="model-img">
+        </div>
+        <div class="slide-layer layer-overlay"></div>
+
+        <div class="slide-layer layer-text">
+          <div class="max-w-xl">
+            <h2 class="text-6xl md:text-8xl font-black text-white leading-none mb-6">
+              Resultados <br><span class="text-rose-400">consistentes</span>
+            </h2>
+            <p class="text-2xl text-white/80 font-medium max-w-md">Força e definição muscular sem enrolação.</p>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 3. PROVA -->
+  <section class="py-32 px-6 w-full animate-on-scroll relative z-20">
+    <div class="max-w-3xl mx-auto text-center">
+      <h3 class="text-2xl md:text-4xl font-extrabold text-gray-900 leading-snug tracking-tight italic mb-8">
+        "Eu sempre quis os benefícios da creatina, mas odiava me sentir inchada o dia todo. A Crea Babi finalmente
+        entregou a leveza que eu procurava."
+      </h3>
+      <div class="w-12 h-1 bg-rose-300 mx-auto rounded-full mb-4"></div>
+      <p class="font-bold text-gray-900">Mariana P.</p>
+      <p class="text-rose-600 text-sm font-semibold">Cliente Verificada</p>
+    </div>
+  </section>
+
+  <!-- 4. CTA FINAL -->
+  <section
+    class="py-32 px-6 w-full flex flex-col items-center text-center animate-on-scroll relative overflow-hidden z-20 object-contain">
+    <div class="absolute inset-0 bg-white/40 backdrop-blur-3xl z-0 border-t border-white/50"></div>
+    <div class="relative z-10 w-full max-w-4xl flex flex-col items-center">
+      <h2 class="text-4xl md:text-5xl font-black text-gray-900 mb-6 tracking-tight text-balance">
+        Você está pronta para se sentir mais leve e mais forte?
+      </h2>
+      <p class="text-xl text-gray-600 mb-10 max-w-lg font-medium">
+        Adquira agora e transforme seus treinos.
+      </p>
+      <button class="btn-buy">
+        Comprar agora
+      </button>
+    </div>
+  </section>
+
+  <footer class="py-10 text-center relative z-20">
+    <p class="text-gray-400 text-sm font-medium">© 2026 Crea Babi. Todos os direitos reservados.</p>
+  </footer>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/Observer.min.js"></script>
+  ,
+
+  <script>
+    gsap.registerPlugin(Observer);
+
+    let sections = document.querySelectorAll("section"),
+      images = document.querySelectorAll(".bg"),
+      headings = gsap.utils.toArray(".section-heading"),
+      outerWrappers = gsap.utils.toArray(".outer"),
+      innerWrappers = gsap.utils.toArray(".inner"),
+      splitHeadings = headings.map(heading => new SplitText(heading, { type: "chars,words,lines", linesClass: "clip-text" })),
+      currentIndex = -1,
+      wrap = gsap.utils.wrap(0, sections.length),
+      animating;
+
+    gsap.set(outerWrappers, { yPercent: 100 });
+    gsap.set(innerWrappers, { yPercent: -100 });
+
+    function gotoSection(index, direction) {
+      index = wrap(index); // make sure it's valid
+      animating = true;
+      let fromTop = direction === -1,
+        dFactor = fromTop ? -1 : 1,
+        tl = gsap.timeline({
+          defaults: { duration: 1.25, ease: "power1.inOut" },
+          onComplete: () => animating = false
+        });
+      if (currentIndex >= 0) {
+        // The first time this function runs, current is -1
+        gsap.set(sections[currentIndex], { zIndex: 0 });
+        tl.to(images[currentIndex], { yPercent: -15 * dFactor })
+          .set(sections[currentIndex], { autoAlpha: 0 });
+      }
+      gsap.set(sections[index], { autoAlpha: 1, zIndex: 1 });
+      tl.fromTo([outerWrappers[index], innerWrappers[index]], {
+        yPercent: i => i ? -100 * dFactor : 100 * dFactor
+      }, {
+        yPercent: 0
+      }, 0)
+        .fromTo(images[index], { yPercent: 15 * dFactor }, { yPercent: 0 }, 0)
+        .fromTo(splitHeadings[index].chars, {
+          autoAlpha: 0,
+          yPercent: 150 * dFactor
+        }, {
+          autoAlpha: 1,
+          yPercent: 0,
+          duration: 1,
+          ease: "power2",
+          stagger: {
+            each: 0.02,
+            from: "random"
+          }
+        }, 0.2);
+
+      currentIndex = index;
+    }
+
+    Observer.create({
+      type: "wheel,touch,pointer",
+      wheelSpeed: -1,
+      onDown: () => !animating && gotoSection(currentIndex - 1, -1),
+      onUp: () => !animating && gotoSection(currentIndex + 1, 1),
+      tolerance: 10,
+      preventDefault: true
+    });
+
+    gotoSection(0, 1);
+
+    // original: https://codepen.io/BrianCross/pen/PoWapLP
+    // horizontal version: https://codepen.io/GreenSock/pen/xxWdeMK
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    // 1. FADE SECTION SCROLL
+    const fadeSections = document.querySelectorAll('.animate-on-scroll');
+    fadeSections.forEach((sec) => {
+      gsap.from(sec, {
+        y: 60,
+        opacity: 0,
+        duration: 1,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: sec,
+          start: "top 85%",
+          toggleActions: "play none none reverse"
+        }
+      });
+    });
+
+    // 2. TIMELINE DO HERO (PIN + VIDEO + TEXT FADE/BLUR)
+    const frameCount = 150;
+    const currentFrame = index => `assets/frames/ezgif-frame-${(index + 1).toString().padStart(3, '0')}.png`;
+
+    const images = [];
+    const imageSeq = { frame: 0 };
+
+    for (let i = 0; i < frameCount; i++) {
+      const img = new Image();
+      img.src = currentFrame(i);
+      images.push(img);
+    }
+
+    const canvas = document.getElementById("hero-canvas");
+    const context = canvas?.getContext("2d");
+
+    if (canvas) {
+
+      // Função responsiva para tela inteira (Object Cover real)
+      function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        render();
+      }
+      window.addEventListener("resize", resizeCanvas);
+
+      images[0].onload = resizeCanvas;
+
+      function render() {
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        let img = images[imageSeq.frame];
+        if (img && img.complete) {
+          // Object-cover matemática (Alinhando o vídeo à DIREITA para não chocar com o texto)
+          let hRatio = canvas.width / img.width;
+          let vRatio = canvas.height / img.height;
+          let ratio = Math.max(hRatio, vRatio);
+          let centerShift_x = (canvas.width - img.width * ratio) * 0.85; // Move o centro pra direita (85% invés de 50%)
+          let centerShift_y = (canvas.height - img.height * ratio) / 2;
+          context.drawImage(img, 0, 0, img.width, img.height,
+            centerShift_x, centerShift_y, img.width * ratio, img.height * ratio);
+        }
+      }
+
+      // Timeline que prende o painel
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: ".hero-section",
+          start: "top top",
+          end: "+=2000", // Fixa por 2000px
+          scrub: 0.5,
+          pin: true
+        }
+      });
+
+      // Passo 1: O texto sai "fazendo blur e fade" assim que comecamos a rolar.
+      tl.to(".hero-text-container", {
+        opacity: 0,
+        filter: "blur(20px)",
+        y: -100, // sobe desfocando
+        duration: 20 // Ocupa os primeiros 20 "frames" da timeline
+      }, 0);
+
+      // Passo 2: O canvas toca os frames de vídeo em paralelo (0 a 150)
+      tl.to(imageSeq, {
+        frame: frameCount - 1,
+        snap: "frame",
+        ease: "none",
+        duration: 150, // dura a timeline inteira
+        onUpdate: render
+      }, 0);
+    }
+
+    // 3. HORIZONTAL SCROLL ANIMATION (SLOWED DOWN + PAUSE)
+    const horizontalSection = document.querySelector('#horizontal-section');
+    const horizontalTrack = document.querySelector('.horizontal-track');
+    const slides = document.querySelectorAll('.step-slide');
+
+    if (horizontalSection && horizontalTrack && slides.length > 0) {
+      const numSlides = slides.length;
+      // Increased scroll distance for more immersive feel (1.5x total width)
+      const scrollDistance = window.innerWidth * numSlides * 1.5;
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: horizontalSection,
+          pin: true,
+          scrub: 1,
+          start: "top top",
+          end: () => "+=" + scrollDistance,
+          invalidateOnRefresh: true,
+        }
+      });
+
+      // Horizontal sliding animation
+      tl.to(horizontalTrack, {
+        xPercent: -100 * (numSlides - 1),
+        ease: "none",
+        duration: numSlides // 4 units
+      });
+
+      // Deliberate pause at the end (dead zone)
+      tl.to({}, { duration: 1 }); // 1 unit (Total 5 units, so 20% pause)
+    }
+  </script>
+</body>
+
+</html>
