@@ -998,6 +998,7 @@
         }
     </style>
 </head>
+
 <body>
     <section class="hero-section" id="hero">
         <!-- VÍDEO OTIMIZADO APPLE-STYLE: CANVAS DE SEQUÊNCIA DE IMAGENS (ZERO LAG) -->
@@ -2379,7 +2380,8 @@
             background-image: url('assets/beneficios-bg.jpg.jpg');
             background-size: cover;
             background-position: center;
-            background-attachment: fixed; /* Parallax Effect */
+            background-attachment: fixed;
+            /* Parallax Effect */
             opacity: 0.6;
             z-index: 1;
         }
@@ -2392,10 +2394,10 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(to bottom, 
-                rgba(0,0,0,0.8) 0%, 
-                rgba(0,0,0,0.4) 50%, 
-                rgba(0,0,0,0.8) 100%);
+            background: linear-gradient(to bottom,
+                    rgba(0, 0, 0, 0.8) 0%,
+                    rgba(0, 0, 0, 0.4) 50%,
+                    rgba(0, 0, 0, 0.8) 100%);
             z-index: 2;
         }
 
@@ -2431,7 +2433,7 @@
             line-height: 1.1;
             color: #fff;
             letter-spacing: -1px;
-            text-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            text-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
         }
 
         .float__title span {
@@ -2672,7 +2674,8 @@
 
                 <!-- Coluna Direita: Modelo Dominante (Restaurada) -->
                 <div class="comp-tech-right">
-                    <img src="assets/Design sem nome (18).png" alt="Comparativo Reset 24h Modelo" class="tech-model-hero" />
+                    <img src="assets/Design sem nome (18).png" alt="Comparativo Reset 24h Modelo"
+                        class="tech-model-hero" />
                 </div>
             </div>
         </section>
@@ -2889,7 +2892,8 @@
                         <div class="testimonials__slider-track">
                             <!-- Card 1 (Video) -->
                             <div class="testimonials__card">
-                                <video src="assets/Pouch_assembling_lightning_bolt_delpmaspu_.mp4" autoplay loop muted playsinline></video>
+                                <video src="assets/Pouch_assembling_lightning_bolt_delpmaspu_.mp4" autoplay loop muted
+                                    playsinline></video>
                             </div>
                             <!-- Card 2 (Video) -->
                             <div class="testimonials__card">
@@ -3004,17 +3008,20 @@
             margin-bottom: 1.5rem;
             position: relative;
         }
+
         .pricing__image {
             max-width: 95%;
             max-height: 95%;
             object-fit: contain;
-            filter: drop-shadow(0 20px 40px rgba(0,0,0,0.15));
+            filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.15));
             transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
             will-change: transform, filter;
         }
+
         .pricing__card:hover .pricing__image {
             transform: scale(1.1) translateY(-10px);
         }
+
         .pricing-section {
             background: #FDFBF7;
             padding: 8rem 5%;
@@ -3022,6 +3029,7 @@
             overflow: hidden;
             z-index: 10;
         }
+
         .pricing-section::before {
             content: '';
             position: absolute;
@@ -3034,16 +3042,19 @@
             pointer-events: none;
             z-index: 0;
         }
+
         .pricing__container {
             max-width: 1200px;
             margin: 0 auto;
             position: relative;
             z-index: 2;
         }
+
         .pricing__title-wrapper {
             text-align: center;
             margin-bottom: 5rem;
         }
+
         .pricing__title {
             font-size: clamp(34px, 4vw, 46px);
             font-weight: 800;
@@ -3051,12 +3062,14 @@
             line-height: 1.1;
             letter-spacing: -1px;
         }
+
         .pricing__grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 2.5rem;
             align-items: center;
         }
+
         .pricing__card {
             background: #FFFFFF;
             border-radius: 20px;
@@ -3068,21 +3081,25 @@
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.03);
             will-change: transform, opacity, filter;
         }
+
         .pricing__card:hover {
             transform: translateY(-10px) !important;
             box-shadow: 0 25px 50px rgba(0, 0, 0, 0.08);
             border-color: rgba(242, 169, 0, 0.2);
         }
+
         .pricing__card--popular {
             background: linear-gradient(180deg, #FFFFFF 0%, #FFFCF5 100%);
             border: 1px solid rgba(242, 169, 0, 0.3);
             box-shadow: 0 20px 40px rgba(242, 169, 0, 0.1);
         }
+
         .pricing__card--popular:hover {
             transform: translateY(-10px) scale(1.05) !important;
             box-shadow: 0 30px 60px rgba(242, 169, 0, 0.15);
             border-color: rgba(242, 169, 0, 0.5);
         }
+
         .pricing__badge {
             position: absolute;
             top: -16px;
@@ -3099,6 +3116,7 @@
             box-shadow: 0 8px 20px rgba(242, 169, 0, 0.3);
             white-space: nowrap;
         }
+
         .pricing__months {
             font-size: 14px;
             color: #666;
@@ -3107,6 +3125,7 @@
             margin-bottom: 0.8rem;
             font-weight: 700;
         }
+
         .pricing__original-price {
             font-size: 15px;
             color: #999;
@@ -3114,6 +3133,7 @@
             margin-bottom: 0.2rem;
             display: block;
         }
+
         .pricing__price {
             font-size: 68px;
             font-weight: 800;
@@ -3126,6 +3146,7 @@
             justify-content: center;
             gap: 4px;
         }
+
         .pricing__currency {
             font-size: 24px;
             font-weight: 700;
@@ -3133,6 +3154,7 @@
             opacity: 0.9;
             letter-spacing: 0;
         }
+
         .pricing__installments {
             display: block;
             font-size: 17px;
@@ -3140,6 +3162,7 @@
             font-weight: 700;
             margin-bottom: 0.8rem;
         }
+
         .pricing__save-badge {
             background: #f0fdf4;
             color: #16a34a;
@@ -3153,6 +3176,7 @@
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
+
         .pricing__divider {
             width: 40px;
             height: 2px;
@@ -3161,6 +3185,7 @@
             border-radius: 2px;
             opacity: 0.6;
         }
+
         .pricing__btn {
             display: inline-flex;
             align-items: center;
@@ -3175,16 +3200,19 @@
             text-decoration: none;
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
+
         .pricing__btn--outline {
             background: transparent;
             color: #1A1A1A;
-            border: 1px solid rgba(0,0,0,0.15);
+            border: 1px solid rgba(0, 0, 0, 0.15);
         }
+
         .pricing__btn--outline:hover {
             background: #1A1A1A;
             color: #FFF;
             border-color: #1A1A1A;
         }
+
         .pricing__btn--solid {
             background: linear-gradient(135deg, #F2A900 0%, #FFC133 50%, #E6A000 100%);
             background-size: 200% 200%;
@@ -3192,10 +3220,12 @@
             border: none;
             box-shadow: 0 8px 20px rgba(242, 169, 0, 0.3);
         }
+
         .pricing__btn--solid:hover {
             background-position: 100% 100%;
             box-shadow: 0 12px 28px rgba(242, 169, 0, 0.45);
         }
+
         @media (max-width: 992px) {
             .pricing__grid {
                 grid-template-columns: 1fr;
@@ -3203,12 +3233,14 @@
                 margin: 0 auto;
             }
         }
+
         .pricing__features {
             list-style: none;
             padding: 0;
             margin: 0 0 2rem 0;
             text-align: left;
         }
+
         .pricing__features li {
             font-size: 15px;
             color: #666666;
@@ -3216,6 +3248,7 @@
             display: flex;
             align-items: center;
         }
+
         .pricing__features li svg {
             width: 18px;
             height: 18px;
@@ -3223,15 +3256,18 @@
             margin-right: 12px;
             flex-shrink: 0;
         }
+
         .faq-section {
             background: #FFFFFF;
             padding: 8rem 5%;
             position: relative;
         }
+
         .faq__container {
             max-width: 800px;
             margin: 0 auto;
         }
+
         .faq__title {
             text-align: center;
             font-size: clamp(32px, 4vw, 44px);
@@ -3240,12 +3276,14 @@
             margin-bottom: 4rem;
             letter-spacing: -1px;
         }
+
         .faq__item {
-            border-bottom: 1px solid rgba(0,0,0,0.08);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
             padding: 1.5rem 0;
             cursor: pointer;
             position: relative;
         }
+
         .faq__question {
             font-size: 18px;
             font-weight: 600;
@@ -3256,16 +3294,20 @@
             transition: color 0.3s ease;
             margin: 0;
         }
+
         .faq__item:hover .faq__question {
             color: #C6A24D;
         }
+
         .faq__icon {
             position: relative;
             width: 20px;
             height: 20px;
             transition: transform 0.4s ease;
         }
-        .faq__icon::before, .faq__icon::after {
+
+        .faq__icon::before,
+        .faq__icon::after {
             content: '';
             position: absolute;
             background: #1A1A1A;
@@ -3274,29 +3316,48 @@
             transform: translate(-50%, -50%);
             transition: all 0.4s ease;
         }
-        .faq__icon::before { width: 14px; height: 2px; }
-        .faq__icon::after { width: 2px; height: 14px; }
-        
-        .faq__item.active .faq__icon { transform: rotate(180deg); }
-        .faq__item.active .faq__icon::after { height: 0; }
-        .faq__item.active .faq__question { color: #C6A24D; }
-        
+
+        .faq__icon::before {
+            width: 14px;
+            height: 2px;
+        }
+
+        .faq__icon::after {
+            width: 2px;
+            height: 14px;
+        }
+
+        .faq__item.active .faq__icon {
+            transform: rotate(180deg);
+        }
+
+        .faq__item.active .faq__icon::after {
+            height: 0;
+        }
+
+        .faq__item.active .faq__question {
+            color: #C6A24D;
+        }
+
         .faq__answer {
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
+
         .faq__answer-inner {
             padding-top: 1rem;
             font-size: 16px;
             color: #666666;
             line-height: 1.6;
         }
+
         .footer {
             background: #111111;
             padding: 6rem 5% 2rem 5%;
             color: #FFFFFF;
         }
+
         .footer__container {
             max-width: 1200px;
             margin: 0 auto;
@@ -3305,51 +3366,60 @@
             gap: 4rem;
             margin-bottom: 4rem;
         }
+
         .footer__brand img {
             height: 30px;
             filter: brightness(0) invert(1);
             margin-bottom: 1.5rem;
         }
+
         .footer__brand p {
             color: #888888;
             font-size: 15px;
             line-height: 1.6;
             max-width: 300px;
         }
+
         .footer__title {
             font-size: 18px;
             font-weight: 600;
             margin-bottom: 1.5rem;
             color: #FFFFFF;
         }
+
         .footer__links {
             list-style: none;
             padding: 0;
             margin: 0;
         }
+
         .footer__links li {
             margin-bottom: 12px;
         }
+
         .footer__links a {
             color: #888888;
             text-decoration: none;
             font-size: 15px;
             transition: color 0.3s ease;
         }
+
         .footer__links a:hover {
             color: #C6A24D;
         }
+
         .footer__bottom {
             max-width: 1200px;
             margin: 0 auto;
             padding-top: 2rem;
-            border-top: 1px solid rgba(255,255,255,0.1);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
             display: flex;
             justify-content: space-between;
             align-items: center;
             color: #666666;
             font-size: 14px;
         }
+
         @media (max-width: 768px) {
             .footer__bottom {
                 flex-direction: column;
@@ -3368,7 +3438,8 @@
                 <!-- Card 1 -->
                 <div class="pricing__card pricing-card-anim">
                     <div class="pricing__image-container">
-                        <img src="assets/pote-1.png.png" onerror="this.src='pote-1.png.png'" alt="1 Pote Reset 24h" class="pricing__image">
+                        <img src="assets/pote-1.png" onerror="this.src='pote-1.png'" alt="1 Pote Reset 24h"
+                            class="pricing__image">
                     </div>
                     <div class="pricing__months">Experiência 1 Mês</div>
                     <div class="pricing__original-price">De R$ 247,00</div>
@@ -3379,17 +3450,22 @@
                     <div class="pricing__save-badge">Economize R$ 50,00</div>
                     <div class="pricing__divider"></div>
                     <ul class="pricing__features">
-                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"></path></svg> 1 Pote (30 Doses)</li>
-                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"></path></svg> R$ 6,56 por dose</li>
+                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M20 6L9 17l-5-5"></path>
+                            </svg> 1 Pote (30 Doses)</li>
+                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M20 6L9 17l-5-5"></path>
+                            </svg> R$ 6,56 por dose</li>
                     </ul>
                     <a href="#checkout" class="pricing__btn pricing__btn--outline">Quero ativar meu foco</a>
                 </div>
-                
+
                 <!-- Card 2 (Popular) -->
                 <div class="pricing__card pricing__card--popular pricing-card-anim">
                     <div class="pricing__badge">Mais popular</div>
                     <div class="pricing__image-container">
-                        <img src="assets/pote-2.png.png" onerror="this.src='pote-2.png.png'" alt="2 Potes Reset 24h" class="pricing__image">
+                        <img src="assets/pote-2.png" onerror="this.src='pote-2.png'" alt="2 Potes Reset 24h"
+                            class="pricing__image">
                     </div>
                     <div class="pricing__months">Experiência 2 Meses</div>
                     <div class="pricing__original-price">De R$ 494,00</div>
@@ -3400,9 +3476,15 @@
                     <div class="pricing__save-badge">Economize R$ 197,00</div>
                     <div class="pricing__divider"></div>
                     <ul class="pricing__features">
-                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"></path></svg> 2 Potes (60 Doses)</li>
-                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"></path></svg> <b>Frete Grátis</b></li>
-                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"></path></svg> R$ 4,95 por dose</li>
+                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M20 6L9 17l-5-5"></path>
+                            </svg> 2 Potes (60 Doses)</li>
+                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M20 6L9 17l-5-5"></path>
+                            </svg> <b>Frete Grátis</b></li>
+                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M20 6L9 17l-5-5"></path>
+                            </svg> R$ 4,95 por dose</li>
                     </ul>
                     <a href="#checkout" class="pricing__btn pricing__btn--solid">Quero ativar meu foco</a>
                 </div>
@@ -3410,7 +3492,8 @@
                 <!-- Card 3 -->
                 <div class="pricing__card pricing-card-anim">
                     <div class="pricing__image-container">
-                        <img src="assets/pote-3.png.png" onerror="this.src='pote-3.png.png'" alt="3 Potes Reset 24h" class="pricing__image">
+                        <img src="assets/pote-3.png" onerror="this.src='pote-3.png'" alt="3 Potes Reset 24h"
+                            class="pricing__image">
                     </div>
                     <div class="pricing__months">Experiência 3 Meses</div>
                     <div class="pricing__original-price">De R$ 741,00</div>
@@ -3421,10 +3504,18 @@
                     <div class="pricing__save-badge">Economize R$ 344,00</div>
                     <div class="pricing__divider"></div>
                     <ul class="pricing__features">
-                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"></path></svg> 3 Potes (90 Doses)</li>
-                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"></path></svg> <b>Frete Grátis</b></li>
-                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"></path></svg> E-book Nutrição Extra</li>
-                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"></path></svg> R$ 4,41 por dose</li>
+                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M20 6L9 17l-5-5"></path>
+                            </svg> 3 Potes (90 Doses)</li>
+                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M20 6L9 17l-5-5"></path>
+                            </svg> <b>Frete Grátis</b></li>
+                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M20 6L9 17l-5-5"></path>
+                            </svg> E-book Nutrição Extra</li>
+                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M20 6L9 17l-5-5"></path>
+                            </svg> R$ 4,41 por dose</li>
                     </ul>
                     <a href="#checkout" class="pricing__btn pricing__btn--outline">Quero ativar meu foco</a>
                 </div>
@@ -3436,32 +3527,40 @@
     <section class="faq-section" id="faq">
         <div class="faq__container">
             <h2 class="faq__title faq-anim-item">Perguntas Frequentes</h2>
-            
+
             <div class="faq__item faq-anim-item">
                 <h3 class="faq__question">Como devo tomar o Reset 24h?<span class="faq__icon"></span></h3>
                 <div class="faq__answer">
-                    <div class="faq__answer-inner">Misture 1 scoop (medidor incluso) em 200ml de água gelada. Tome aproximadamente 20 a 30 minutos antes do seu treino para máxima ativação.</div>
+                    <div class="faq__answer-inner">Misture 1 scoop (medidor incluso) em 200ml de água gelada. Tome
+                        aproximadamente 20 a 30 minutos antes do seu treino para máxima ativação.</div>
                 </div>
             </div>
-            
+
             <div class="faq__item faq-anim-item">
-                <h3 class="faq__question">Tem efeitos colaterais como ansiedade ou taquicardia?<span class="faq__icon"></span></h3>
+                <h3 class="faq__question">Tem efeitos colaterais como ansiedade ou taquicardia?<span
+                        class="faq__icon"></span></h3>
                 <div class="faq__answer">
-                    <div class="faq__answer-inner">Não. Nossa fórmula foi desenvolvida com cafeína microencapsulada e palatinose para entregar uma curva de energia estável, evitando os picos agressivos e as quedas bruscas (crash) comuns em pré-treinos convencionais.</div>
+                    <div class="faq__answer-inner">Não. Nossa fórmula foi desenvolvida com cafeína microencapsulada e
+                        palatinose para entregar uma curva de energia estável, evitando os picos agressivos e as quedas
+                        bruscas (crash) comuns em pré-treinos convencionais.</div>
                 </div>
             </div>
-            
+
             <div class="faq__item faq-anim-item">
                 <h3 class="faq__question">Quebra o jejum?<span class="faq__icon"></span></h3>
                 <div class="faq__answer">
-                    <div class="faq__answer-inner">O Reset 24h contém uma pequena quantidade de carboidratos de baixo índice glicêmico (Palatinose) para energia sustentada, o que pode interromper jejuns restritos dependendo do seu protocolo. Recomendamos consultar seu nutricionista.</div>
+                    <div class="faq__answer-inner">O Reset 24h contém uma pequena quantidade de carboidratos de baixo
+                        índice glicêmico (Palatinose) para energia sustentada, o que pode interromper jejuns restritos
+                        dependendo do seu protocolo. Recomendamos consultar seu nutricionista.</div>
                 </div>
             </div>
-            
+
             <div class="faq__item faq-anim-item">
                 <h3 class="faq__question">Qual o prazo de entrega?<span class="faq__icon"></span></h3>
                 <div class="faq__answer">
-                    <div class="faq__answer-inner">O prazo médio é de 3 a 7 dias úteis para Sul e Sudeste, e de 5 a 12 dias úteis para as demais regiões do Brasil. Enviaremos o código de rastreio para o seu e-mail assim que despachado.</div>
+                    <div class="faq__answer-inner">O prazo médio é de 3 a 7 dias úteis para Sul e Sudeste, e de 5 a 12
+                        dias úteis para as demais regiões do Brasil. Enviaremos o código de rastreio para o seu e-mail
+                        assim que despachado.</div>
                 </div>
             </div>
         </div>
@@ -3472,7 +3571,8 @@
         <div class="footer__container">
             <div class="footer__brand">
                 <img src="assets/29658988-9df9-45e8-ad8f-23fe08af6022.png" alt="Reset 24h">
-                <p>Performance, clareza e foco sustentado. Uma nova geração de suplementação premium desenvolvida para o metabolismo feminino.</p>
+                <p>Performance, clareza e foco sustentado. Uma nova geração de suplementação premium desenvolvida para o
+                    metabolismo feminino.</p>
             </div>
             <div>
                 <h4 class="footer__title">Links Úteis</h4>
@@ -3523,7 +3623,7 @@
         });
 
         document.addEventListener('DOMContentLoaded', () => {
-            if(typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+            if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
                 // Title
                 gsap.set('.pricing-title-anim', { opacity: 0, y: 40, filter: "blur(10px)" });
                 ScrollTrigger.create({
@@ -3550,11 +3650,11 @@
                 const cards = document.querySelectorAll('.pricing-card-anim');
                 cards.forEach((card, index) => {
                     const isPopular = card.classList.contains('pricing__card--popular');
-                    gsap.set(card, { 
-                        opacity: 0, 
-                        y: 60, 
-                        scale: isPopular ? 1.05 : 1, 
-                        filter: "blur(15px)" 
+                    gsap.set(card, {
+                        opacity: 0,
+                        y: 60,
+                        scale: isPopular ? 1.05 : 1,
+                        filter: "blur(15px)"
                     });
 
                     tl.to(card, {
@@ -4329,4 +4429,5 @@
         });
     </script>
 </body>
+
 </html>
