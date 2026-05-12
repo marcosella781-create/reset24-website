@@ -1,0 +1,17 @@
+# Desenvolvimento
+build_ds.ps1
+consolidate_assets.py
+test.txt
+design-system.html
+premium.html
+
+# Referências locais (não vão para produção)
+reference/
+
+# RAR de backup
+assets/hero-sequence - Copia.rar
+
+# Sistema
+.DS_Store
+Thumbs.db
+*.log

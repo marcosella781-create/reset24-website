@@ -2,7 +2,6 @@
 <html lang="pt-BR">
 
 <head>
-<<<<<<< HEAD
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pré-treino Feminino Premium</title>
@@ -998,367 +997,8 @@
             }
         }
     </style>
-=======
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Crea Babi - Creatina Feminina Premium</title>
-
-  <!-- GSAP -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-
-  <!-- Google Fonts: Inter -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;800;900&display=swap"
-    rel="stylesheet">
-
-  <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
-
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: { sans: ['Inter', 'sans-serif'] },
-        }
-      }
-    }
-  </script>
-
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      overflow-x: hidden;
-      font-family: 'Inter', sans-serif;
-      background: linear-gradient(135deg, #fff5f6 0%, #ffe4e6 100%);
-      color: #111827;
-    }
-
-    .bg-layer {
-      position: fixed;
-      inset: 0;
-      z-index: -1;
-      background: linear-gradient(180deg, rgba(255, 241, 242, 0) 0%, rgba(254, 205, 211, 0.5) 100%);
-      opacity: 0;
-      transition: opacity 0.5s ease;
-    }
-
-    /* Botão Premium */
-    .btn-buy {
-      background-color: #e11d48;
-      color: white;
-      padding: 1.25rem 3rem;
-      border-radius: 9999px;
-      font-weight: 800;
-      font-size: 1.125rem;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      box-shadow: 0 10px 25px -5px rgba(225, 29, 72, 0.4);
-      border: none;
-      cursor: pointer;
-    }
-
-    .btn-buy:hover {
-      background-color: #be123c;
-      transform: translateY(-3px) scale(1.02);
-      box-shadow: 0 20px 30px -10px rgba(225, 29, 72, 0.5);
-    }
-
-    /* Garantir que o texto inicial não trave clicks do botão enquanto sobreposto */
-    .hero-text-container {
-      will-change: transform, opacity, filter;
-      position: relative;
-      z-index: 2;
-    }
-
-    .hero-text-container::before {
-      content: "";
-      position: absolute;
-      inset: -40px;
-      background: linear-gradient(to right,
-          rgba(0, 0, 0, 0.6),
-          rgba(0, 0, 0, 0.3),
-          transparent);
-      filter: blur(40px);
-      z-index: -1;
-    }
-
-    .hero-text-container h2,
-    .hero-text-container h1 {
-      font-weight: 800;
-      letter-spacing: -1.5px;
-      line-height: 1.05;
-      color: #fff;
-
-      text-shadow:
-        0 4px 20px rgba(0, 0, 0, 0.5),
-        0 2px 6px rgba(0, 0, 0, 0.4);
-    }
-
-    .text-rose-400 {
-      color: #9e1b32;
-      /* Strong Ruby */
-      font-weight: 800;
-      display: inline-block;
-      position: relative;
-    }
-
-
-
-    /* Immersive Scroll Styles */
-    .horizontal-track {
-      display: flex !important;
-      flex-direction: row !important;
-      flex-wrap: nowrap !important;
-      width: 100% !important;
-      height: 100vh !important;
-      will-change: transform;
-    }
-
-    .step-slide {
-      position: relative !important;
-      overflow: hidden !important;
-      flex-shrink: 0 !important;
-      width: 100vw !important;
-      height: 100vh !important;
-      margin: 0 !important;
-      padding: 0 !important;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    /* Layers */
-    .slide-layer {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .layer-bg {
-      z-index: 1;
-      overflow: hidden;
-    }
-
-    .layer-mid {
-      z-index: 2;
-      justify-content: center;
-      padding: 0;
-
-      /* Subtle lighting overlay on top of the image */
-      &::after {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background: radial-gradient(circle at center, transparent 30%, rgba(0, 0, 0, 0.1) 100%);
-        pointer-events: none;
-      }
-    }
-
-    .layer-fg {
-      z-index: 4;
-    }
-
-    .layer-overlay {
-      z-index: 2.5;
-      /* Strong directional veil — keeps text zone clean on every slide */
-      background: linear-gradient(
-        to right,
-        rgba(0, 0, 0, 0.75) 0%,
-        rgba(0, 0, 0, 0.45) 35%,
-        rgba(0, 0, 0, 0.15) 60%,
-        transparent 80%
-      );
-      pointer-events: none;
-      opacity: 1;
-    }
-
-    .layer-text {
-      z-index: 3;
-      justify-content: flex-start;
-      text-align: left;
-      padding-left: 10%;
-      padding-right: 52%; /* Hard left-half safe zone — product always unobstructed */
-      pointer-events: auto;
-    }
-
-    /* Close-range contrast cushion — covers the full text safe zone */
-    .layer-text::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(
-        to right,
-        rgba(0, 0, 0, 0.30) 0%,
-        rgba(0, 0, 0, 0.14) 50%,
-        transparent 65%
-      );
-      pointer-events: none;
-      z-index: -1;
-    }
-
-    .layer-text h2,
-    .layer-text p {
-      opacity: 0;
-      filter: blur(8px);
-      transform: translateY(20px);
-    }
-
-    /* First slide text is pre-visible — no entrance animation needed */
-    .step-slide:first-child .layer-text h2,
-    .step-slide:first-child .layer-text p {
-      opacity: 1;
-      filter: blur(0px);
-      transform: translateY(0);
-    }
-
-    .layer-text h2 {
-      color: #ffffff;
-      font-size: clamp(2.4rem, 5.5vw, 5.5rem); /* Dominant campaign scale */
-      line-height: 1.05;
-      letter-spacing: -0.02em;
-      font-weight: 900;
-      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.30);
-    }
-
-    .layer-text p {
-      font-size: clamp(1rem, 1.8vw, 1.35rem);
-      color: rgba(255, 255, 255, 0.75); /* Stepped back for hierarchy */
-      font-weight: 400;
-      line-height: 1.6;
-      max-width: 38ch;
-    }
-
-    .layer-text span {
-      color: #9e1b32; /* Rich ruby — vivid against the dark contrast zone */
-      font-weight: 900;
-      letter-spacing: -0.01em;
-    }
-
-    /* Liquid/Gradient BG */
-    .liquid-bg {
-      position: absolute;
-      width: 150%;
-      height: 150%;
-      top: -25%;
-      left: -25%;
-      filter: blur(80px);
-      opacity: 0.55;
-      background: radial-gradient(circle at center, var(--bg-accent) 0%, transparent 70%);
-    }
-
-    /* Floating model / Cover Images */
-    .model-img {
-      width: 100% !important;
-      height: 100% !important;
-      object-fit: cover !important;
-      position: absolute !important;
-      top: 0 !important;
-      left: 0 !important;
-      z-index: 2;
-      filter: drop-shadow(0 20px 50px rgba(0, 0, 0, 0.15));
-      opacity: 1;
-    }
-
-    /* 🍒 Luxury Cherry Highlights & Jewelry Accents */
-    .step-slide::before {
-      content: '';
-      position: absolute;
-      width: 40vw;
-      height: 40vw;
-      background: radial-gradient(circle, rgba(225, 29, 72, 0.1) 0%, transparent 70%);
-      filter: blur(100px);
-      z-index: 1;
-      pointer-events: none;
-      animation: softPulse 10s ease-in-out infinite alternate;
-    }
-
-    @keyframes softPulse {
-      from {
-        opacity: 0.3;
-        transform: scale(1);
-      }
-
-      to {
-        opacity: 0.6;
-        transform: scale(1.1);
-      }
-    }
-
-    /* Integrated Cherry Accent (Jewelry Style) */
-    .layer-mid::after {
-      content: '';
-      position: absolute;
-      width: 45px;
-      height: 45px;
-      background: url('assets/images/single_cherry,_isolated,_202604091223-Photoroom.png') no-repeat center/contain;
-      z-index: 5;
-      filter: drop-shadow(0 15px 25px rgba(225, 29, 72, 0.2));
-      opacity: 0.9;
-      pointer-events: none;
-      transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    /* Position accents intentionally per slide */
-    .step-slide:nth-child(1) .layer-mid::after {
-      bottom: 20%;
-      right: 28%;
-      transform: rotate(-15deg);
-    }
-
-    .step-slide:nth-child(2) .layer-mid::after {
-      top: 25%;
-      left: 32%;
-      width: 55px;
-      height: 55px;
-      transform: rotate(10deg);
-    }
-
-    .step-slide:nth-child(3) .layer-mid::after {
-      bottom: 15%;
-      left: 25%;
-      opacity: 0.6;
-      filter: blur(1px) drop-shadow(0 10px 20px rgba(0, 0, 0, 0.1));
-    }
-
-    .step-slide:nth-child(4) .layer-mid::after {
-      top: 15%;
-      right: 25%;
-      transform: rotate(20deg);
-    }
-
-    /* Faint background texture icon */
-    .layer-bg::after {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 80vh;
-      height: 80vh;
-      background: url('assets/images/single_cherry,_isolated,_202604091223-Photoroom.png') no-repeat center/contain;
-      opacity: 0.02;
-      filter: grayscale(1) brightness(1.5);
-      z-index: 0;
-      pointer-events: none;
-    }
-  </style>
->>>>>>> 716430c2e6cf059d93c1e839679bd023697ae8a3
 </head>
-
 <body>
-
-<<<<<<< HEAD
     <section class="hero-section" id="hero">
         <!-- VÍDEO OTIMIZADO APPLE-STYLE: CANVAS DE SEQUÊNCIA DE IMAGENS (ZERO LAG) -->
         <canvas id="hero-canvas" class="hero__video-bg"></canvas>
@@ -1366,7 +1006,7 @@
 
         <header class="header">
             <div class="hero-anim-item">
-                <img src="../@assets/29658988-9df9-45e8-ad8f-23fe08af6022.png" alt="Logo" class="header__logo">
+                <img src="assets/29658988-9df9-45e8-ad8f-23fe08af6022.png" alt="Logo" class="header__logo">
             </div>
         </header>
 
@@ -1454,12 +1094,12 @@
             <div class="sobre__right scroll-anim-item">
                 <div class="image-wrapper">
                     <!-- img-1: Woman (Portrait) -->
-                    <img src="../9ea64c24-1bd3-4487-8fc2-23312cc97825.png" alt="Bem-Estar Vora" class="img-1" />
+                    <img src="assets/9ea64c24-1bd3-4487-8fc2-23312cc97825.png" alt="Bem-Estar Vora" class="img-1" />
                     <!-- img-2: Product/Tub (Landscape) -->
-                    <img src="../Generated Image February 27, 2026 - 6_15PM.png" alt="Produto Vora Premium"
+                    <img src="assets/Generated Image February 27, 2026 - 6_15PM.png" alt="Produto Vora Premium"
                         class="img-2" />
                     <!-- img-3: Detail (Square) -->
-                    <img src="../Generated Image February 20, 2026 - 10_48PM.png" alt="Detalhe Vora Life"
+                    <img src="assets/Generated Image February 20, 2026 - 10_48PM.png" alt="Detalhe Vora Life"
                         class="img-3" />
                 </div>
             </div>
@@ -1468,21 +1108,21 @@
             <div class="marquee">
                 <div class="marquee-content">
                     <!-- Duplicado para loop infinito -->
-                    <div class="marquee-item"><img src="../@assets/29658988-9df9-45e8-ad8f-23fe08af6022.png"
+                    <div class="marquee-item"><img src="assets/29658988-9df9-45e8-ad8f-23fe08af6022.png"
                             style="height: 24px; filter: brightness(0) invert(1);" alt="Icon"> Reset 24h</div>
-                    <div class="marquee-item"><img src="../@assets/29658988-9df9-45e8-ad8f-23fe08af6022.png"
+                    <div class="marquee-item"><img src="assets/29658988-9df9-45e8-ad8f-23fe08af6022.png"
                             style="height: 24px; filter: brightness(0) invert(1);" alt="Icon"> Reset 24h</div>
-                    <div class="marquee-item"><img src="../@assets/29658988-9df9-45e8-ad8f-23fe08af6022.png"
+                    <div class="marquee-item"><img src="assets/29658988-9df9-45e8-ad8f-23fe08af6022.png"
                             style="height: 24px; filter: brightness(0) invert(1);" alt="Icon"> Reset 24h</div>
-                    <div class="marquee-item"><img src="../@assets/29658988-9df9-45e8-ad8f-23fe08af6022.png"
+                    <div class="marquee-item"><img src="assets/29658988-9df9-45e8-ad8f-23fe08af6022.png"
                             style="height: 24px; filter: brightness(0) invert(1);" alt="Icon"> Reset 24h</div>
-                    <div class="marquee-item"><img src="../@assets/29658988-9df9-45e8-ad8f-23fe08af6022.png"
+                    <div class="marquee-item"><img src="assets/29658988-9df9-45e8-ad8f-23fe08af6022.png"
                             style="height: 24px; filter: brightness(0) invert(1);" alt="Icon"> Reset 24h</div>
-                    <div class="marquee-item"><img src="../@assets/29658988-9df9-45e8-ad8f-23fe08af6022.png"
+                    <div class="marquee-item"><img src="assets/29658988-9df9-45e8-ad8f-23fe08af6022.png"
                             style="height: 24px; filter: brightness(0) invert(1);" alt="Icon"> Reset 24h</div>
-                    <div class="marquee-item"><img src="../@assets/29658988-9df9-45e8-ad8f-23fe08af6022.png"
+                    <div class="marquee-item"><img src="assets/29658988-9df9-45e8-ad8f-23fe08af6022.png"
                             style="height: 24px; filter: brightness(0) invert(1);" alt="Icon"> Reset 24h</div>
-                    <div class="marquee-item"><img src="../@assets/29658988-9df9-45e8-ad8f-23fe08af6022.png"
+                    <div class="marquee-item"><img src="assets/29658988-9df9-45e8-ad8f-23fe08af6022.png"
                             style="height: 24px; filter: brightness(0) invert(1);" alt="Icon"> Reset 24h</div>
                 </div>
             </div>
@@ -1491,7 +1131,7 @@
     <!-- Seção de Tecnologia Avançada -->
     <section class="technology" id="tecnologia">
         <!-- Floating Transparent Portrait Background -->
-        <img src="./assets/5d23773a-4da2-4fdc-9cc1-2031cb25ea25.jpg" alt="Especialista Performance"
+        <img src="assets/5d23773a-4da2-4fdc-9cc1-2031cb25ea25.jpg" alt="Especialista Performance"
             class="tech__bg-portrait">
 
         <div class="tech__container">
@@ -1536,7 +1176,7 @@
     <section class="conversion" id="comprar">
         <!-- The Fullscreen Video Background -->
         <div class="conv__video-bg">
-            <video src="../Lemons_falling_sachet_opening_e26d169c44.mp4" autoplay loop muted playsinline
+            <video src="assets/Lemons_falling_sachet_opening_e26d169c44.mp4" autoplay loop muted playsinline
                 poster=""></video>
         </div>
 
@@ -1950,20 +1590,17 @@
 
         .comp-final-cta {
             position: relative;
-            overflow: visible;
-            /* Modificado de hidden para evitar cortar o topo */
-            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7) 0%, #000000 120px);
+            overflow: hidden;
+            background: #000;
             padding: 120px 5%;
             padding-top: 80px;
-            /* Adicionado padding para afastar o vídeo da transição */
             display: flex;
             flex-direction: column;
             justify-content: center;
-            /* Centraliza verticalmente o lado inteiro */
             align-items: flex-end;
-            /* Alinha no final na direita */
             margin-top: -120px;
             z-index: 1;
+            min-height: 100vh;
         }
 
         .final-cta__texture {
@@ -2016,19 +1653,11 @@
         .final-cta__video-bg {
             position: absolute;
             top: 0;
-            /* Começa do topo após o padding do container devido a ser position absolute num relativo */
             left: 0;
             width: 100%;
-            height: auto;
-            object-fit: contain;
-            /* Foca no atleta para mantê-lo bem visível em resoluções diferentes */
-            object-position: left center;
+            height: 100%;
             z-index: 0;
-            /* Atrás do overlay */
-            background-color: transparent;
-            /* Escala mais agressiva para certificar que a marca d'água Veo no canto inferior direito suma da tela */
-            transform: scale(1.1);
-            transform-origin: center center;
+            background-color: #000;
         }
 
         .final-cta__vignette {
@@ -2600,6 +2229,13 @@
             transform: scale(1.03);
         }
 
+        .testimonials__card video,
+        .testimonials__card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
         /* CTA Button */
         .testimonials__cta {
             margin-top: 5rem;
@@ -3036,14 +2672,14 @@
 
                 <!-- Coluna Direita: Modelo Dominante (Restaurada) -->
                 <div class="comp-tech-right">
-                    <img src="../Design sem nome (18).png" alt="Comparativo Reset 24h Modelo" class="tech-model-hero" />
+                    <img src="assets/Design sem nome (18).png" alt="Comparativo Reset 24h Modelo" class="tech-model-hero" />
                 </div>
             </div>
         </section>
 
         <!-- BLOCO 2 - GLUTATIONA 120VH -->
         <section class="comp-immersive" id="comp-sec-1">
-            <img src="../Generated Image February 28, 2026 - 3_20PM.png" class="img-layer" alt="Glutationa">
+            <img src="assets/Generated Image February 28, 2026 - 3_20PM.png" class="img-layer" alt="Glutationa">
             <div class="overlay-layer"></div>
             <div class="content-layer">
                 <div class="comp-text-block">
@@ -3073,7 +2709,7 @@
 
         <!-- BLOCO 3 - COLÁGENO 120VH -->
         <section class="comp-immersive" id="comp-sec-2">
-            <img src="../Generated Image February 28, 2026 - 2_47PM.png" class="img-layer" alt="Colágeno">
+            <img src="assets/Generated Image February 28, 2026 - 2_47PM.png" class="img-layer" alt="Colágeno">
             <div class="overlay-layer"></div>
             <div class="content-layer">
                 <div class="comp-text-block">
@@ -3103,7 +2739,7 @@
 
         <!-- BLOCO 4 - CONSTÂNCIA 120VH -->
         <section class="comp-immersive" id="comp-sec-3">
-            <img src="../Generated Image February 28, 2026 - 3_39PM.png" class="img-layer" alt="Constância">
+            <img src="assets/Generated Image February 28, 2026 - 3_39PM.png" class="img-layer" alt="Constância">
             <div class="overlay-layer"></div>
             <div class="content-layer">
                 <div class="comp-text-block">
@@ -3143,8 +2779,6 @@
             <!-- Luzes por Cima do Vídeo na Direita -->
             <div class="final-cta__right-light"></div>
 
-            <!-- Efeitos por cima do vídeo removidos para manter o fundo limpo e uniforme -->
-
             <div class="comp-final-cta-content">
                 <h2 class="comp-final-cta-title">
                     <span>A decisão</span>
@@ -3180,7 +2814,7 @@
                 <div class="sache__container">
                     <!-- Esquerda: Imagem Lifestyle / Social Proof -->
                     <div class="sache__left">
-                        <img src="../assets/Generated Image March 05, 2026 - 9_20AM.png"
+                        <img src="assets/Generated Image March 05, 2026 - 9_20AM.png"
                             alt="A praticidade do sachê no dia a dia" class="sache__image">
                     </div>
 
@@ -3253,55 +2887,25 @@
                 <div class="testimonials__slider-container">
                     <div class="testimonials__slider-viewport" id="testimonials-slider">
                         <div class="testimonials__slider-track">
-                            <!-- Card 1 -->
+                            <!-- Card 1 (Video) -->
                             <div class="testimonials__card">
-                                <div class="testimonials__video-placeholder">
-                                    <div class="testimonials__play-btn">
-                                        <svg viewBox="0 0 24 24">
-                                            <path d="M8 5v14l11-7z" />
-                                        </svg>
-                                    </div>
-                                </div>
+                                <video src="assets/Pouch_assembling_lightning_bolt_delpmaspu_.mp4" autoplay loop muted playsinline></video>
                             </div>
-                            <!-- Card 2 -->
+                            <!-- Card 2 (Video) -->
                             <div class="testimonials__card">
-                                <div class="testimonials__video-placeholder">
-                                    <div class="testimonials__play-btn">
-                                        <svg viewBox="0 0 24 24">
-                                            <path d="M8 5v14l11-7z" />
-                                        </svg>
-                                    </div>
-                                </div>
+                                <video src="assets/Design sem nome (14).mp4" autoplay loop muted playsinline></video>
                             </div>
-                            <!-- Card 3 -->
+                            <!-- Card 3 (Image) -->
                             <div class="testimonials__card">
-                                <div class="testimonials__video-placeholder">
-                                    <div class="testimonials__play-btn">
-                                        <svg viewBox="0 0 24 24">
-                                            <path d="M8 5v14l11-7z" />
-                                        </svg>
-                                    </div>
-                                </div>
+                                <img src="assets/Luxury_feminine_fitness_202604141608.png" alt="Testimonial 1">
                             </div>
-                            <!-- Card 4 -->
+                            <!-- Card 4 (Image) -->
                             <div class="testimonials__card">
-                                <div class="testimonials__video-placeholder">
-                                    <div class="testimonials__play-btn">
-                                        <svg viewBox="0 0 24 24">
-                                            <path d="M8 5v14l11-7z" />
-                                        </svg>
-                                    </div>
-                                </div>
+                                <img src="assets/female_fitness_model_202604141311 (1).png" alt="Testimonial 2">
                             </div>
-                            <!-- Card 5 -->
+                            <!-- Card 5 (Image) -->
                             <div class="testimonials__card">
-                                <div class="testimonials__video-placeholder">
-                                    <div class="testimonials__play-btn">
-                                        <svg viewBox="0 0 24 24">
-                                            <path d="M8 5v14l11-7z" />
-                                        </svg>
-                                    </div>
-                                </div>
+                                <img src="assets/clean_feminine_fitness_202604141305.png" alt="Testimonial 3">
                             </div>
                         </div>
                     </div>
@@ -3867,7 +3471,7 @@
     <footer class="footer">
         <div class="footer__container">
             <div class="footer__brand">
-                <img src="../@assets/29658988-9df9-45e8-ad8f-23fe08af6022.png" alt="Reset 24h">
+                <img src="assets/29658988-9df9-45e8-ad8f-23fe08af6022.png" alt="Reset 24h">
                 <p>Performance, clareza e foco sustentado. Uma nova geração de suplementação premium desenvolvida para o metabolismo feminino.</p>
             </div>
             <div>
@@ -3995,7 +3599,7 @@
 
             const frameCount = 192; // Total de imagens na pasta
             const currentFrame = index => (
-                `../assets/hero-sequence/ezgif-frame-${(index + 1).toString().padStart(3, '0')}.jpg`
+                `assets/hero-sequence/ezgif-frame-${(index + 1).toString().padStart(3, '0')}.jpg`
             );
 
             const images = [];
@@ -4304,12 +3908,18 @@
             const finalCanvas = document.getElementById('final-cta-canvas');
             if (finalCanvas) {
                 const finalCtx = finalCanvas.getContext('2d');
-                finalCanvas.width = 1920;
-                finalCanvas.height = 1080;
 
-                const finalFrameCount = 120; // 120 frames in ezgif folder
+                // Match canvas resolution to displayed size for crisp rendering
+                function resizeFinalCanvas() {
+                    finalCanvas.width = finalCanvas.offsetWidth;
+                    finalCanvas.height = finalCanvas.offsetHeight;
+                }
+                resizeFinalCanvas();
+                window.addEventListener('resize', resizeFinalCanvas);
+
+                const finalFrameCount = 120; // 120 frames in cta-sequence folder
                 const finalCurrentFrame = index => (
-                    `../assets/ezgif-488c9496b30944d4-jpg/ezgif-frame-${(index + 1).toString().padStart(3, '0')}.jpg`
+                    `assets/cta-sequence/ezgif-frame-${(index + 1).toString().padStart(3, '0')}.jpg`
                 );
 
                 const finalImages = [];
@@ -4323,10 +3933,35 @@
                 }
 
                 function finalRender() {
-                    finalCtx.clearRect(0, 0, finalCanvas.width, finalCanvas.height);
-                    if (finalImages[finalSequence.frame] && finalImages[finalSequence.frame].complete) {
-                        finalCtx.drawImage(finalImages[finalSequence.frame], 0, 0);
+                    const img = finalImages[finalSequence.frame];
+                    if (!img || !img.complete || !img.naturalWidth) return;
+
+                    const cw = finalCanvas.width;
+                    const ch = finalCanvas.height;
+                    finalCtx.clearRect(0, 0, cw, ch);
+
+                    // Object-fit: cover — mantém proporção sem distorção
+                    const canvasAspect = cw / ch;
+                    const imgAspect = img.naturalWidth / img.naturalHeight;
+                    let sx, sy, sw, sh;
+                    if (imgAspect > canvasAspect) {
+                        // Imagem mais larga: corta nas laterais
+                        sh = img.naturalHeight;
+                        sw = sh * canvasAspect;
+                        sx = (img.naturalWidth - sw) / 2;
+                        sy = 0;
+                    } else {
+                        // Imagem mais alta: corta em cima/baixo
+                        sw = img.naturalWidth;
+                        sh = sw / canvasAspect;
+                        sx = 0;
+                        sy = (img.naturalHeight - sh) / 2;
                     }
+                    finalCtx.drawImage(img, sx, sy, sw, sh, 0, 0, cw, ch);
+
+                    // Cobrir a marca d'água "Veo" no canto inferior direito
+                    finalCtx.fillStyle = '#000000';
+                    finalCtx.fillRect(cw - 140, ch - 50, 140, 50);
                 }
 
                 finalImages[0].onload = finalRender;
@@ -4693,364 +4328,5 @@
             observer.observe(section);
         });
     </script>
-=======
-  <div class="bg-layer" id="scroll-bg"></div>
-
-  <!-- 🎯 HERO SECTION (FULL VIDEO BACKGROUND) -->
-  <section
-    class="hero-section h-screen w-full relative overflow-hidden flex items-center justify-center lg:justify-start">
-
-    <!-- CANVAS EM TELA CHEIA (VIDEO) -->
-    <canvas id="hero-canvas" class="absolute top-0 left-0 w-full h-full object-cover z-0"></canvas>
-
-    <!-- OVERLAY SUAVE (Degradê escurinho na esquerda para destacar o texto, transparente na direita para brilhar o produto) -->
-    <div class="absolute inset-0 bg-gradient-to-r from-black/50 via-black/25 to-transparent z-0"></div>
-
-    <!-- TEXT CONTROLS -->
-    <div
-      class="hero-text-container px-6 sm:px-12 lg:px-24 w-full h-full flex flex-col justify-center text-left max-w-7xl mx-auto">
-      <div class="w-full lg:w-[50%] pt-20">
-        <h1
-          class="text-4xl sm:text-5xl lg:text-[5rem] font-black leading-[1.05] tracking-tight text-white mb-6 text-balance drop-shadow-2xl">
-          A primeira creatina feminina que não estufa
-        </h1>
-        <p
-          class="text-xl sm:text-2xl lg:text-3xl text-white/90 font-medium mb-10 max-w-lg leading-relaxed text-balance drop-shadow-lg">
-          Com prebióticos + eletrólitos. Mais leveza, melhor absorção e mais resultado.
-        </p>
-        <button class="btn-buy shadow-2xl">
-          Comprar agora
-        </button>
-      </div>
-    </div>
-
-  </section>
-
-  <!-- 🎯 HORIZONTAL SCROLL SECTION (FULL REWRITE) -->
-  <section id="horizontal-section" class="overflow-hidden bg-[#fff8f8]">
-    <div class="horizontal-track">
-
-      <!-- STEP 1: Melhor absorção -->
-      <div class="step-slide" style="--bg-accent: #ffe4e6;">
-        <div class="slide-layer layer-bg">
-          <div class="liquid-bg"></div>
-        </div>
-        <div class="slide-layer layer-mid">
-          <img src="assets/images/performance.png" alt="Wellness Model" class="model-img">
-        </div>
-        <div class="slide-layer layer-overlay"></div>
-
-        <div class="slide-layer layer-text">
-          <div class="max-w-xl">
-            <h2 class="font-black mb-6">
-              Seu corpo não absorve<br><span class="text-rose-400">como deveria</span>
-            </h2>
-            <p class="font-medium max-w-md">Você treina, se dedica… mas o resultado não acompanha.
-            </p>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- STEP 2: Menos desconforto -->
-      <div class="step-slide" style="--bg-accent: #fee2e2;">
-        <div class="slide-layer layer-bg">
-          <div class="liquid-bg" style="background: radial-gradient(circle at center, #fecdd3 0%, transparent 70%);">
-          </div>
-        </div>
-        <div class="slide-layer layer-mid">
-          <img src="assets/images/lifestyle.png" alt="Confident Model" class="model-img">
-        </div>
-        <div class="slide-layer layer-overlay"></div>
-
-        <div class="slide-layer layer-text">
-          <div class="max-w-xl">
-            <h2 class="font-black mb-6">
-              Chega de<br><span class="text-rose-400">inchaço e desconforto</span>
-            </h2>
-            <p class="font-medium max-w-md">Inchaço, peso no corpo e sensação ruim depois do treino não
-              são normais.</p>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- STEP 3: Mais leveza no corpo -->
-      <div class="step-slide" style="--bg-accent: #ffffff;">
-        <div class="slide-layer layer-bg">
-          <div class="liquid-bg" style="background: radial-gradient(circle at center, #fff1f2 0%, transparent 70%);">
-          </div>
-        </div>
-        <div class="slide-layer layer-mid">
-          <img src="assets/images/product.png" alt="Dynamic Model" class="model-img">
-        </div>
-        <div class="slide-layer layer-overlay"></div>
-
-        <div class="slide-layer layer-text">
-          <div class="max-w-xl">
-            <h2 class="font-black mb-6">
-              Não é só creatina<br><span class="text-rose-400">é absorção inteligente</span>
-            </h2>
-            <p class="font-medium max-w-md">Com prebióticos + eletrólitos, seu corpo absorve melhor e
-              responde de verdade.</p>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- STEP 4: Resultados consistentes -->
-      <div class="step-slide" style="--bg-accent: #e11d48;">
-        <div class="slide-layer layer-bg">
-          <div class="liquid-bg" style="background: radial-gradient(circle at center, #be123c 0%, transparent 70%);">
-          </div>
-        </div>
-        <div class="slide-layer layer-mid">
-          <img src="assets/images/ultra_premium_product_202604141308.png" alt="Aesthetic Model" class="model-img">
-        </div>
-        <div class="slide-layer layer-overlay"></div>
-
-        <div class="slide-layer layer-text">
-          <div class="max-w-xl">
-            <h2 class="font-black mb-6">
-              Leveza no corpo<br><span class="text-rose-400">resultado de verdade</span>
-            </h2>
-            <p class="font-medium max-w-md">Mais conforto, mais energia, mais resultado no seu
-              corpo.</p>
-          </div>
-        </div>
-
-      </div>
-
-    </div>
-  </section>
-
-  <!-- 3. PROVA -->
-  <section class="py-32 px-6 w-full animate-on-scroll relative z-20">
-    <div class="max-w-3xl mx-auto text-center">
-      <h3 class="text-2xl md:text-4xl font-extrabold text-gray-900 leading-snug tracking-tight italic mb-8">
-        "Eu sempre quis os benefícios da creatina, mas odiava me sentir inchada o dia todo. A Crea Babi finalmente
-        entregou a leveza que eu procurava."
-      </h3>
-      <div class="w-12 h-1 bg-rose-300 mx-auto rounded-full mb-4"></div>
-      <p class="font-bold text-gray-900">Mariana P.</p>
-      <p class="text-rose-600 text-sm font-semibold">Cliente Verificada</p>
-    </div>
-  </section>
-
-  <!-- 4. CTA FINAL -->
-  <section
-    class="py-32 px-6 w-full flex flex-col items-center text-center animate-on-scroll relative overflow-hidden z-20 object-contain">
-    <div class="absolute inset-0 bg-white/40 backdrop-blur-3xl z-0 border-t border-white/50"></div>
-    <div class="relative z-10 w-full max-w-4xl flex flex-col items-center">
-      <h2 class="text-4xl md:text-5xl font-black text-gray-900 mb-6 tracking-tight text-balance">
-        Você está pronta para se sentir mais leve e mais forte?
-      </h2>
-      <p class="text-xl text-gray-600 mb-10 max-w-lg font-medium">
-        Adquira agora e transforme seus treinos.
-      </p>
-      <button class="btn-buy">
-        Comprar agora
-      </button>
-    </div>
-  </section>
-
-  <footer class="py-10 text-center relative z-20">
-    <p class="text-gray-400 text-sm font-medium">© 2026 Crea Babi. Todos os direitos reservados.</p>
-  </footer>
-
-  <script>
-    gsap.registerPlugin(ScrollTrigger);
-
-    // 1. FADE SECTION SCROLL
-    const fadeSections = document.querySelectorAll('.animate-on-scroll');
-    fadeSections.forEach((sec) => {
-      gsap.from(sec, {
-        y: 60,
-        opacity: 0,
-        duration: 1,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: sec,
-          start: "top 85%",
-          toggleActions: "play none none reverse"
-        }
-      });
-    });
-
-    // 2. TIMELINE DO HERO (PIN + VIDEO + TEXT FADE/BLUR)
-    const frameCount = 150;
-    const currentFrame = index => `assets/frames/ezgif-frame-${(index + 1).toString().padStart(3, '0')}.png`;
-
-    const images = [];
-    const imageSeq = { frame: 0 };
-
-    for (let i = 0; i < frameCount; i++) {
-      const img = new Image();
-      img.src = currentFrame(i);
-      images.push(img);
-    }
-
-    const canvas = document.getElementById("hero-canvas");
-    const context = canvas?.getContext("2d");
-
-    if (canvas) {
-
-      // Função responsiva para tela inteira (Object Cover real)
-      function resizeCanvas() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        render();
-      }
-      window.addEventListener("resize", resizeCanvas);
-
-      images[0].onload = resizeCanvas;
-
-      function render() {
-        context.clearRect(0, 0, canvas.width, canvas.height);
-        let img = images[imageSeq.frame];
-        if (img && img.complete) {
-          // Object-cover matemática (Alinhando o vídeo à DIREITA para não chocar com o texto)
-          let hRatio = canvas.width / img.width;
-          let vRatio = canvas.height / img.height;
-          let ratio = Math.max(hRatio, vRatio);
-          let centerShift_x = (canvas.width - img.width * ratio) * 0.85; // Move o centro pra direita (85% invés de 50%)
-          let centerShift_y = (canvas.height - img.height * ratio) / 2;
-          context.drawImage(img, 0, 0, img.width, img.height,
-            centerShift_x, centerShift_y, img.width * ratio, img.height * ratio);
-        }
-      }
-
-      // Timeline que prende o painel
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: ".hero-section",
-          start: "top top",
-          end: "+=2000", // Fixa por 2000px
-          scrub: 0.5,
-          pin: true
-        }
-      });
-
-      // Passo 1: O texto sai "fazendo blur e fade" assim que comecamos a rolar.
-      tl.to(".hero-text-container", {
-        opacity: 0,
-        filter: "blur(20px)",
-        y: -100, // sobe desfocando
-        duration: 20 // Ocupa os primeiros 20 "frames" da timeline
-      }, 0);
-
-      // Passo 2: O canvas toca os frames de vídeo em paralelo (0 a 150)
-      tl.to(imageSeq, {
-        frame: frameCount - 1,
-        snap: "frame",
-        ease: "none",
-        duration: 150, // dura a timeline inteira
-        onUpdate: render
-      }, 0);
-    }
-
-    // 3. HORIZONTAL SCROLL ANIMATION (SLOWED DOWN + PAUSE)
-    const horizontalSection = document.querySelector('#horizontal-section');
-    const horizontalTrack = document.querySelector('.horizontal-track');
-    const slides = document.querySelectorAll('.step-slide');
-
-    if (horizontalSection && horizontalTrack && slides.length > 0) {
-      const numSlides = slides.length;
-      // Each slide = exactly 1 viewport width of scroll
-      const scrollDistance = window.innerWidth * (numSlides - 1);
-
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: horizontalSection,
-          pin: true,
-          scrub: true,          // Strict 1:1 — stops the instant scroll stops
-          start: "top top",
-          end: () => "+=" + scrollDistance,
-          invalidateOnRefresh: true,
-        }
-      });
-
-      // Single tween: track slides exactly proportional to scroll.
-      // overflow:hidden on both section and each slide clips everything neatly.
-      tl.to(horizontalTrack, {
-        xPercent: -100 * (numSlides - 1),
-        ease: "none",
-        duration: 1  // Normalized — ScrollTrigger maps this to scrollDistance
-      }, 0);
-
-      // Text entrance/exit — mathematically aligned to physical slide positions.
-      // step = fraction of timeline per slide. Slide i centers at t = i * step.
-      // fromTo guarantees correct state when scrubbing in both directions.
-      const step = 1 / (numSlides - 1);
-      const entranceDur = step * 0.35; // Text fully visible by the time slide centers
-      const exitDur    = step * 0.28; // Text fully gone by the time next slide centers
-
-      slides.forEach((slide, i) => {
-        const h2 = slide.querySelector('.layer-text h2');
-        const p  = slide.querySelector('.layer-text p');
-        const slideCenter = i * step;
-
-        // ENTRANCE — skip slide 0 (pre-visible via CSS)
-        if (i > 0) {
-          const eStart = slideCenter - entranceDur; // Starts before slide centers
-
-          tl.fromTo(h2,
-            { opacity: 0, y: 20, filter: 'blur(8px)' },
-            { opacity: 1, y: 0,  filter: 'blur(0px)', ease: 'power2.out', duration: entranceDur },
-            eStart
-          );
-
-          // Paragraph: very subtle stagger behind headline
-          tl.fromTo(p,
-            { opacity: 0, y: 14, filter: 'blur(5px)' },
-            { opacity: 1, y: 0,  filter: 'blur(0px)', ease: 'power2.out', duration: entranceDur },
-            eStart + step * 0.05
-          );
-        }
-
-        // EXIT — all slides except the last
-        if (i < numSlides - 1) {
-          const xStart = (i + 1) * step - exitDur; // Ends exactly when next slide centers
-
-          tl.fromTo(h2,
-            { opacity: 1, y: 0,   filter: 'blur(0px)' },
-            { opacity: 0, y: -12, filter: 'blur(6px)', ease: 'power2.in', duration: exitDur },
-            xStart
-          );
-
-          tl.fromTo(p,
-            { opacity: 1, y: 0,  filter: 'blur(0px)' },
-            { opacity: 0, y: -8, filter: 'blur(4px)', ease: 'power2.in', duration: exitDur },
-            xStart
-          );
-        }
-      });
-    }
-
-    window.addEventListener("load", function () {
-
-      if (document.querySelector(".hero-text")) {
-
-        gsap.from(".hero-text h1", {
-          y: 80,
-          opacity: 0,
-          duration: 1.2,
-          ease: "power3.out"
-        });
-
-        gsap.from(".hero-text p", {
-          y: 40,
-          opacity: 0,
-          duration: 1,
-          delay: 0.4,
-          ease: "power3.out"
-        });
-
-      }
-
-    });
-  </script>
->>>>>>> 716430c2e6cf059d93c1e839679bd023697ae8a3
 </body>
-
 </html>

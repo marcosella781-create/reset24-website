@@ -1,0 +1,1395 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Design System 10 — The White Glass & Geometry Epoch</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700;900&family=Space+Grotesk:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+
+    <!-- GSAP + ScrollTrigger (from local) -->
+    <script src="../parallax-geometry/assets/gsap_4a57399e4113.js"></script>
+    <script src="../parallax-geometry/assets/ScrollTrigger_8669edfeb171.js"></script>
+
+    <style>
+        /* ══════════════════════════════════════════════
+           ROOT TOKENS  —  Wix White Lineage + Light Glass
+           ══════════════════════════════════════════════ */
+        :root {
+            /* Base Colors */
+            --bg: #F9FAFB;
+            /* Off white base */
+            --bg-mid: #FFFFFF;
+            /* Pure white */
+            --text-primary: #0F172A;
+            /* Slate 900 */
+            --text-secondary: #475569;
+            /* Slate 600 */
+            --text-tertiary: #94A3B8;
+            /* Slate 400 */
+
+            /* Glass Surfaces */
+            --surface: rgba(255, 255, 255, 0.6);
+            --surface-hover: rgba(255, 255, 255, 0.85);
+            --surface-heavy: rgba(255, 255, 255, 0.95);
+
+            /* Borders */
+            --border: rgba(15, 23, 42, 0.08);
+            --border-hover: rgba(15, 23, 42, 0.2);
+            --border-white: rgba(255, 255, 255, 0.6);
+
+            /* Accents based on user's systems */
+            --accent-blue: #266AFF;
+            /* Wix primary */
+            --accent-purple: #D2C5FF;
+            /* Space */
+            --accent-green: #345C59;
+            /* Forest space */
+            --accent-cyan: #06B6D4;
+            --accent-neutral: #000000;
+            /* Black contrast */
+
+            /* Typography */
+            --font-display: 'Montserrat', sans-serif;
+            --font-body: 'Space Grotesk', sans-serif;
+
+            /* Type Scale */
+            --text-h1: 700 clamp(4rem, 8vw, 10rem)/1.1 var(--font-display);
+            --text-h2: 700 clamp(2.5rem, 5vw, 4rem)/1.2 var(--font-display);
+            --text-h3: 600 clamp(1.8rem, 3vw, 2.5rem)/1.2 var(--font-display);
+            --text-h4: 600 1.5rem/1.3 var(--font-body);
+            --text-h5: 600 1.25rem/1.4 var(--font-body);
+            --text-h6: 600 1.1rem/1.4 var(--font-body);
+
+            --text-body-lg: 400 1.125rem/1.6 var(--font-body);
+            --text-body: 400 1rem/1.5 var(--font-body);
+            --text-body-sm: 400 0.875rem/1.5 var(--font-body);
+
+            --text-label: 600 0.75rem/1.2 var(--font-body);
+
+            /* Geometry / Layout */
+            --radius-sm: 8px;
+            --radius: 16px;
+            --radius-lg: 24px;
+            --radius-pill: 9999px;
+            --spacing-section: 140px;
+        }
+
+        /* ══════════════════════════════════════════════
+           RESET & GLOBAL
+           ══════════════════════════════════════════════ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--bg);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            position: relative;
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 0, 0, 0.4);
+        }
+
+        /* ══════════════════════════════════════════════
+           GLOBAL BACKGROUND ANIMATIONS
+           ══════════════════════════════════════════════ */
+        .ambient-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -2;
+            overflow: hidden;
+            pointer-events: none;
+            background: var(--bg);
+        }
+
+        .liquid-blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.4;
+            animation: blobFloat 20s infinite alternate cubic-bezier(.4, 0, .2, 1);
+            mix-blend-mode: multiply;
+        }
+
+        .blob-1 {
+            top: -10%;
+            left: -10%;
+            width: 50vw;
+            height: 50vw;
+            background: var(--accent-purple);
+            animation-delay: 0s;
+        }
+
+        .blob-2 {
+            bottom: -20%;
+            right: -10%;
+            width: 60vw;
+            height: 60vw;
+            background: var(--accent-blue);
+            opacity: 0.2;
+            animation-delay: -5s;
+        }
+
+        .blob-3 {
+            top: 40%;
+            left: 40%;
+            width: 40vw;
+            height: 40vw;
+            background: var(--accent-cyan);
+            opacity: 0.15;
+            animation-delay: -10s;
+        }
+
+        @keyframes blobFloat {
+            0% {
+                transform: translate(0, 0) scale(1) rotate(0deg);
+            }
+
+            100% {
+                transform: translate(100px, 150px) scale(1.2) rotate(45deg);
+            }
+        }
+
+        /* Ambient Grid */
+        .ambient-grid {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background-image:
+                linear-gradient(to right, rgba(0, 0, 0, 0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none;
+            mask-image: radial-gradient(circle at center, black 20%, transparent 80%);
+            -webkit-mask-image: radial-gradient(circle at center, black 20%, transparent 80%);
+        }
+
+        /* ══════════════════════════════════════════════
+           NAVIGATION (Glass Navbar)
+           ══════════════════════════════════════════════ */
+        .ds-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 20px 40px;
+            transition: all 0.4s ease;
+        }
+
+        .ds-nav.scrolled {
+            padding: 10px 40px;
+        }
+
+        .ds-nav-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            backdrop-filter: blur(24px) saturate(180%);
+            -webkit-backdrop-filter: blur(24px) saturate(180%);
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 1);
+            border-radius: var(--radius-pill);
+            padding: 12px 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .ds-nav-logo {
+            font: var(--text-h6);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            text-decoration: none;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .ds-nav-logo .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--accent-blue);
+            box-shadow: 0 0 10px var(--accent-blue);
+            animation: pulse 2s infinite;
+        }
+
+        .ds-nav-links {
+            display: flex;
+            gap: 32px;
+        }
+
+        .ds-nav-links a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font: var(--text-label);
+            letter-spacing: 0.15em;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .ds-nav-links a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -4px;
+            width: 0%;
+            height: 2px;
+            background: var(--accent-blue);
+            transition: width 0.3s ease;
+        }
+
+        .ds-nav-links a:hover {
+            color: var(--text-primary);
+        }
+
+        .ds-nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* ══════════════════════════════════════════════
+           HERO SECTION (Light, Transparent Typography)
+           ══════════════════════════════════════════════ */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 120px 40px 60px;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 20px;
+            font: var(--text-label);
+            letter-spacing: 0.2em;
+            color: var(--accent-blue);
+            background: rgba(38, 106, 255, 0.08);
+            border: 1px solid rgba(38, 106, 255, 0.2);
+            border-radius: var(--radius-pill);
+            margin-bottom: 40px;
+        }
+
+        /* The famous transparent Wix lettering, adapted for Light Theme */
+        .hero-title {
+            font: var(--text-h1);
+            text-transform: uppercase;
+            letter-spacing: -0.03em;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .text-transparent-outline {
+            color: transparent;
+            -webkit-text-stroke: 1.5px var(--text-primary);
+            background-clip: text;
+        }
+
+        .text-transparent-outline-light {
+            color: transparent;
+            -webkit-text-stroke: 1.5px rgba(15, 23, 42, 0.2);
+        }
+
+        .text-gradient-dark {
+            background: linear-gradient(135deg, #000 0%, #475569 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-sub {
+            font: var(--text-body-lg);
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 50px;
+            letter-spacing: 0.02em;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 24px;
+            justify-content: center;
+        }
+
+        /* Floating Glass Cards inside Hero */
+        .hero-float-card {
+            position: absolute;
+            background: var(--surface);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+            border-radius: var(--radius);
+            padding: 24px;
+            z-index: 5;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .fc-1 {
+            top: 20%;
+            left: 10%;
+            animation: floatY 6s ease-in-out infinite;
+        }
+
+        .fc-2 {
+            bottom: 25%;
+            right: 10%;
+            animation: floatY 8s ease-in-out infinite reverse;
+        }
+
+        @keyframes floatY {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        /* ══════════════════════════════════════════════
+           COMPONENTS: BUTTONS
+           ══════════════════════════════════════════════ */
+        .ds-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            font: var(--text-label);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            padding: 16px 36px;
+            border-radius: var(--radius-pill);
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ds-btn-icon {
+            width: 14px;
+            height: 14px;
+            fill: currentColor;
+            transition: transform 0.4s ease;
+        }
+
+        .ds-btn:hover .ds-btn-icon {
+            transform: translateX(4px) scale(1.1);
+        }
+
+        /* Primary Black */
+        .btn-primary {
+            background: var(--text-primary);
+            color: #fff;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-primary:hover {
+            background: #000;
+            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* Outline Glass (Adapted Wix Ghost) */
+        .btn-outline {
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            color: var(--text-primary);
+        }
+
+        .btn-outline:hover {
+            background: #fff;
+            border-color: rgba(0, 0, 0, 0.2);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+            transform: translateY(-2px);
+        }
+
+        /* Glow Blue */
+        .btn-glow {
+            background: var(--accent-blue);
+            color: #fff;
+            position: relative;
+        }
+
+        .btn-glow::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            box-shadow: 0 0 20px 0px var(--accent-blue);
+            opacity: 0.5;
+            transition: opacity 0.3s;
+            z-index: -1;
+        }
+
+        .btn-glow:hover::before {
+            opacity: 0.9;
+            box-shadow: 0 0 30px 4px var(--accent-blue);
+        }
+
+        .btn-glow:hover {
+            transform: translateY(-2px);
+        }
+
+        /* ══════════════════════════════════════════════
+           SECTIONS LAYOUT
+           ══════════════════════════════════════════════ */
+        .ds-section {
+            padding: var(--spacing-section) 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 10;
+        }
+
+        .ds-section:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 40px;
+            right: 40px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.08), transparent);
+        }
+
+        .section-header {
+            margin-bottom: 80px;
+            position: relative;
+        }
+
+        .section-num {
+            font: var(--text-label);
+            color: var(--accent-blue);
+            letter-spacing: 0.2em;
+            margin-bottom: 16px;
+            display: block;
+        }
+
+        .section-title {
+            font: var(--text-h2);
+            letter-spacing: -0.02em;
+        }
+
+        .section-desc {
+            font: var(--text-body-lg);
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin-top: 24px;
+        }
+
+        /* ══════════════════════════════════════════════
+           TYPOGRAPHY MODULE
+           ══════════════════════════════════════════════ */
+        .type-row {
+            display: grid;
+            grid-template-columns: 200px 1fr 200px;
+            align-items: baseline;
+            gap: 40px;
+            padding: 32px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .type-label {
+            font: var(--text-label);
+            color: var(--text-tertiary);
+            text-transform: uppercase;
+        }
+
+        .type-value {
+            font: var(--text-body-sm);
+            color: var(--text-secondary);
+            font-family: monospace;
+            text-align: right;
+        }
+
+        .t-h1 {
+            font: var(--text-h1);
+            letter-spacing: -0.03em;
+        }
+
+        .t-h2 {
+            font: var(--text-h2);
+            letter-spacing: -0.02em;
+        }
+
+        .t-h3 {
+            font: var(--text-h3);
+            letter-spacing: -0.01em;
+        }
+
+        .t-body-lg {
+            font: var(--text-body-lg);
+        }
+
+        .t-body {
+            font: var(--text-body);
+        }
+
+        .font-card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .font-card {
+            background: var(--surface);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-white);
+            border-radius: var(--radius-lg);
+            padding: 40px;
+        }
+
+        .font-card h4 {
+            font: var(--text-h4);
+            margin-bottom: 16px;
+        }
+
+        .font-card p {
+            font: var(--text-body);
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+        }
+
+        .font-chars {
+            font-size: 2rem;
+            word-break: break-all;
+            line-height: 1.4;
+            color: var(--text-primary);
+        }
+
+        /* ══════════════════════════════════════════════
+           COLORS MODULE
+           ══════════════════════════════════════════════ */
+        .color-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 32px;
+        }
+
+        .color-card {
+            background: #fff;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02);
+            transition: transform 0.3s;
+        }
+
+        .color-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06);
+        }
+
+        .color-preview {
+            height: 160px;
+            width: 100%;
+            position: relative;
+        }
+
+        .color-meta {
+            padding: 24px;
+        }
+
+        .color-name {
+            font: var(--text-h5);
+            margin-bottom: 8px;
+        }
+
+        .color-role {
+            font: var(--text-body-sm);
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+            min-height: 42px;
+        }
+
+        .color-vals {
+            display: flex;
+            justify-content: space-between;
+            font: var(--text-label);
+            font-family: monospace;
+            color: var(--text-tertiary);
+        }
+
+        /* ══════════════════════════════════════════════
+           UI COMPONENTS MODULE
+           ══════════════════════════════════════════════ */
+        .comp-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        .comp-showcase {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            border-radius: var(--radius-lg);
+            padding: 60px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+            min-height: 400px;
+        }
+
+        /* Inputs */
+        .ui-input-group {
+            width: 100%;
+            max-width: 320px;
+        }
+
+        .ui-label {
+            display: block;
+            font: var(--text-label);
+            margin-bottom: 8px;
+            color: var(--text-secondary);
+        }
+
+        .ui-input {
+            width: 100%;
+            padding: 16px 20px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            background: rgba(255, 255, 255, 0.8);
+            font: var(--text-body);
+            transition: all 0.3s;
+            outline: none;
+        }
+
+        .ui-input:focus {
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 0 4px rgba(38, 106, 255, 0.1);
+            background: #fff;
+        }
+
+        /* Glass Card */
+        .ui-card {
+            background: var(--surface-heavy);
+            backdrop-filter: blur(30px);
+            border: 1px solid rgba(255, 255, 255, 1);
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.06);
+            width: 100%;
+            max-width: 360px;
+            text-align: left;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .ui-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.1);
+        }
+
+        .ui-card-img {
+            width: 100%;
+            height: 160px;
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
+            border-radius: var(--radius);
+            margin-bottom: 24px;
+        }
+
+        /* Badges */
+        .ui-badge-group {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .ui-badge {
+            padding: 6px 16px;
+            border-radius: var(--radius-pill);
+            font: var(--text-label);
+        }
+
+        .badge-green {
+            background: rgba(52, 92, 89, 0.1);
+            color: var(--accent-green);
+        }
+
+        .badge-blue {
+            background: rgba(38, 106, 255, 0.1);
+            color: var(--accent-blue);
+        }
+
+        .badge-dark {
+            background: rgba(0, 0, 0, 0.05);
+            color: var(--text-primary);
+        }
+
+        /* Tools / Tooltip */
+        .ui-tooltip-wrap {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+        }
+
+        .ui-tooltip {
+            position: absolute;
+            bottom: 130%;
+            left: 50%;
+            transform: translateX(-50%) translateY(10px);
+            background: var(--text-primary);
+            color: #fff;
+            font: var(--text-label);
+            padding: 8px 16px;
+            border-radius: var(--radius-sm);
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s;
+        }
+
+        .ui-tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 5px;
+            border-style: solid;
+            border-color: var(--text-primary) transparent transparent transparent;
+        }
+
+        .ui-tooltip-wrap:hover .ui-tooltip {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* ══════════════════════════════════════════════
+           ICONS MODULE
+           ══════════════════════════════════════════════ */
+        .icon-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 24px;
+        }
+
+        .icon-box {
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            aspect-ratio: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .icon-box svg {
+            width: 32px;
+            height: 32px;
+            fill: none;
+            stroke: var(--text-primary);
+            stroke-width: 1.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            transition: all 0.3s;
+        }
+
+        .icon-box:hover {
+            border-color: var(--accent-blue);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(38, 106, 255, 0.1);
+        }
+
+        .icon-box:hover svg {
+            stroke: var(--accent-blue);
+            transform: scale(1.1);
+        }
+
+        .icon-name {
+            font: var(--text-label);
+            color: var(--text-secondary);
+            text-transform: lowercase;
+        }
+
+        /* ══════════════════════════════════════════════
+           ANIMATIONS MODULE (GSAP Reveals)
+           ══════════════════════════════════════════════ */
+        .anim-showcase {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+        }
+
+        .anim-box {
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            height: 240px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .anim-view {
+            flex: 1;
+            background: var(--bg);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .anim-info {
+            padding: 16px 24px;
+            border-top: 1px solid var(--border);
+            font: var(--text-label);
+            background: #fff;
+        }
+
+        /* Local anims */
+        .a-clip {
+            background: url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop') center/cover;
+            width: 80%;
+            height: 80%;
+            border-radius: var(--radius);
+            animation: clipRev 3s cubic-bezier(0.77, 0, 0.175, 1) infinite alternate;
+        }
+
+        @keyframes clipRev {
+            0% {
+                clip-path: inset(0 100% 0 0);
+            }
+
+            100% {
+                clip-path: inset(0 0 0 0);
+            }
+        }
+
+        .a-float {
+            background: var(--accent-purple);
+            width: 60px;
+            height: 60px;
+            border-radius: 20px;
+            animation: floatY 2s ease-in-out infinite alternate;
+            box-shadow: 0 10px 20px rgba(210, 197, 255, 0.5);
+        }
+
+        .a-pulse {
+            background: var(--accent-blue);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            animation: pulseGlow 2s infinite;
+        }
+
+        @keyframes pulseGlow {
+            0% {
+                box-shadow: 0 0 0 0 rgba(38, 106, 255, 0.4);
+            }
+
+            70% {
+                box-shadow: 0 0 0 20px rgba(38, 106, 255, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(38, 106, 255, 0);
+            }
+        }
+
+        /* GSAP Utility Classes */
+        .gsap-reveal-up {
+            opacity: 0;
+            transform: translateY(40px);
+        }
+
+        .gsap-stagger-item {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .comp-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .anim-showcase {
+                grid-template-columns: 1fr;
+            }
+
+            .type-row {
+                grid-template-columns: 1fr;
+                gap: 8px;
+            }
+
+            .type-value {
+                text-align: left;
+            }
+
+            .hero-title {
+                font-size: 3rem;
+            }
+
+            .hero-float-card {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Ambient Animations -->
+    <div class="ambient-bg">
+        <div class="liquid-blob blob-1"></div>
+        <div class="liquid-blob blob-2"></div>
+        <div class="liquid-blob blob-3"></div>
+    </div>
+    <div class="ambient-grid"></div>
+
+    <!-- Nav -->
+    <nav class="ds-nav" id="navbar">
+        <div class="ds-nav-inner">
+            <a href="#" class="ds-nav-logo">
+                <div class="dot"></div> DS_TEN
+            </a>
+            <div class="ds-nav-links">
+                <a href="#typography">Typography</a>
+                <a href="#colors">Colors</a>
+                <a href="#components">Components</a>
+                <a href="#icons">Icons</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 1. HERO FOLD -->
+    <section class="hero" id="hero">
+        <div class="hero-float-card fc-1 gsap-reveal-up">
+            <div
+                style="width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));">
+            </div>
+            <div>
+                <div style="font: var(--text-label); color: var(--text-secondary); margin-bottom: 4px;">SYSTEM STATUS
+                </div>
+                <div style="font: var(--text-h6); color: var(--text-primary);">Optimal</div>
+            </div>
+        </div>
+
+        <div class="hero-float-card fc-2 gsap-reveal-up" style="animation-delay: 1s;">
+            <div>
+                <div style="font: var(--text-h5); color: var(--text-primary); margin-bottom: 4px;">10.0</div>
+                <div style="font: var(--text-label); color: var(--text-secondary);">VERSION</div>
+            </div>
+        </div>
+
+        <div class="hero-content">
+            <div class="hero-badge gsap-reveal-up">
+                <span class="dot"></span>
+                THE WHITE GLASS EPOCH
+            </div>
+
+            <h1 class="hero-title gsap-reveal-up">
+                <span class="text-transparent-outline-light">Creative</span><br>
+                <span class="text-gradient-dark">Design System</span><br>
+                <span class="text-transparent-outline">Architecture</span>
+            </h1>
+
+            <p class="hero-sub gsap-reveal-up">
+                A pristine, light-themed aesthetic blending Wix's transparent typography with fluid glassmorphism,
+                advanced geometry, and micro-interactions.
+            </p>
+
+            <div class="hero-actions gsap-reveal-up">
+                <a href="#components" class="ds-btn btn-primary">
+                    Explore Components
+                    <svg class="ds-btn-icon" viewBox="0 0 24 24">
+                        <path d="M5 12h14M12 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </a>
+                <a href="#colors" class="ds-btn btn-outline">
+                    View Palette
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. TYPOGRAPHY -->
+    <section class="ds-section" id="typography">
+        <div class="section-header gsap-reveal-up">
+            <span class="section-num">01 — TYPOGRAPHY</span>
+            <h2 class="section-title">Precision Text Architecture</h2>
+            <p class="section-desc">Utilizing Montserrat for impactful, transparent display headers and Space Grotesk
+                for highly legible, geometric interface elements.</p>
+        </div>
+
+        <div class="font-card-grid gsap-stagger-parent">
+            <div class="font-card gsap-stagger-item">
+                <h4>Display Font</h4>
+                <p>Montserrat — Bold & Black</p>
+                <div class="font-chars" style="font-family: var(--font-display); font-weight: 700;">Aa Bb Cc Dd Ee Ff
+                    Gg<br>0123456789</div>
+            </div>
+            <div class="font-card gsap-stagger-item">
+                <h4>Body Font</h4>
+                <p>Space Grotesk — Regular & Medium</p>
+                <div class="font-chars" style="font-family: var(--font-body); font-weight: 400;">Aa Bb Cc Dd Ee Ff
+                    Gg<br>0123456789</div>
+            </div>
+        </div>
+
+        <div class="gsap-reveal-up">
+            <div class="type-row">
+                <div class="type-label">Heading 1</div>
+                <div class="type-value t-h1">The quick brown fox</div>
+                <div class="type-value">160px / Bold / Outline</div>
+            </div>
+            <div class="type-row">
+                <div class="type-label">Heading 2</div>
+                <div class="type-value t-h2">Jumps over the lazy dog</div>
+                <div class="type-value">64px / Bold</div>
+            </div>
+            <div class="type-row">
+                <div class="type-label">Heading 3</div>
+                <div class="type-value t-h3">Sphinx of black quartz</div>
+                <div class="type-value">40px / SemiBold</div>
+            </div>
+            <div class="type-row">
+                <div class="type-label">Body Large</div>
+                <div class="type-value t-body-lg">Judge my vow. We have a lot of work to do.</div>
+                <div class="type-value">18px / Regular</div>
+            </div>
+            <div class="type-row">
+                <div class="type-label">Body Standard</div>
+                <div class="type-value t-body">Pack my box with five dozen liquor jugs.</div>
+                <div class="type-value">16px / Regular</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. COLORS -->
+    <section class="ds-section" id="colors">
+        <div class="section-header gsap-reveal-up">
+            <span class="section-num">02 — COLORS</span>
+            <h2 class="section-title">Light & Glass Palette</h2>
+            <p class="section-desc">A foundation of whites and slate greys, accented by striking blues, purples, and
+                cyans. Designed specifically for light glassmorphism.</p>
+        </div>
+
+        <div class="color-grid gsap-stagger-parent">
+            <!-- Background -->
+            <div class="color-card gsap-stagger-item">
+                <div class="color-preview" style="background: var(--bg);"></div>
+                <div class="color-meta">
+                    <h3 class="color-name">Off-White Base</h3>
+                    <p class="color-role">Main application background</p>
+                    <div class="color-vals"><span>#F9FAFB</span><span>HSL(210, 33%, 98%)</span></div>
+                </div>
+            </div>
+            <!-- Surface -->
+            <div class="color-card gsap-stagger-item">
+                <div class="color-preview" style="background: var(--surface-heavy);"></div>
+                <div class="color-meta">
+                    <h3 class="color-name">Glass Surface</h3>
+                    <p class="color-role">Cards, modals, elevated components</p>
+                    <div class="color-vals"><span>RGBA(255,255,255,0.95)</span><span>Light Frosted</span></div>
+                </div>
+            </div>
+            <!-- Text Dark -->
+            <div class="color-card gsap-stagger-item">
+                <div class="color-preview" style="background: var(--text-primary);"></div>
+                <div class="color-meta">
+                    <h3 class="color-name">Slate 900</h3>
+                    <p class="color-role">Primary text, emphasis</p>
+                    <div class="color-vals"><span>#0F172A</span><span>HSL(222, 47%, 11%)</span></div>
+                </div>
+            </div>
+            <!-- Accent Blue -->
+            <div class="color-card gsap-stagger-item">
+                <div class="color-preview" style="background: var(--accent-blue);"></div>
+                <div class="color-meta">
+                    <h3 class="color-name">Wix Blue</h3>
+                    <p class="color-role">Primary actions, glowing blobs</p>
+                    <div class="color-vals"><span>#266AFF</span><span>HSL(221, 100%, 57%)</span></div>
+                </div>
+            </div>
+            <!-- Accent Purple -->
+            <div class="color-card gsap-stagger-item">
+                <div class="color-preview" style="background: var(--accent-purple);"></div>
+                <div class="color-meta">
+                    <h3 class="color-name">Ethereal Purple</h3>
+                    <p class="color-role">Ambient gradients, decorative</p>
+                    <div class="color-vals"><span>#D2C5FF</span><span>HSL(254, 100%, 89%)</span></div>
+                </div>
+            </div>
+            <!-- Accent Cyan -->
+            <div class="color-card gsap-stagger-item">
+                <div class="color-preview" style="background: var(--accent-cyan);"></div>
+                <div class="color-meta">
+                    <h3 class="color-name">Cyan Energy</h3>
+                    <p class="color-role">Highlights, secondary buttons</p>
+                    <div class="color-vals"><span>#06B6D4</span><span>HSL(189, 94%, 43%)</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. UI COMPONENTS -->
+    <section class="ds-section" id="components">
+        <div class="section-header gsap-reveal-up">
+            <span class="section-num">03 — UI COMPONENTS</span>
+            <h2 class="section-title">Interactive Elements</h2>
+            <p class="section-desc">Responsive layouts, frosted glass cards, inputs, and button configurations built
+                over the white theme.</p>
+        </div>
+
+        <div class="comp-grid">
+            <!-- Buttons -->
+            <div class="comp-showcase gsap-reveal-up">
+                <button class="ds-btn btn-primary">Primary Action</button>
+                <button class="ds-btn btn-outline">Secondary Action</button>
+                <button class="ds-btn btn-glow">Glowing Accent</button>
+            </div>
+
+            <!-- Forms & Badges -->
+            <div class="comp-showcase gsap-reveal-up">
+                <div class="ui-input-group">
+                    <label class="ui-label">Email Address</label>
+                    <input type="email" class="ui-input" placeholder="hello@design.system">
+                </div>
+                <div class="ui-badge-group">
+                    <span class="ui-badge badge-blue">Active</span>
+                    <span class="ui-badge badge-green">Completed</span>
+                    <span class="ui-badge badge-dark">Draft</span>
+                </div>
+                <div class="ui-tooltip-wrap">
+                    <span style="font: var(--text-label); color: var(--text-primary); text-decoration: underline;">Hover
+                        for Tooltip</span>
+                    <div class="ui-tooltip">This is a glass tooltip</div>
+                </div>
+            </div>
+
+            <!-- Glass Card -->
+            <div class="comp-showcase gsap-reveal-up"
+                style="grid-column: 1 / -1; min-height: 500px; background: url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop') center/cover;">
+                <div class="ui-card">
+                    <div class="ui-card-img"></div>
+                    <h3 style="font: var(--text-h5); margin-bottom: 8px;">Glassmorphism Card</h3>
+                    <p style="font: var(--text-body-sm); color: var(--text-secondary); margin-bottom: 24px;">Elegant
+                        translucent backgrounds that leverage the bright geometry behind them.</p>
+                    <button class="ds-btn btn-primary" style="padding: 12px 24px; font-size: 0.75rem; width: 100%;">View
+                        Details</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. ICONS -->
+    <section class="ds-section" id="icons">
+        <div class="section-header gsap-reveal-up">
+            <span class="section-num">04 — ICONS</span>
+            <h2 class="section-title">System Iconography</h2>
+        </div>
+
+        <div class="icon-grid gsap-stagger-parent">
+            <!-- Icon 1 -->
+            <div class="icon-box gsap-stagger-item">
+                <svg viewBox="0 0 24 24">
+                    <path d="M12 2L2 22h20L12 2z" />
+                </svg>
+                <span class="icon-name">triangle</span>
+            </div>
+            <!-- Icon 2 -->
+            <div class="icon-box gsap-stagger-item">
+                <svg viewBox="0 0 24 24">
+                    <rect x="3" y="3" width="18" height="18" rx="4" />
+                </svg>
+                <span class="icon-name">square</span>
+            </div>
+            <!-- Icon 3 -->
+            <div class="icon-box gsap-stagger-item">
+                <svg viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="10" />
+                </svg>
+                <span class="icon-name">circle</span>
+            </div>
+            <!-- Icon 4 -->
+            <div class="icon-box gsap-stagger-item">
+                <svg viewBox="0 0 24 24">
+                    <path d="M12 22V2M2 12h20" />
+                </svg>
+                <span class="icon-name">cross</span>
+            </div>
+            <!-- Icon 5 -->
+            <div class="icon-box gsap-stagger-item">
+                <svg viewBox="0 0 24 24">
+                    <path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    <path d="M15 9l-6 6M9 9l6 6" />
+                </svg>
+                <span class="icon-name">cancel</span>
+            </div>
+            <!-- Icon 6 -->
+            <div class="icon-box gsap-stagger-item">
+                <svg viewBox="0 0 24 24">
+                    <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+                <span class="icon-name">arrow-right</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. ANIMATIONS -->
+    <section class="ds-section">
+        <div class="section-header gsap-reveal-up">
+            <span class="section-num">05 — MOTION</span>
+            <h2 class="section-title">Kinetic Identity</h2>
+            <p class="section-desc">Consistent animation patterns emphasizing fluidity, clip reveals, and soft floating
+                states.</p>
+        </div>
+
+        <div class="anim-showcase">
+            <div class="anim-box gsap-reveal-up">
+                <div class="anim-view">
+                    <div class="a-clip"></div>
+                </div>
+                <div class="anim-info">Clip Reveal (Images & Media)</div>
+            </div>
+            <div class="anim-box gsap-reveal-up" style="transition-delay: 0.1s;">
+                <div class="anim-view">
+                    <div class="a-float"></div>
+                </div>
+                <div class="anim-info">Y-Axis Float (Badges & Cards)</div>
+            </div>
+            <div class="anim-box gsap-reveal-up" style="transition-delay: 0.2s;">
+                <div class="anim-view">
+                    <div class="a-pulse"></div>
+                </div>
+                <div class="anim-info">Glow Pulse (Indicators)</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer style="padding: 100px 40px; text-align: center; border-top: 1px solid var(--border);">
+        <h2 class="hero-title" style="font-size: clamp(2rem, 4vw, 4rem); margin-bottom: 20px;">
+            <span class="text-transparent-outline-light">End of</span><br>
+            <span class="text-gradient-dark">System</span>
+        </h2>
+        <p
+            style="font: var(--text-label); color: var(--text-tertiary); letter-spacing: 0.2em; text-transform: uppercase;">
+            Build with intention</p>
+    </footer>
+
+    <!-- Init Animations -->
+    <script>
+        document.addEventListener("DOMContentLoaded", (event) => {
+            gsap.registerPlugin(ScrollTrigger);
+
+            // Navbar scrol
+            const nav = document.getElementById('navbar');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) nav.classList.add('scrolled');
+                else nav.classList.remove('scrolled');
+            });
+
+            // Global reveals
+            gsap.utils.toArray('.gsap-reveal-up').forEach(elem => {
+                gsap.to(elem, {
+                    scrollTrigger: {
+                        trigger: elem,
+                        start: "top 85%",
+                        toggleActions: "play none none reverse"
+                    },
+                    y: 0,
+                    opacity: 1,
+                    duration: 1,
+                    ease: "power3.out"
+                });
+            });
+
+            // Stagger reveals
+            gsap.utils.toArray('.gsap-stagger-parent').forEach(parent => {
+                const items = parent.querySelectorAll('.gsap-stagger-item');
+                gsap.to(items, {
+                    scrollTrigger: {
+                        trigger: parent,
+                        start: "top 85%",
+                        toggleActions: "play none none reverse"
+                    },
+                    y: 0,
+                    opacity: 1,
+                    duration: 0.8,
+                    stagger: 0.15,
+                    ease: "power2.out"
+                });
+            });
+
+            // Mouse move parallax for blobs
+            document.addEventListener('mousemove', (e) => {
+                const x = (e.clientX / window.innerWidth - 0.5) * 40;
+                const y = (e.clientY / window.innerHeight - 0.5) * 40;
+
+                const blobs = document.querySelectorAll('.liquid-blob');
+                blobs.forEach((blob, i) => {
+                    const factor = (i + 1) * 0.5;
+                    blob.style.transform = `translate(${x * factor}px, ${y * factor}px)`;
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

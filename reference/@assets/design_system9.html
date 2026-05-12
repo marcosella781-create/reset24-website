@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Design System 9 - Aura</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Fonts: Inter & Space Grotesk (Wix often uses clean sans-serif) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- GSAP & Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <style>
+        :root {
+            /* Wix-inspired Color System (Light/White aesthetic) */
+            --bg-primary: #FFFFFF;
+            --bg-secondary: #F8F9FA;
+            --text-primary: #111111;
+            --text-secondary: #666666;
+            --accent-primary: #000000;
+            --accent-hover: #333333;
+            --border-color: #EAEAEA;
+            --glass-bg: rgba(255, 255, 255, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.4);
+
+            --cursor-size: 20px;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            cursor: none;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        .font-heading {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        /* Base styles */
+        .color-primary {
+            color: var(--text-primary);
+        }
+
+        .color-secondary {
+            color: var(--text-secondary);
+        }
+
+        .bg-surface {
+            background-color: var(--bg-primary);
+        }
+
+        .bg-surface-2 {
+            background-color: var(--bg-secondary);
+        }
+
+        /* Custom Cursor */
+        #cursor-ring,
+        #cursor-dot {
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+        }
+
+        #cursor-ring {
+            width: 32px;
+            height: 32px;
+            border: 1px solid var(--accent-primary);
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+            mix-blend-mode: difference;
+        }
+
+        #cursor-dot {
+            width: 4px;
+            height: 4px;
+            background-color: var(--accent-primary);
+            mix-blend-mode: difference;
+        }
+
+        .hovered-cursor #cursor-ring {
+            width: 60px;
+            height: 60px;
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+
+        /* Wix Style Transparent Lettering */
+        .transparent-text {
+            color: transparent;
+            -webkit-text-stroke: 1px var(--text-primary);
+            transition: all 0.3s ease;
+        }
+
+        .transparent-text:hover {
+            color: var(--text-primary);
+            -webkit-text-stroke: 0px;
+        }
+
+        /* Navigation */
+        .ds-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
+            z-index: 100;
+        }
+
+        /* Section Layout */
+        .ds-section {
+            padding: 6rem 2rem;
+            border-bottom: 1px solid var(--border-color);
+            position: relative;
+        }
+
+        .section-title {
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 3rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .section-title::after {
+            content: '';
+            height: 1px;
+            flex-grow: 1;
+            background: var(--border-color);
+        }
+
+        /* Hero Section */
+        .hero-clone {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            padding-top: 5rem;
+            overflow: hidden;
+            background: radial-gradient(circle at 50% 100%, #F0F0F0 0%, #FFFFFF 100%);
+        }
+
+        .hero-text-large {
+            font-size: clamp(4rem, 15vw, 12rem);
+            font-weight: 700;
+            line-height: 0.9;
+            letter-spacing: -0.04em;
+            text-transform: uppercase;
+            text-align: center;
+            z-index: 10;
+        }
+
+        .hero-text-small {
+            font-size: 1rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+            z-index: 10;
+        }
+
+        /* 3D Canvas Container */
+        #canvas-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: 1;
+            pointer-events: none;
+            opacity: 0.6;
+        }
+
+        /* Buttons (Wix Inspired) */
+        .StylableButton2545352419__root {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 2.5rem;
+            border-radius: 100px;
+            font-weight: 500;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            gap: 0.75rem;
+        }
+
+        .style-luhxljxy7__root {
+            background-color: var(--accent-primary);
+            color: #FFFFFF;
+            border: 1px solid var(--accent-primary);
+        }
+
+        .style-luhxljxy7__root:hover {
+            background-color: transparent;
+            color: var(--accent-primary);
+        }
+
+        .style-luhxbq8e2__root {
+            background-color: transparent;
+            color: var(--text-primary);
+            border: 1px solid var(--text-primary);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .style-luhxbq8e2__root::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--accent-primary);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: -1;
+        }
+
+        .style-luhxbq8e2__root:hover {
+            color: #FFFFFF;
+        }
+
+        .style-luhxbq8e2__root:hover::before {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        /* Glass Panel & Neon (Dark/Light adapted) */
+        .glass-panel-light {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(16px) saturate(180%);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.05);
+            border-radius: 1rem;
+            transition: all 0.4s ease;
+        }
+
+        .glass-panel-light:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Typography Showcase */
+        .font_0 {
+            font-size: clamp(3rem, 5vw, 5rem);
+            line-height: 1;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        .font_2 {
+            font-size: clamp(2rem, 3vw, 3rem);
+            line-height: 1.1;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+        }
+
+        .font_5 {
+            font-size: 1.5rem;
+            line-height: 1.4;
+            font-weight: 400;
+        }
+
+        .font_8 {
+            font-size: 1rem;
+            line-height: 1.6;
+            font-weight: 400;
+        }
+
+        .font_10 {
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 500;
+        }
+
+        /* Color Cards */
+        .color-card {
+            border-radius: 1rem;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            background: var(--bg-primary);
+        }
+
+        .color-preview {
+            height: 120px;
+            width: 100%;
+        }
+
+        .color-info {
+            padding: 1.5rem;
+        }
+
+        /* Animations */
+        .reveal-up {
+            opacity: 0;
+            transform: translateY(40px);
+        }
+
+        .clip-anim {
+            clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0 100%);
+            transition: clip-path 1.2s cubic-bezier(0.77, 0, 0.175, 1);
+        }
+
+        .clip-anim.is-inview {
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+        }
+
+        /* Marquee */
+        .marquee-wrapper {
+            overflow: hidden;
+            white-space: nowrap;
+            display: flex;
+            padding: 2rem 0;
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .marquee-content {
+            display: flex;
+            animation: marquee 20s linear infinite;
+        }
+
+        .marquee-content span {
+            font-size: 6rem;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 0 2rem;
+            color: transparent;
+            -webkit-text-stroke: 1px var(--border-color);
+        }
+
+        @keyframes marquee {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        /* Stack Carousel (Adapted for Light Theme) */
+        .stack-section {
+            --_offset-steps: 4rem;
+            --_scale-steps: 12;
+            --_opacity-steps: 15;
+            display: grid;
+            grid-template-areas: "stack";
+            width: min(calc(100% - 2rem), 40rem);
+            margin: 0 auto;
+        }
+
+        .stack-card {
+            grid-area: stack;
+            transition: 800ms cubic-bezier(0.23, 1, 0.32, 1);
+            translate: var(--_offset) 0;
+            order: var(--_order);
+            z-index: var(--_order);
+            scale: var(--_scale);
+            opacity: var(--_opacity);
+            transform-style: preserve-3d;
+            background: #FFFFFF;
+            border: 1px solid var(--border-color);
+            border-radius: 1.5rem;
+            padding: 2.5rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+        }
+
+        .stack-card:nth-of-type(1) {
+            --_order: var(--_1-order);
+            --_scale: var(--_1-scale);
+            --_opacity: var(--_1-opacity);
+            --_offset: var(--_1-offset);
+        }
+
+        .stack-card:nth-of-type(2) {
+            --_order: var(--_2-order);
+            --_scale: var(--_2-scale);
+            --_opacity: var(--_2-opacity);
+            --_offset: var(--_2-offset);
+        }
+
+        .stack-card:nth-of-type(3) {
+            --_order: var(--_3-order);
+            --_scale: var(--_3-scale);
+            --_opacity: var(--_3-opacity);
+            --_offset: var(--_3-offset);
+        }
+
+        /* State classes for stack */
+        .stack-section.state-1 {
+            --_1-order: 3;
+            --_1-scale: 1;
+            --_1-opacity: 1;
+            --_1-offset: 0;
+            --_2-order: 2;
+            --_2-scale: 0.9;
+            --_2-opacity: 0.7;
+            --_2-offset: 2rem;
+            --_3-order: 1;
+            --_3-scale: 0.8;
+            --_3-opacity: 0.4;
+            --_3-offset: 4rem;
+        }
+
+        .stack-section.state-2 {
+            --_2-order: 3;
+            --_2-scale: 1;
+            --_2-opacity: 1;
+            --_2-offset: 0;
+            --_3-order: 2;
+            --_3-scale: 0.9;
+            --_3-opacity: 0.7;
+            --_3-offset: 2rem;
+            --_1-order: 1;
+            --_1-scale: 0.8;
+            --_1-opacity: 0.4;
+            --_1-offset: 4rem;
+        }
+
+        .stack-section.state-3 {
+            --_3-order: 3;
+            --_3-scale: 1;
+            --_3-opacity: 1;
+            --_3-offset: 0;
+            --_1-order: 2;
+            --_1-scale: 0.9;
+            --_1-opacity: 0.7;
+            --_1-offset: 2rem;
+            --_2-order: 1;
+            --_2-scale: 0.8;
+            --_2-opacity: 0.4;
+            --_2-offset: 4rem;
+        }
+
+        /* Liquid blob */
+        .liquid-blob-light {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.4;
+            z-index: 0;
+            animation: float 10s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
+            background: linear-gradient(to right, #e2e8f0, #cbd5e1);
+        }
+
+        @keyframes float {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            100% {
+                transform: translate(30px, -50px) scale(1.1);
+            }
+        }
+
+        .hover-lift {
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .hover-lift:hover {
+            transform: translateY(-8px);
+        }
+    </style>
+</head>
+
+<body class="selection:bg-black selection:text-white">
+
+    <div id="cursor-ring"></div>
+    <div id="cursor-dot"></div>
+
+    <nav class="ds-nav hover-target">
+        <div class="font_10 font-bold flex items-center gap-2">
+            <i data-lucide="triangle" class="w-5 h-5 fill-black"></i>
+            AURA DS
+        </div>
+        <div class="hidden md:flex gap-8">
+            <a href="#typography" class="font_10 hover:opacity-50 transition-opacity">Typography</a>
+            <a href="#colors" class="font_10 hover:opacity-50 transition-opacity">Colors</a>
+            <a href="#components" class="font_10 hover:opacity-50 transition-opacity">Components</a>
+            <a href="#motion" class="font_10 hover:opacity-50 transition-opacity">Motion</a>
+        </div>
+        <button class="StylableButton2545352419__root style-luhxljxy7__root py-2 px-6 text-sm">Download</button>
+    </nav>
+
+    <div id="canvas-container"></div>
+    <div class="liquid-blob-light w-96 h-96 top-20 right-20"></div>
+    <div class="liquid-blob-light w-80 h-80 bottom-20 left-20"
+        style="animation-delay: -5s; background: linear-gradient(to right, #f1f5f9, #e2e8f0);"></div>
+
+    <main class="relative z-10 w-full max-w-[1600px] mx-auto">
+
+        <section id="hero" class="hero-clone">
+            <p class="hero-text-small reveal-up hover-target">Introducing Design System</p>
+            <h1 class="hero-text-large font-heading text-black reveal-up delay-100 hover-target">
+                Digital <br>
+                <span class="transparent-text">Liquid</span>
+            </h1>
+            <div class="mt-12 flex gap-4 reveal-up delay-200">
+                <a href="#components" class="StylableButton2545352419__root style-luhxljxy7__root hover-target">
+                    Explore Components
+                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </a>
+                <a href="#typography" class="StylableButton2545352419__root style-luhxbq8e2__root hover-target z-10">
+                    View Guidelines
+                </a>
+            </div>
+
+            <div
+                class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 reveal-up delay-300">
+                <span class="text-[10px] uppercase tracking-[0.2em] text-gray-400">Scroll</span>
+                <div class="w-[1px] h-12 bg-gradient-to-b from-gray-400 to-transparent"></div>
+            </div>
+        </section>
+
+        <!-- Marquee -->
+        <div class="marquee-wrapper">
+            <div class="marquee-content hover-target">
+                <span>Minimal</span>
+                <span>•</span>
+                <span>Transparent</span>
+                <span>•</span>
+                <span>Liquid</span>
+                <span>•</span>
+                <span>Motion</span>
+                <span>•</span>
+                <span>Minimal</span>
+                <span>•</span>
+                <span>Transparent</span>
+                <span>•</span>
+                <span>Liquid</span>
+                <span>•</span>
+                <span>Motion</span>
+            </div>
+        </div>
+
+        <section id="typography" class="ds-section">
+            <div class="section-title reveal-up">01. Typography</div>
+
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-12">
+                <div class="md:col-span-4 reveal-up">
+                    <h2 class="font_2 mb-4">Structure via text.</h2>
+                    <p class="font_8 color-secondary">Our typography is built on Space Grotesk for headings and Inter
+                        for body text, ensuring clarity and modern appeal.</p>
+                </div>
+
+                <div class="md:col-span-8 flex flex-col gap-10">
+                    <div class="flex flex-col md:flex-row gap-8 items-start border-b border-gray-100 pb-8 reveal-up">
+                        <div class="w-24 font_10 color-secondary">Display Large</div>
+                        <div class="flex-1 font_0">Almost Transparent</div>
+                    </div>
+                    <div class="flex flex-col md:flex-row gap-8 items-start border-b border-gray-100 pb-8 reveal-up">
+                        <div class="w-24 font_10 color-secondary">Heading 1</div>
+                        <div class="flex-1 font_2">Section Title</div>
+                    </div>
+                    <div class="flex flex-col md:flex-row gap-8 items-start border-b border-gray-100 pb-8 reveal-up">
+                        <div class="w-24 font_10 color-secondary">Paragraph</div>
+                        <div class="flex-1 font_5" style="max-width: 500px;">The design system is a living document that
+                            guides the visual language of the brand across all digital touchpoints.</div>
+                    </div>
+                    <div class="flex flex-col md:flex-row gap-8 items-start pb-8 reveal-up">
+                        <div class="w-24 font_10 color-secondary">Label</div>
+                        <div class="flex-1 font_10">Uppercase Tracking</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="colors" class="ds-section">
+            <div class="section-title reveal-up">02. Colors</div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Color 1 -->
+                <div class="color-card hover-lift reveal-up hover-target">
+                    <div class="color-preview" style="background-color: #FFFFFF; border-bottom: 1px solid #EAEAEA;">
+                    </div>
+                    <div class="color-info">
+                        <div class="font_10 mb-1">Primary Background</div>
+                        <div class="font_8 color-secondary">#FFFFFF</div>
+                    </div>
+                </div>
+                <!-- Color 2 -->
+                <div class="color-card hover-lift reveal-up" style="transition-delay: 0.1s">
+                    <div class="color-preview" style="background-color: #F8F9FA;"></div>
+                    <div class="color-info">
+                        <div class="font_10 mb-1">Secondary Surface</div>
+                        <div class="font_8 color-secondary">#F8F9FA</div>
+                    </div>
+                </div>
+                <!-- Color 3 -->
+                <div class="color-card hover-lift reveal-up" style="transition-delay: 0.2s">
+                    <div class="color-preview" style="background-color: #111111;"></div>
+                    <div class="color-info">
+                        <div class="font_10 mb-1">Text / Accent</div>
+                        <div class="font_8 color-secondary">#111111</div>
+                    </div>
+                </div>
+                <!-- Color 4 -->
+                <div class="color-card hover-lift reveal-up" style="transition-delay: 0.3s">
+                    <div class="color-preview" style="background-color: #E2E8F0;"></div>
+                    <div class="color-info">
+                        <div class="font_10 mb-1">Liquid Glow</div>
+                        <div class="font_8 color-secondary">#E2E8F0</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="components" class="ds-section">
+            <div class="section-title reveal-up">03. UI Components</div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
+
+                <!-- Left: Buttons & Inputs -->
+                <div class="flex flex-col gap-12">
+                    <div class="reveal-up">
+                        <h3 class="font_5 mb-6">Buttons</h3>
+                        <div class="flex flex-wrap gap-4 p-8 glass-panel-light">
+                            <button class="StylableButton2545352419__root style-luhxljxy7__root hover-target">Primary
+                                Action</button>
+                            <button class="StylableButton2545352419__root style-luhxbq8e2__root hover-target">Secondary
+                                Outline</button>
+                        </div>
+                    </div>
+
+                    <div class="reveal-up">
+                        <h3 class="font_5 mb-6">Inputs & Controls</h3>
+                        <div class="p-8 glass-panel-light flex flex-col gap-6">
+                            <div class="relative">
+                                <input type="text" placeholder=" "
+                                    class="w-full bg-transparent border-b border-gray-300 py-3 font_8 focus:outline-none focus:border-black transition-colors peer hover-target">
+                                <label
+                                    class="absolute left-0 top-3 font_8 color-secondary pointer-events-none transition-all peer-focus:-top-4 peer-focus:text-xs peer-focus:text-black peer-[:not(:placeholder-shown)]:-top-4 peer-[:not(:placeholder-shown)]:text-xs">Email
+                                    Address</label>
+                            </div>
+
+                            <div class="flex gap-2">
+                                <span
+                                    class="px-4 py-1 rounded-full border border-gray-200 font_10 hover:bg-black hover:text-white transition-colors cursor-pointer hover-target">Interactive
+                                    Tag</span>
+                                <span
+                                    class="px-4 py-1 rounded-full border border-gray-200 font_10 hover:bg-black hover:text-white transition-colors cursor-pointer hover-target">Another
+                                    Tag</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Stack Carousel -->
+                <div
+                    class="reveal-up bg-surface-2 p-12 rounded-3xl overflow-hidden flex flex-col justify-center items-center">
+                    <h3 class="font_5 mb-10 w-full text-left">Card Stack Interaction</h3>
+                    <div class="stack-section state-1 w-full" id="demo-stack">
+                        <div class="stack-card hover-target cursor-pointer" onclick="nextCard()">
+                            <div
+                                class="w-12 h-12 rounded-full border border-gray-200 flex items-center justify-center mb-6">
+                                <i data-lucide="layers" class="w-5 h-5"></i>
+                            </div>
+                            <h4 class="font_2 mb-2">Layered Depth</h4>
+                            <p class="font_8 color-secondary">Click to cycle through the cards. Notice the scale and
+                                opacity transitions creating a 3D feel.</p>
+                        </div>
+                        <div class="stack-card hover-target cursor-pointer" onclick="nextCard()">
+                            <div
+                                class="w-12 h-12 rounded-full border border-gray-200 flex items-center justify-center mb-6">
+                                <i data-lucide="maximize" class="w-5 h-5"></i>
+                            </div>
+                            <h4 class="font_2 mb-2">Glass Effect</h4>
+                            <p class="font_8 color-secondary">Combines seamlessly with translucent backgrounds and
+                                floating geometry.</p>
+                        </div>
+                        <div class="stack-card hover-target cursor-pointer" onclick="nextCard()">
+                            <div
+                                class="w-12 h-12 rounded-full border border-gray-200 flex items-center justify-center mb-6">
+                                <i data-lucide="mouse-pointer-click" class="w-5 h-5"></i>
+                            </div>
+                            <h4 class="font_2 mb-2">Interactive State</h4>
+                            <p class="font_8 color-secondary">Provides immediate feedback on hover and click actions.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="motion" class="ds-section">
+            <div class="section-title reveal-up">04. Motion & Image</div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="h-[600px] overflow-hidden rounded-2xl relative group hover-target hover-lift">
+                    <div
+                        class="absolute inset-0 bg-black/20 z-10 group-hover:bg-transparent transition-colors duration-500">
+                    </div>
+                    <img src="https://images.unsplash.com/photo-1600607686527-6fb8860907?auto=format&fit=crop&w=1200&q=80"
+                        alt="Architecture"
+                        class="w-full h-full object-cover scale-100 group-hover:scale-105 transition-transform duration-700 clip-anim clip-trigger">
+                    <div
+                        class="absolute bottom-8 left-8 z-20 transition-transform duration-500 group-hover:translate-x-2">
+                        <span
+                            class="px-3 py-1 bg-white/90 backdrop-blur-sm rounded-full font_10 mb-2 inline-block">Image
+                            Reveal</span>
+                        <h4 class="font_2 text-white shadow-sm">GSAP Clip Path</h4>
+                    </div>
+                </div>
+
+                <div class="flex flex-col gap-8">
+                    <div
+                        class="flex-1 glass-panel-light p-10 flex flex-col justify-center items-start reveal-up hover-target">
+                        <i data-lucide="arrow-up-right" class="w-8 h-8 mb-6 text-gray-400"></i>
+                        <h3 class="font_2 mb-4">Fluid Movement</h3>
+                        <p class="font_8 color-secondary">Every transition is crafted with specific ease curves to
+                            emulate physical, liquid-like motion.</p>
+                    </div>
+                    <div
+                        class="flex-1 bg-black text-white p-10 rounded-2xl flex flex-col justify-center items-start reveal-up hover-target overflow-hidden relative">
+                        <!-- Subtle pulse effect -->
+                        <div
+                            class="absolute -right-20 -top-20 w-64 h-64 bg-white/5 rounded-full blur-3xl animate-pulse">
+                        </div>
+                        <h3 class="font_2 mb-4">Dark Contrast</h3>
+                        <p class="font_8 text-gray-400">The system supports inverted block styling for high impact areas
+                            and calls to action.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="py-12 border-t border-gray-100 mt-20 text-center font_8 color-secondary">
+            <p>Digital Liquid Design System • Constructed with GSAP, Three.js & Tailwind</p>
+        </footer>
+
+    </main>
+
+    <script>
+        // Init Lucide Icons
+        lucide.createIcons();
+
+        // Custom Cursor Logic
+        const ring = document.getElementById('cursor-ring');
+        const dot = document.getElementById('cursor-dot');
+        const hoverTargets = document.querySelectorAll('.hover-target, button, a, input');
+
+        document.addEventListener('mousemove', (e) => {
+            // Slight delay on ring
+            gsap.to(ring, { x: e.clientX, y: e.clientY, duration: 0.15, ease: 'power2.out' });
+            gsap.set(dot, { x: e.clientX, y: e.clientY });
+        });
+
+        hoverTargets.forEach(target => {
+            target.addEventListener('mouseenter', () => document.body.classList.add('hovered-cursor'));
+            target.addEventListener('mouseleave', () => document.body.classList.remove('hovered-cursor'));
+        });
+
+        // GSAP ScrollTrigger Setup
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Reveal animations
+        const revealElements = document.querySelectorAll('.reveal-up');
+        revealElements.forEach(el => {
+            gsap.to(el, {
+                scrollTrigger: {
+                    trigger: el,
+                    start: "top 85%",
+                    toggleActions: "play none none reverse"
+                },
+                opacity: 1,
+                y: 0,
+                duration: 0.8,
+                ease: "power3.out"
+            });
+        });
+
+        // Clip Path Image Reveal
+        const clipElements = document.querySelectorAll('.clip-trigger');
+        clipElements.forEach(el => {
+            gsap.to(el, {
+                scrollTrigger: {
+                    trigger: el,
+                    start: "top 75%",
+                },
+                onStart: () => el.classList.add('is-inview')
+            });
+        });
+
+        // Three.js Parallax Background
+        const initThreeJS = () => {
+            const container = document.getElementById('canvas-container');
+            const scene = new THREE.Scene();
+
+            // Adjust camera for better perspective
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.z = 30;
+
+            const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            container.appendChild(renderer.domElement);
+
+            // Group for parallax scrolling
+            const pointsGroup = new THREE.Group();
+            scene.add(pointsGroup);
+
+            // Create wireframe geometry (Icosahedron)
+            const geometry = new THREE.IcosahedronGeometry(15, 1);
+
+            // Material: light gray wireframe
+            const material = new THREE.MeshBasicMaterial({
+                color: 0xcccccc,
+                wireframe: true,
+                transparent: true,
+                opacity: 0.15
+            });
+
+            const mesh1 = new THREE.Mesh(geometry, material);
+            mesh1.position.set(20, 10, -10);
+
+            const mesh2 = new THREE.Mesh(geometry, material);
+            mesh2.scale.set(0.6, 0.6, 0.6);
+            mesh2.position.set(-25, -5, -20);
+
+            const mesh3 = new THREE.Mesh(new THREE.TorusKnotGeometry(10, 3, 100, 16), material);
+            mesh3.position.set(0, -25, -30);
+
+            pointsGroup.add(mesh1);
+            pointsGroup.add(mesh2);
+            pointsGroup.add(mesh3);
+
+            let mouseX = 0;
+            let mouseY = 0;
+            let targetX = 0;
+            let targetY = 0;
+
+            document.addEventListener('mousemove', (e) => {
+                mouseX = (e.clientX - window.innerWidth / 2) * 0.001;
+                mouseY = (e.clientY - window.innerHeight / 2) * 0.001;
+            });
+
+            // Sync with ScrollTrigger for Y parallax
+            let scrollY = 0;
+            ScrollTrigger.create({
+                trigger: document.body,
+                start: "top top",
+                end: "bottom bottom",
+                onUpdate: (self) => {
+                    scrollY = self.progress * 50; // Total distance to move
+                }
+            });
+
+            const animate = () => {
+                requestAnimationFrame(animate);
+
+                targetX = mouseX * 2;
+                targetY = mouseY * 2;
+
+                pointsGroup.rotation.y += 0.05 * (targetX - pointsGroup.rotation.y);
+                pointsGroup.rotation.x += 0.05 * (targetY - pointsGroup.rotation.x);
+
+                // Parallax scroll effect
+                pointsGroup.position.y = gsap.utils.interpolate(pointsGroup.position.y, scrollY, 0.1);
+
+                // Subtle continuous rotation
+                mesh1.rotation.x += 0.001;
+                mesh1.rotation.y += 0.002;
+                mesh2.rotation.y -= 0.0015;
+                mesh3.rotation.z += 0.001;
+
+                renderer.render(scene, camera);
+            };
+
+            animate();
+
+            // Handle Resize
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        };
+
+        // Initialize Three.js only on desktop to save performance
+        if (window.innerWidth > 768) {
+            initThreeJS();
+        }
+
+        // Stack Carousel Logic
+        let currentState = 1;
+        const totalCards = 3;
+        const stackContainer = document.getElementById('demo-stack');
+
+        window.nextCard = () => {
+            stackContainer.classList.remove(`state-${currentState}`);
+            currentState = currentState >= totalCards ? 1 : currentState + 1;
+            stackContainer.classList.add(`state-${currentState}`);
+        };
+
+    </script>
+</body>
+
+</html>

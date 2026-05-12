@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Design System 1 - Positiv+ x Wix</title>
+
+    <!-- Dependencies -->
+    <script src="../glass-effect2/assets/iconify_654a1ef798a3.js"></script>
+    <link href="../glass-effect2/assets/css2_ac990486f183.css" rel="stylesheet" />
+    <script src="../glass-effect2/assets/resource_3fa48481346f.js"></script>
+    <script src="../parallax-geometry/assets/gsap_4a57399e4113.js"></script>
+    <script src="../parallax-geometry/assets/ScrollTrigger_8669edfeb171.js"></script>
+
+    <style>
+        @font-face {
+            font-family: 'madefor-display-bold';
+            src: url("../wix.com_studio_design_inspiration_spac/assets/madefor-display-bold_2efb43704c07.woff2") format('woff2');
+            font-weight: 700;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'madefor-text';
+            src: url("../wix.com_studio_design_inspiration_spac/assets/madefor-text_d2c633af5292.woff2") format('woff2');
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'madefor-text-bold';
+            src: url("../wix.com_studio_design_inspiration_spac/assets/madefor-text-bold_d7ecf2f8ff3d.woff2") format('woff2');
+            font-weight: 700;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        :root {
+            --color_11: #F5F4F3;
+            --color_15: #000000;
+            --color_accent_1: #D2C5FF;
+            --color_accent_2: #345C59;
+            --cursor-size: 20px;
+            --cursor-hover-size: 80px;
+        }
+
+        body {
+            background-color: var(--color_11);
+            color: var(--color_15);
+            font-family: 'madefor-text', sans-serif;
+            cursor: none;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        .font-heading {
+            font-family: 'madefor-display-bold', sans-serif;
+        }
+
+        /* Transparent Lettering */
+        .text-outline {
+            color: transparent;
+            -webkit-text-stroke: 1.5px var(--color_15);
+        }
+
+        /* Light Theme Glassmorphism */
+        .glass-panel-light {
+            background: rgba(255, 255, 255, 0.45);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .glass-panel-light:hover {
+            background: rgba(255, 255, 255, 0.7);
+            border-color: rgba(255, 255, 255, 0.9);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+        }
+
+        /* Buttons from Wix */
+        .wix-button {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 100px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 36px;
+            text-decoration: none;
+            box-sizing: border-box;
+            font-family: 'madefor-text-bold', sans-serif;
+            font-size: 13px;
+            letter-spacing: 0.1em;
+            background: var(--color_15);
+            border: 1px solid var(--color_15);
+            color: var(--color_11);
+            cursor: none;
+            text-transform: uppercase;
+        }
+
+        .wix-button:hover {
+            background: transparent;
+            color: var(--color_15);
+        }
+
+        .wix-button-outline {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 100px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 36px;
+            text-decoration: none;
+            box-sizing: border-box;
+            font-family: 'madefor-text-bold', sans-serif;
+            font-size: 13px;
+            letter-spacing: 0.1em;
+            background: transparent;
+            border: 1px solid var(--color_15);
+            color: var(--color_15);
+            cursor: none;
+            text-transform: uppercase;
+        }
+
+        .wix-button-outline:hover {
+            background: var(--color_15);
+            color: var(--color_11);
+        }
+
+        /* Ambient Liquid */
+        .liquid-blob {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.4;
+            z-index: -1;
+            animation: float 10s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes float {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            100% {
+                transform: translate(30px, 50px) scale(1.1);
+            }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--color_11);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        /* Custom Cursor */
+        #cursor {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: var(--cursor-size);
+            height: var(--cursor-size);
+            background-color: var(--color_15);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s, height 0.3s, background-color 0.3s;
+            mix-blend-mode: difference;
+        }
+
+        #cursor.hovered {
+            width: var(--cursor-hover-size);
+            height: var(--cursor-hover-size);
+            opacity: 0.1;
+            background-color: var(--color_15);
+            mix-blend-mode: normal;
+        }
+
+        /* Animation defaults */
+        .gsap-reveal,
+        .gsap-hero {
+            opacity: 0;
+            transform: translateY(40px);
+            will-change: transform, opacity;
+        }
+
+        /* Hover glows */
+        .hover-glow:hover {
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Floating image animation */
+        @keyframes float-img {
+            0% {
+                transform: translate(-50%, -50%) translateY(0);
+            }
+
+            50% {
+                transform: translate(-50%, -50%) translateY(20px);
+            }
+
+            100% {
+                transform: translate(-50%, -50%) translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body class="selection:bg-black selection:text-white relative">
+
+    <div id="cursor"></div>
+
+    <!-- Liquid Backgrounds -->
+    <div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
+        <div class="liquid-blob bg-[#D2C5FF]"
+            style="width: 600px; height: 600px; top: -100px; left: -200px; animation-duration: 20s;"></div>
+        <div class="liquid-blob bg-[#345C59]"
+            style="width: 500px; height: 500px; bottom: -100px; right: -100px; opacity: 0.2; animation-duration: 25s; animation-delay: -5s;">
+        </div>
+        <div class="liquid-blob bg-[#b3e5fc]"
+            style="width: 400px; height: 400px; top: 40%; left: 30%; opacity: 0.3; animation-duration: 18s;"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 w-full z-[100] px-4 py-4 transition-all duration-300">
+        <div
+            class="max-w-7xl mx-auto glass-panel-light rounded-full px-6 py-4 flex justify-between items-center shadow-lg shadow-black/5">
+            <div class="font-heading text-xl tracking-tighter cursor-hover">POSITIV+ DESIGN</div>
+            <div class="hidden md:flex gap-8 font-['madefor-text-bold'] text-[10px] uppercase tracking-widest">
+                <a href="#typography" class="hover:text-black/50 transition-colors cursor-hover">Typography</a>
+                <a href="#colors" class="hover:text-black/50 transition-colors cursor-hover">Colors</a>
+                <a href="#components" class="hover:text-black/50 transition-colors cursor-hover">Components</a>
+                <a href="#icons" class="hover:text-black/50 transition-colors cursor-hover">Icons</a>
+            </div>
+            <button class="md:hidden cursor-hover text-black"><span class="iconify" data-icon="lucide:menu"
+                    data-width="24"></span></button>
+        </div>
+    </nav>
+
+    <!-- 1. Hero Section -->
+    <section id="hero"
+        class="relative min-h-screen w-full flex flex-col items-center justify-center overflow-hidden px-4 md:px-8 border-b border-black/5 pt-20">
+        <!-- THREE JS Canvas for wireframes -->
+        <canvas id="canvas" class="absolute inset-0 z-[1]"></canvas>
+
+        <!-- Wix Cloud Image -->
+        <img src="../wix.com_studio_design_inspiration_spac/assets/cloud_203_e5c027668b4b.webp"
+            class="absolute z-[2] w-[80vw] max-w-[900px] opacity-20 mix-blend-multiply top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+            style="animation: float-img 15s ease-in-out infinite;" alt="Cloud">
+
+        <div class="relative z-10 w-full max-w-7xl mx-auto flex flex-col items-center text-center pointer-events-none">
+            <!-- Badge -->
+            <div class="gsap-hero mb-8 pointer-events-auto">
+                <span
+                    class="glass-panel-light px-4 py-2 rounded-full text-[10px] font-['madefor-text-bold'] uppercase tracking-[0.2em] text-black shadow-lg">
+                    System 1.0 Release
+                </span>
+            </div>
+
+            <!-- Title (Transparent Lettering on White) -->
+            <h1 class="font-heading leading-[0.85] tracking-tighter uppercase mb-6 drop-shadow-sm select-none">
+                <span class="block text-[15vw] md:text-[10rem] lg:text-[12rem] text-outline gsap-hero">DESIGN</span>
+                <span class="block text-[15vw] md:text-[10rem] lg:text-[12rem] text-black gsap-hero"
+                    style="">SYSTEM</span>
+            </h1>
+
+            <p
+                class="font-['madefor-text'] text-lg md:text-2xl text-black/70 max-w-2xl mx-auto mb-12 gsap-hero drop-shadow-sm">
+                A harmonious blend of stark white minimalism, robust typography, fluid geometric parallaxes, and
+                light-infused glassmorphism.
+            </p>
+
+            <div class="gsap-hero pointer-events-auto flex items-center gap-4">
+                <a href="#typography" class="wix-button cursor-hover">
+                    EXPLORE SYSTEM
+                    <span class="iconify ml-2 group-hover:translate-x-1 transition-transform"
+                        data-icon="lucide:arrow-right" data-width="16"></span>
+                </a>
+                <a href="#components" class="wix-button-outline cursor-hover hidden md:inline-flex">
+                    COMPONENTS
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. Typography -->
+    <section id="typography" class="py-32 px-4 md:px-8 border-b border-black/5 relative z-10 w-full">
+        <div class="max-w-7xl mx-auto">
+            <div class="mb-20 gsap-reveal">
+                <span
+                    class="text-[10px] font-['madefor-text-bold'] uppercase tracking-[0.2em] text-black/50 mb-4 block flex items-center gap-4">
+                    <span class="w-10 h-[1px] bg-black/20"></span> Typography
+                </span>
+                <h2 class="text-5xl md:text-7xl font-heading text-black tracking-tighter">THE BASELINE</h2>
+                <p class="mt-4 text-black/60 max-w-xl text-lg">A scale built on Madefor Display and Text families,
+                    bringing clarity and punch to the visual hierarchy.</p>
+            </div>
+
+            <!-- Font Families -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-20 gsap-reveal">
+                <div class="glass-panel-light p-10 rounded-3xl hover-glow">
+                    <p class="text-[10px] uppercase tracking-widest text-black/50 mb-6">Primary Display</p>
+                    <h3 class="text-5xl font-heading mb-4 select-all">Madefor Display</h3>
+                    <p
+                        class="text-sm text-black/60 font-mono bg-white/50 px-4 py-2 rounded-lg border border-black/5 w-fit">
+                        font-family: 'madefor-display-bold'</p>
+                </div>
+                <div class="glass-panel-light p-10 rounded-3xl hover-glow">
+                    <p class="text-[10px] uppercase tracking-widest text-black/50 mb-6">Secondary Text</p>
+                    <h3 class="text-5xl font-['madefor-text'] mb-4 select-all">Madefor Text</h3>
+                    <p
+                        class="text-sm text-black/60 font-mono bg-white/50 px-4 py-2 rounded-lg border border-black/5 w-fit">
+                        font-family: 'madefor-text'</p>
+                </div>
+            </div>
+
+            <!-- Scale Grid -->
+            <div class="space-y-12 gsap-reveal">
+                <div
+                    class="flex flex-col md:flex-row md:items-baseline gap-4 md:gap-16 pb-8 border-b border-black/10 transition-colors hover:border-black/30">
+                    <div class="w-32 text-[10px] text-black/40 uppercase tracking-widest font-mono shrink-0">H1 / 106px
+                        / 1.4em</div>
+                    <div
+                        class="text-[106px] leading-[1.4] font-heading tracking-tighter max-w-full overflow-hidden truncate">
+                        Headline 1</div>
+                </div>
+                <div
+                    class="flex flex-col md:flex-row md:items-baseline gap-4 md:gap-16 pb-8 border-b border-black/10 transition-colors hover:border-black/30">
+                    <div class="w-32 text-[10px] text-black/40 uppercase tracking-widest font-mono shrink-0">H2 / 54px /
+                        0.9em</div>
+                    <div class="text-[54px] leading-[0.9] font-heading tracking-tight">Headline 2</div>
+                </div>
+                <div
+                    class="flex flex-col md:flex-row md:items-baseline gap-4 md:gap-16 pb-8 border-b border-black/10 transition-colors hover:border-black/30">
+                    <div class="w-32 text-[10px] text-black/40 uppercase tracking-widest font-mono shrink-0">Body Lg /
+                        24px / 1.5</div>
+                    <div class="text-2xl leading-[1.5] font-['madefor-text'] max-w-2xl">Large body text designed for
+                        readability and legibility on extensive reading forms.</div>
+                </div>
+                <div
+                    class="flex flex-col md:flex-row md:items-baseline gap-4 md:gap-16 pb-8 border-b border-black/10 transition-colors hover:border-black/30">
+                    <div class="w-32 text-[10px] text-black/40 uppercase tracking-widest font-mono shrink-0">Body Sm /
+                        14px / 1.4</div>
+                    <div class="text-sm leading-[1.4] font-['madefor-text'] text-black/70 max-w-xl">Small utility text
+                        used for captions, metadata, input labels, or supporting descriptive elements.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. Colors -->
+    <section id="colors" class="py-32 px-4 md:px-8 border-b border-black/5 relative z-10 w-full">
+        <div class="max-w-7xl mx-auto">
+            <div class="mb-20 gsap-reveal">
+                <span
+                    class="text-[10px] font-['madefor-text-bold'] uppercase tracking-[0.2em] text-black/50 mb-4 block flex items-center gap-4">
+                    <span class="w-10 h-[1px] bg-black/20"></span> Colors
+                </span>
+                <h2 class="text-5xl md:text-7xl font-heading text-black tracking-tighter">EXPRESSION</h2>
+                <p class="mt-4 text-black/60 max-w-xl text-lg">A deliberate, constrained palette built around white
+                    space and high-contrast typography.</p>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6 gsap-reveal">
+                <div class="flex flex-col group cursor-hover">
+                    <div
+                        class="h-32 rounded-2xl bg-[#000000] shadow-md mb-4 border border-black/5 group-hover:-translate-y-2 transition-transform duration-300 flex items-end justify-center pb-4 text-white font-mono text-xs opacity-0 group-hover:opacity-100">
+                        100%</div>
+                    <span class="font-['madefor-text-bold'] text-sm tracking-wide">Primary Black</span>
+                    <span class="font-mono text-[10px] text-black/50">#000000 / Text / Action</span>
+                </div>
+                <div class="flex flex-col group cursor-hover">
+                    <div
+                        class="h-32 rounded-2xl bg-[#F5F4F3] shadow-[inset_0_2px_10px_rgba(0,0,0,0.02)] mb-4 border border-black/10 group-hover:-translate-y-2 transition-transform duration-300 flex items-end justify-center pb-4 text-black font-mono text-xs opacity-0 group-hover:opacity-100">
+                        100%</div>
+                    <span class="font-['madefor-text-bold'] text-sm tracking-wide">Base Off-White</span>
+                    <span class="font-mono text-[10px] text-black/50">#F5F4F3 / Background</span>
+                </div>
+                <div class="flex flex-col group cursor-hover">
+                    <div
+                        class="h-32 rounded-2xl bg-[#FFFFFF] shadow-sm mb-4 border border-black/10 group-hover:-translate-y-2 transition-transform duration-300 flex items-end justify-center pb-4 text-black font-mono text-xs opacity-0 group-hover:opacity-100">
+                        100%</div>
+                    <span class="font-['madefor-text-bold'] text-sm tracking-wide">Surface White</span>
+                    <span class="font-mono text-[10px] text-black/50">#FFFFFF / Panels / Cards</span>
+                </div>
+                <div class="flex flex-col group cursor-hover">
+                    <div
+                        class="h-32 rounded-2xl bg-[#D2C5FF] shadow-sm mb-4 border border-black/5 group-hover:-translate-y-2 transition-transform duration-300 flex items-end justify-center pb-4 text-[#3a2099] font-mono text-xs opacity-0 group-hover:opacity-100">
+                        100%</div>
+                    <span class="font-['madefor-text-bold'] text-sm tracking-wide">Accent Purple</span>
+                    <span class="font-mono text-[10px] text-black/50">#D2C5FF / Liquid Ambient</span>
+                </div>
+                <div class="flex flex-col group cursor-hover">
+                    <div
+                        class="h-32 rounded-2xl bg-[#345C59] shadow-sm mb-4 border border-black/5 group-hover:-translate-y-2 transition-transform duration-300 flex items-end justify-center pb-4 text-[#a3d8d3] font-mono text-xs opacity-0 group-hover:opacity-100">
+                        100%</div>
+                    <span class="font-['madefor-text-bold'] text-sm tracking-wide">Accent Green</span>
+                    <span class="font-mono text-[10px] text-black/50">#345C59 / Highlight</span>
+                </div>
+            </div>
+
+            <div
+                class="mt-12 w-full h-32 rounded-3xl border border-black/10 shadow-sm overflow-hidden flex cursor-hover gsap-reveal group">
+                <div
+                    class="flex-1 bg-gradient-to-r from-[#F5F4F3] via-[#D2C5FF] to-[#345C59] h-full transition-transform duration-700 group-hover:scale-105">
+                </div>
+                <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                    <span
+                        class="glass-panel-light px-6 py-2 rounded-full text-xs font-['madefor-text-bold'] tracking-widest uppercase">Gradient
+                        Flow</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. Components -->
+    <section id="components" class="py-32 px-4 md:px-8 border-b border-black/5 relative z-10 w-full">
+        <div class="max-w-7xl mx-auto">
+            <div class="mb-20 gsap-reveal">
+                <span
+                    class="text-[10px] font-['madefor-text-bold'] uppercase tracking-[0.2em] text-black/50 mb-4 block flex items-center gap-4">
+                    <span class="w-10 h-[1px] bg-black/20"></span> Interface
+                </span>
+                <h2 class="text-5xl md:text-7xl font-heading text-black tracking-tighter">COMPONENTS</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 gsap-reveal">
+
+                <!-- Buttons Container -->
+                <div
+                    class="glass-panel-light p-10 rounded-3xl flex flex-col gap-10 items-start justify-center cursor-hover group hover-glow">
+                    <h3
+                        class="text-sm font-['madefor-text-bold'] text-black/50 uppercase tracking-[0.2em] w-full border-b border-black/10 pb-4">
+                        Actions</h3>
+
+                    <div class="flex flex-wrap gap-4">
+                        <button class="wix-button cursor-hover">PRIMARY STATE</button>
+                        <button
+                            class="wix-button bg-black/5 border-black/5 text-black/40 cursor-not-allowed pointer-events-none">DISABLED</button>
+                    </div>
+
+                    <div class="flex flex-wrap gap-4">
+                        <button class="wix-button-outline cursor-hover">SECONDARY ACTION</button>
+                        <button
+                            class="px-8 py-[14px] rounded-full bg-white border border-black/10 text-black font-['madefor-text-bold'] text-[13px] tracking-[0.1em] hover:bg-black/5 transition-colors shadow-sm cursor-hover uppercase">ELEVATED</button>
+                    </div>
+
+                    <div
+                        class="flex items-center gap-2 text-xs text-black/40 font-mono bg-white/50 px-3 py-1.5 rounded-md border border-black/5">
+                        <span class="iconify" data-icon="lucide:info" data-width="14"></span> Hover states include
+                        inverted colors and custom cursor interactions.
+                    </div>
+                </div>
+
+                <!-- Inputs Container -->
+                <div
+                    class="glass-panel-light p-10 rounded-3xl flex flex-col gap-10 justify-center cursor-hover hover-glow">
+                    <h3
+                        class="text-sm font-['madefor-text-bold'] text-black/50 uppercase tracking-[0.2em] w-full border-b border-black/10 pb-4">
+                        Forms & Controls</h3>
+
+                    <div class="relative w-full">
+                        <input type="text" id="demo-user"
+                            class="peer w-full bg-transparent border-b border-black/30 py-3 text-black font-['madefor-text'] focus:outline-none focus:border-black transition-colors placeholder-transparent text-lg cursor-hover"
+                            placeholder="Enter workspace name">
+                        <label for="demo-user"
+                            class="absolute left-0 top-3 text-black/40 text-sm transition-all peer-focus:-top-4 peer-focus:text-xs peer-focus:text-[#345C59] peer-placeholder-shown:top-3 peer-placeholder-shown:text-sm peer-placeholder-shown:text-black/40 pointer-events-none uppercase tracking-widest font-['madefor-text-bold']">Workspace
+                            Name</label>
+                    </div>
+
+                    <div class="flex items-center gap-4 cursor-hover w-fit">
+                        <div class="relative flex items-center justify-center">
+                            <input type="checkbox" id="demo-check"
+                                class="appearance-none w-5 h-5 border-2 border-black/30 rounded focus:outline-none checked:bg-black checked:border-black transition-colors cursor-hover peer">
+                            <span
+                                class="iconify text-white absolute pointer-events-none opacity-0 peer-checked:opacity-100 transition-opacity"
+                                data-icon="lucide:check" data-width="14" data-stroke-width="3"></span>
+                        </div>
+                        <label for="demo-check" class="text-sm font-['madefor-text'] cursor-hover">Remember my
+                            preferences</label>
+                    </div>
+
+                    <div class="flex items-center gap-4 cursor-hover w-fit">
+                        <input type="radio" name="demo-radio" id="radio-1" class="w-5 h-5 accent-black cursor-hover"
+                            checked>
+                        <label for="radio-1" class="text-sm font-['madefor-text'] cursor-hover">Standard Theme</label>
+
+                        <input type="radio" name="demo-radio" id="radio-2"
+                            class="w-5 h-5 accent-black cursor-hover ml-4">
+                        <label for="radio-2" class="text-sm font-['madefor-text'] cursor-hover">High Contrast</label>
+                    </div>
+                </div>
+
+                <!-- Badges & Tooltips -->
+                <div
+                    class="glass-panel-light p-10 rounded-3xl flex flex-col gap-10 justify-center cursor-hover hover-glow col-span-1 md:col-span-2">
+                    <h3
+                        class="text-sm font-['madefor-text-bold'] text-black/50 uppercase tracking-[0.2em] w-full border-b border-black/10 pb-4">
+                        Indicators</h3>
+
+                    <div class="flex flex-wrap gap-6 items-center">
+                        <span
+                            class="px-3 py-1 bg-black text-white text-[10px] rounded-full uppercase tracking-widest font-['madefor-text-bold'] shadow-md cursor-hover hover:scale-105 transition-transform">New
+                            Feature</span>
+
+                        <span
+                            class="px-3 py-1 bg-[#D2C5FF]/30 text-[#4c31bd] border border-[#D2C5FF] text-[10px] rounded-full uppercase tracking-widest font-['madefor-text-bold'] cursor-hover hover:bg-[#D2C5FF]/50 transition-colors">Beta</span>
+
+                        <span
+                            class="px-3 py-1 bg-[#345C59]/10 text-[#254643] border border-[#345C59]/30 text-[10px] rounded-full uppercase tracking-widest font-['madefor-text-bold'] cursor-hover hover:bg-[#345C59]/20 transition-colors">Stable</span>
+
+                        <div class="relative group cursor-hover ml-auto">
+                            <span class="iconify text-black/50 hover:text-black transition-colors"
+                                data-icon="lucide:info" data-width="20"></span>
+                            <div
+                                class="absolute bottom-full right-0 mb-2 w-48 p-3 bg-black text-white text-xs rounded-lg opacity-0 -translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 pointer-events-none shadow-xl font-['madefor-text']">
+                                Tooltips appear smoothly with custom ease transition logic.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Showcase Card -->
+                <div
+                    class="glass-panel-light rounded-3xl overflow-hidden cursor-hover col-span-1 md:col-span-2 flex flex-col md:flex-row group shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-1">
+                    <div class="w-full md:w-[45%] h-64 md:h-auto overflow-hidden relative">
+                        <!-- Image from Wix styling -->
+                        <img src="../wix.com_studio_design_inspiration_spac/assets/Artboard_201_20copy_207_b29069330bd0.png"
+                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 filter object-center"
+                            alt="Planet">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                    </div>
+                    <div class="w-full md:w-[55%] p-10 lg:p-14 flex flex-col justify-center bg-white/40">
+                        <span
+                            class="px-3 py-1 bg-black text-white text-[10px] rounded-full uppercase tracking-widest w-fit mb-6 font-['madefor-text-bold']">Editor's
+                            Choice</span>
+                        <h3 class="text-4xl font-heading mb-4 leading-none tracking-tight">The Parallax Illusion</h3>
+                        <p class="text-black/70 mb-8 leading-relaxed text-lg">Discover how combining glassmorphism with
+                            subtle 3D depth can transform basic geometric shapes into breathtaking, immersive
+                            interfaces.</p>
+
+                        <a href="#"
+                            class="inline-flex items-center font-['madefor-text-bold'] text-xs tracking-widest border-b-[1.5px] border-black pb-1 hover:text-black/50 hover:border-black/50 transition-colors cursor-hover w-fit uppercase">
+                            Read Article <span class="iconify ml-2" data-icon="lucide:arrow-right"
+                                data-width="14"></span>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. Icons & Motion -->
+    <section id="icons" class="py-32 px-4 md:px-8 relative z-10 w-full mb-20">
+        <div class="max-w-7xl mx-auto">
+            <div class="mb-20 gsap-reveal">
+                <span
+                    class="text-[10px] font-['madefor-text-bold'] uppercase tracking-[0.2em] text-black/50 mb-4 block flex items-center gap-4">
+                    <span class="w-10 h-[1px] bg-black/20"></span> Details
+                </span>
+                <h2 class="text-5xl md:text-7xl font-heading text-black tracking-tighter">ICONS & MOTION</h2>
+            </div>
+
+            <!-- Icons Grid -->
+            <div class="grid grid-cols-3 md:grid-cols-6 lg:grid-cols-8 gap-6 gsap-reveal mb-20">
+                <div
+                    class="flex flex-col items-center justify-center gap-4 glass-panel-light p-6 rounded-2xl cursor-hover hover:-translate-y-2 hover:bg-white transition-all duration-300 shadow-sm hover:shadow-lg">
+                    <span class="iconify text-2xl text-black" data-icon="lucide:zap" data-stroke-width="1.5"></span>
+                    <span
+                        class="text-[9px] uppercase tracking-widest font-['madefor-text-bold'] text-black/60">Zap</span>
+                </div>
+                <div
+                    class="flex flex-col items-center justify-center gap-4 glass-panel-light p-6 rounded-2xl cursor-hover hover:-translate-y-2 hover:bg-white transition-all duration-300 shadow-sm hover:shadow-lg">
+                    <span class="iconify text-2xl text-black" data-icon="lucide:activity"
+                        data-stroke-width="1.5"></span>
+                    <span
+                        class="text-[9px] uppercase tracking-widest font-['madefor-text-bold'] text-black/60">Activity</span>
+                </div>
+                <div
+                    class="flex flex-col items-center justify-center gap-4 glass-panel-light p-6 rounded-2xl cursor-hover hover:-translate-y-2 hover:bg-white transition-all duration-300 shadow-sm hover:shadow-lg">
+                    <span class="iconify text-2xl text-black" data-icon="lucide:compass" data-stroke-width="1.5"></span>
+                    <span
+                        class="text-[9px] uppercase tracking-widest font-['madefor-text-bold'] text-black/60">Navigate</span>
+                </div>
+                <div
+                    class="flex flex-col items-center justify-center gap-4 glass-panel-light p-6 rounded-2xl cursor-hover hover:-translate-y-2 hover:bg-white transition-all duration-300 shadow-sm hover:shadow-lg">
+                    <span class="iconify text-2xl text-black" data-icon="lucide:cpu" data-stroke-width="1.5"></span>
+                    <span
+                        class="text-[9px] uppercase tracking-widest font-['madefor-text-bold'] text-black/60">Logic</span>
+                </div>
+                <div
+                    class="flex flex-col items-center justify-center gap-4 glass-panel-light p-6 rounded-2xl cursor-hover hover:-translate-y-2 hover:bg-white transition-all duration-300 shadow-sm hover:shadow-lg">
+                    <span class="iconify text-2xl text-black" data-icon="lucide:globe" data-stroke-width="1.5"></span>
+                    <span
+                        class="text-[9px] uppercase tracking-widest font-['madefor-text-bold'] text-black/60">World</span>
+                </div>
+                <div
+                    class="flex flex-col items-center justify-center gap-4 glass-panel-light p-6 rounded-2xl cursor-hover hover:-translate-y-2 hover:bg-white transition-all duration-300 shadow-sm hover:shadow-lg">
+                    <span class="iconify text-2xl text-black" data-icon="lucide:layers" data-stroke-width="1.5"></span>
+                    <span
+                        class="text-[9px] uppercase tracking-widest font-['madefor-text-bold'] text-black/60">Layers</span>
+                </div>
+                <div
+                    class="flex flex-col items-center justify-center gap-4 glass-panel-light p-6 rounded-2xl cursor-hover hover:-translate-y-2 hover:bg-white transition-all duration-300 shadow-sm hover:shadow-lg">
+                    <span class="iconify text-2xl text-black" data-icon="lucide:box" data-stroke-width="1.5"></span>
+                    <span
+                        class="text-[9px] uppercase tracking-widest font-['madefor-text-bold'] text-black/60">Object</span>
+                </div>
+                <div
+                    class="flex flex-col items-center justify-center gap-4 glass-panel-light p-6 rounded-2xl cursor-hover hover:-translate-y-2 hover:bg-white transition-all duration-300 shadow-sm hover:shadow-lg">
+                    <span class="iconify text-2xl text-black" data-icon="lucide:command" data-stroke-width="1.5"></span>
+                    <span
+                        class="text-[9px] uppercase tracking-widest font-['madefor-text-bold'] text-black/60">Command</span>
+                </div>
+            </div>
+
+            <!-- Motion Explain -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 gsap-reveal items-center">
+                <div>
+                    <h3 class="text-3xl font-heading mb-4">Kinetic Principles</h3>
+                    <p class="text-black/60 leading-relaxed mb-6">Every interaction is met with a smooth, purposeful
+                        response. Elements reveal via ScrollTrigger, shapes calculate mouse positions for 3D rotation,
+                        and ambient liquids transform automatically via CSS keyframes.</p>
+                    <ul class="space-y-4 text-sm font-['madefor-text-bold'] tracking-wide">
+                        <li class="flex items-center gap-3"><span class="w-1.5 h-1.5 bg-black rounded-full"></span>
+                            Scroll Reveal: 1s duration, power3.out ease.</li>
+                        <li class="flex items-center gap-3"><span class="w-1.5 h-1.5 bg-black rounded-full"></span>
+                            Interactive Canvas: RequestAnimationFrame loop.</li>
+                        <li class="flex items-center gap-3"><span class="w-1.5 h-1.5 bg-black rounded-full"></span>
+                            Backdrop Blurs: 20px Gaussian with saturated backing.</li>
+                    </ul>
+                </div>
+                <div
+                    class="glass-panel-light p-4 rounded-3xl h-64 flex items-center justify-center relative overflow-hidden group cursor-hover border border-black/10">
+                    <!-- Mini motion demo inside -->
+                    <div
+                        class="absolute inset-0 bg-gradient-to-tr from-[#000000] to-[#333333] transition-transform duration-1000 group-hover:scale-110">
+                    </div>
+                    <div class="w-24 h-24 border border-white/30 rounded-full animate-ping absolute opacity-20"></div>
+                    <div
+                        class="w-16 h-16 bg-white rounded-2xl mix-blend-overlay rotate-12 group-hover:rotate-45 group-hover:scale-125 transition-all duration-700 ease-out z-10">
+                    </div>
+                    <span
+                        class="absolute bottom-4 right-6 text-white/50 text-[10px] font-mono uppercase tracking-widest z-10">Hover
+                        Response</span>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <footer
+        class="py-12 border-t border-black/10 text-center text-xs font-['madefor-text-bold'] tracking-widest text-black/40 uppercase relative z-10 bg-[#F5F4F3]/80 backdrop-blur-lg">
+        Design System &copy; 2026 Positiv+
+    </footer>
+
+    <!-- Canvas Animation Logic for Background Shapes (Light Theme Array) -->
+    <script type="module">
+        import * as THREE from "https://esm.sh/three@0.160.0";
+
+        gsap.registerPlugin(ScrollTrigger);
+
+        // GSAP Scroll Reveals
+        const reveals = document.querySelectorAll(".gsap-reveal");
+        reveals.forEach((el) => {
+            ScrollTrigger.create({
+                trigger: el,
+                start: "top 85%",
+                onEnter: () => gsap.to(el, { opacity: 1, y: 0, duration: 1, ease: "power3.out" })
+            });
+        });
+
+        // Hero Sequence
+        gsap.to(".gsap-hero", { opacity: 1, y: 0, duration: 1.2, stagger: 0.1, ease: "power3.out", delay: 0.2 });
+
+        // THREE.js Canvas Background
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('canvas'), alpha: true, antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+
+        camera.position.z = 15;
+
+        const parallaxGroups = [new THREE.Group(), new THREE.Group(), new THREE.Group()];
+        parallaxGroups.forEach(group => scene.add(group));
+
+        // Dark materials for light background
+        const matDark = new THREE.MeshBasicMaterial({ color: 0x000000, wireframe: true, transparent: true, opacity: 0.15 });
+        const matMed = new THREE.MeshBasicMaterial({ color: 0x345C59, wireframe: true, transparent: true, opacity: 0.1 });
+        const matLight = new THREE.MeshBasicMaterial({ color: 0x666666, wireframe: true, transparent: true, opacity: 0.05 });
+
+        const materials = [matDark, matMed, matLight];
+        const shapeTypes = ['sphere', 'box', 'octahedron', 'tetrahedron', 'torus'];
+
+        function createGeometry(type, size, material) {
+            let geometry;
+            switch (type) {
+                case 'sphere': geometry = new THREE.SphereGeometry(size, 12, 12); break;
+                case 'box': geometry = new THREE.BoxGeometry(size, size, size); break;
+                case 'octahedron': geometry = new THREE.OctahedronGeometry(size); break;
+                case 'tetrahedron': geometry = new THREE.TetrahedronGeometry(size); break;
+                case 'torus': geometry = new THREE.TorusGeometry(size, size * 0.3, 8, 12); break;
+                default: geometry = new THREE.SphereGeometry(size, 8, 8);
+            }
+            return new THREE.Mesh(geometry, material);
+        }
+
+        const shapes = [];
+
+        // Distribute shapes across groups
+        for (let g = 0; g < parallaxGroups.length; g++) {
+            const count = g === 0 ? 15 : g === 1 ? 25 : 35; // More objects further back
+            const zSpread = g === 0 ? 5 : g === 1 ? -5 : -20;
+
+            for (let i = 0; i < count; i++) {
+                const type = shapeTypes[Math.floor(Math.random() * shapeTypes.length)];
+                const mat = materials[g];
+                const shape = createGeometry(type, Math.random() * 1.5 + 0.5, mat);
+
+                shape.position.set(
+                    (Math.random() - 0.5) * 80,
+                    (Math.random() - 0.5) * 60,
+                    zSpread + (Math.random() * 10 - 5)
+                );
+
+                shape.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI);
+
+                parallaxGroups[g].add(shape);
+                shapes.push({
+                    mesh: shape,
+                    rotationSpeed: (Math.random() - 0.5) * 0.02,
+                    initialY: shape.position.y
+                });
+            }
+        }
+
+        let scrollY = 0;
+        let mouseX = 0; let mouseY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = (e.clientX / window.innerWidth) * 2 - 1;
+            mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
+        });
+
+        ScrollTrigger.create({
+            trigger: "body", start: "top top", end: "bottom bottom", scrub: true,
+            onUpdate: (self) => { scrollY = self.progress; }
+        });
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            parallaxGroups[0].position.y = scrollY * 20;
+            parallaxGroups[1].position.y = scrollY * 12;
+            parallaxGroups[2].position.y = scrollY * 6;
+
+            parallaxGroups[0].rotation.x = mouseY * 0.08;
+            parallaxGroups[0].rotation.y = mouseX * 0.08;
+            parallaxGroups[1].rotation.x = mouseY * 0.04;
+            parallaxGroups[1].rotation.y = mouseX * 0.04;
+
+            shapes.forEach(data => {
+                data.mesh.rotation.x += data.rotationSpeed;
+                data.mesh.rotation.y += data.rotationSpeed * 0.8;
+                data.mesh.position.y += Math.sin(Date.now() * 0.001 + data.mesh.position.x) * 0.01;
+
+                if (data.mesh.position.y > 40) data.mesh.position.y = -40;
+                else if (data.mesh.position.y < -40) data.mesh.position.y = 40;
+            });
+
+            renderer.render(scene, camera);
+        }
+
+        animate();
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+
+    <!-- Custom Cursor & Interaction Logic -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const cursor = document.getElementById('cursor');
+            const hoverElements = document.querySelectorAll('.cursor-hover, a, button, input, label');
+
+            document.addEventListener('mousemove', (e) => {
+                cursor.style.left = e.clientX + 'px';
+                cursor.style.top = e.clientY + 'px';
+            });
+
+            hoverElements.forEach(el => {
+                el.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
+                el.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
+
+                // Keep cursor active on input focus
+                if (el.tagName === 'INPUT') {
+                    el.addEventListener('focus', () => cursor.classList.add('hovered'));
+                    el.addEventListener('blur', () => cursor.classList.remove('hovered'));
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

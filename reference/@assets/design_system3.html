@@ -1,0 +1,2332 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Design System 3 — Space × Liquid × Geometry</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Montserrat:wght@400;600;700;900&family=JetBrains+Mono:wght@400;600&display=swap"
+        rel="stylesheet">
+
+    <!-- GSAP + ScrollTrigger (from parallax-geometry) -->
+    <script src="../parallax-geometry/assets/gsap_4a57399e4113.js"></script>
+    <script src="../parallax-geometry/assets/ScrollTrigger_8669edfeb171.js"></script>
+
+    <style>
+        /* ══════════════════════════════════════════════
+       ROOT TOKENS  —  wix space scroll lineage
+       ══════════════════════════════════════════════ */
+        :root {
+            /* Wix Source */
+            --color_1: #ffffff;
+            --color_11: #F5F4F3;
+            --color_15: #000000;
+            --color_18: #266aff;
+
+            /* Extended Palette */
+            --bg: #050a14;
+            --bg-mid: #0a0a0a;
+            --surface: rgba(255, 255, 255, 0.04);
+            --surface-hover: rgba(255, 255, 255, 0.08);
+            --border: rgba(255, 255, 255, 0.10);
+            --border-hover: rgba(255, 255, 255, 0.30);
+
+            --accent-blue: #266aff;
+            --accent-purple: #D2C5FF;
+            --accent-teal: #345C59;
+            --accent-gold: #fbbf24;
+            --accent-cyan: #29C5F6;
+
+            /* Wix fonts */
+            --font_0: normal normal 700 106px/1.1em 'Montserrat', sans-serif;
+            --font_2: normal normal 700 54px/0.9em 'Space Grotesk', sans-serif;
+            --font_5: normal normal 400 20px/1.5em 'Space Grotesk', sans-serif;
+
+            --radius: 16px;
+            --radius-pill: 9999px;
+
+            /* cursor */
+            --cursor-size: 16px;
+            --cursor-hover-size: 72px;
+        }
+
+        /* ══════════════════════════════════════════════
+       RESET
+       ══════════════════════════════════════════════ */
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: var(--bg);
+            color: var(--color_1);
+            overflow-x: hidden;
+            cursor: none;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        ::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 3px;
+        }
+
+        /* ══════════════════════════════════════════════
+       CUSTOM CURSOR  (glass-effect2 lineage)
+       ══════════════════════════════════════════════ */
+        #cursor {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 9999;
+            width: var(--cursor-size);
+            height: var(--cursor-size);
+            background: white;
+            border-radius: 50%;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            transition: width .3s, height .3s, background-color .3s, opacity .3s;
+            mix-blend-mode: overlay;
+        }
+
+        #cursor.hovered {
+            width: var(--cursor-hover-size);
+            height: var(--cursor-hover-size);
+            background: rgba(38, 106, 255, 0.4);
+            mix-blend-mode: normal;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+
+        /* ══════════════════════════════════════════════
+       THREE.JS CANVAS (parallax-geometry lineage)
+       ══════════════════════════════════════════════ */
+        #canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.55;
+        }
+
+        /* ══════════════════════════════════════════════
+       LIQUID BLOBS BG  (glass-effect2 lineage)
+       ══════════════════════════════════════════════ */
+        .liquid-blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(90px);
+            z-index: -1;
+            animation: blobFloat 14s infinite alternate cubic-bezier(.4, 0, .2, 1);
+        }
+
+        @keyframes blobFloat {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            100% {
+                transform: translate(40px, 60px) scale(1.15);
+            }
+        }
+
+        /* ══════════════════════════════════════════════
+       PRELOADER
+       ══════════════════════════════════════════════ */
+        #preloader {
+            position: fixed;
+            inset: 0;
+            background: var(--bg);
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            transition: transform .9s cubic-bezier(.86, 0, .07, 1);
+        }
+
+        #preloader.loaded {
+            transform: translateY(-100%);
+        }
+
+        .loader-text {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            letter-spacing: .3em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, .4);
+        }
+
+        .loader-bar {
+            width: 180px;
+            height: 1px;
+            background: rgba(255, 255, 255, .08);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .loader-progress {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            background: var(--accent-blue);
+            width: 0%;
+            transition: width .5s ease;
+        }
+
+        /* ══════════════════════════════════════════════
+       GLASS PANEL  (glass-effect2 lineage)
+       ══════════════════════════════════════════════ */
+        .glass-panel {
+            background: var(--surface);
+            backdrop-filter: blur(18px) saturate(160%);
+            -webkit-backdrop-filter: blur(18px) saturate(160%);
+            border-top: 1px solid rgba(255, 255, 255, .15);
+            border-left: 1px solid rgba(255, 255, 255, .08);
+            border-right: 1px solid rgba(255, 255, 255, .08);
+            border-bottom: 1px solid rgba(255, 255, 255, .05);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, .35);
+            position: relative;
+            overflow: hidden;
+            transition: all .45s cubic-bezier(.4, 0, .2, 1);
+        }
+
+        .glass-panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .06), transparent);
+            transition: .5s;
+            pointer-events: none;
+            z-index: 20;
+        }
+
+        .glass-panel:hover {
+            background: var(--surface-hover);
+            border-color: rgba(255, 255, 255, .28);
+            transform: translateY(-4px);
+        }
+
+        .glass-panel:hover::before {
+            left: 100%;
+            transition: .7s ease-in-out;
+        }
+
+        /* ══════════════════════════════════════════════
+       REVEAL ANIMATIONS  (both lineages)
+       ══════════════════════════════════════════════ */
+        .reveal {
+            opacity: 0;
+            transform: translateY(32px);
+            transition: opacity .85s cubic-bezier(.5, 0, 0, 1), transform .85s cubic-bezier(.5, 0, 0, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal.delay-100 {
+            transition-delay: .10s;
+        }
+
+        .reveal.delay-200 {
+            transition-delay: .20s;
+        }
+
+        .reveal.delay-300 {
+            transition-delay: .30s;
+        }
+
+        .reveal.delay-500 {
+            transition-delay: .50s;
+        }
+
+        .gsap-reveal {
+            opacity: 0;
+            transform: translateY(3rem);
+        }
+
+        /* clip-reveal — wix lineage */
+        @keyframes clipReveal {
+            0% {
+                clip-path: inset(0 100% 0 0);
+            }
+
+            100% {
+                clip-path: inset(0 0% 0 0);
+            }
+        }
+
+        .clip-anim {
+            animation: clipReveal 2.4s infinite alternate ease-in-out;
+        }
+
+        /* split lines */
+        .split-line {
+            overflow: hidden;
+            display: block;
+        }
+
+        .split-line span {
+            display: block;
+            transform: translateY(105%);
+            transition: transform 1.2s cubic-bezier(.23, 1, .32, 1);
+        }
+
+        .hero-revealed .split-line span {
+            transform: translateY(0);
+        }
+
+        /* marquee */
+        .marquee-content {
+            display: flex;
+            animation: scrollX 28s linear infinite;
+        }
+
+        @keyframes scrollX {
+            0% {
+                transform: translateX(0)
+            }
+
+            100% {
+                transform: translateX(-50%)
+            }
+        }
+
+        .marquee-wrap {
+            mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+            overflow: hidden;
+        }
+
+        /* glow pulse */
+        @keyframes glowPulse {
+
+            0%,
+            100% {
+                box-shadow: 0 0 12px rgba(38, 106, 255, .5);
+            }
+
+            50% {
+                box-shadow: 0 0 32px rgba(38, 106, 255, .9), 0 0 60px rgba(38, 106, 255, .3);
+            }
+        }
+
+        .glow-pulse {
+            animation: glowPulse 2.5s ease-in-out infinite;
+        }
+
+        /* motion banner */
+        @keyframes motionBannerR {
+            0% {
+                transform: translateX(-15%)
+            }
+
+            100% {
+                transform: translateX(0)
+            }
+        }
+
+        @keyframes motionBannerL {
+            0% {
+                transform: translateX(0)
+            }
+
+            100% {
+                transform: translateX(-15%)
+            }
+        }
+
+        .motion-banner-anim {
+            animation: motionBannerR 4s ease-in-out infinite alternate;
+        }
+
+        .motion-banner-anim-rev {
+            animation: motionBannerL 5s ease-in-out infinite alternate;
+        }
+
+        /* spin slow */
+        @keyframes spinSlow {
+            from {
+                transform: rotate(0deg)
+            }
+
+            to {
+                transform: rotate(360deg)
+            }
+        }
+
+        .spin-slow {
+            animation: spinSlow 12s linear infinite;
+        }
+
+        /* float */
+        @keyframes floatY {
+
+            0%,
+            100% {
+                transform: translateY(0)
+            }
+
+            50% {
+                transform: translateY(-12px)
+            }
+        }
+
+        .float-anim {
+            animation: floatY 5s ease-in-out infinite;
+        }
+
+        /* ══════════════════════════════════════════════
+       NAVIGATION
+       ══════════════════════════════════════════════ */
+        .ds-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 500;
+            padding: 16px 40px;
+        }
+
+        .ds-nav-inner {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .ds-nav-glass {
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            background: rgba(5, 10, 20, .6);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-pill);
+            padding: 10px 28px;
+            display: flex;
+            gap: 0;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        .ds-nav-logo {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900;
+            font-size: 15px;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            color: #fff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .ds-nav-logo .logo-dot {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
+            box-shadow: 0 4px 14px rgba(41, 197, 246, .4);
+            display: grid;
+            place-items: center;
+            font-size: 14px;
+            font-weight: 900;
+        }
+
+        .ds-nav-links {
+            display: flex;
+            gap: 32px;
+        }
+
+        .ds-nav-links a {
+            color: rgba(255, 255, 255, .55);
+            text-decoration: none;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: .18em;
+            text-transform: uppercase;
+            transition: color .3s;
+        }
+
+        .ds-nav-links a:hover {
+            color: #fff;
+        }
+
+        .ds-nav-cta {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: .15em;
+            text-transform: uppercase;
+            padding: 8px 22px;
+            border: 1px solid rgba(255, 255, 255, .2);
+            border-radius: var(--radius-pill);
+            background: rgba(255, 255, 255, .06);
+            color: #fff;
+            cursor: none;
+            transition: background .3s, border-color .3s, color .3s;
+        }
+
+        .ds-nav-cta:hover {
+            background: #fff;
+            color: #000;
+            border-color: #fff;
+        }
+
+        /* ══════════════════════════════════════════════
+       DS SECTION WRAPPER
+       ══════════════════════════════════════════════ */
+        .ds-section {
+            position: relative;
+            z-index: 10;
+            padding: 120px 60px;
+            border-bottom: 1px solid rgba(255, 255, 255, .05);
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        .ds-section-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            letter-spacing: .35em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, .28);
+            display: block;
+            margin-bottom: 56px;
+        }
+
+        .ds-section-label span {
+            color: var(--accent-blue);
+        }
+
+        .section-bg {
+            position: relative;
+            border-bottom: 1px solid rgba(255, 255, 255, .04);
+            overflow: hidden;
+        }
+
+        /* ══════════════════════════════════════════════
+       WIXUI BUTTON CLASSES  (wix lineage — exact)
+       ══════════════════════════════════════════════ */
+        .wixui-button {
+            cursor: none;
+            border: none;
+            background: transparent;
+            padding: 0;
+        }
+
+        .StylableButton2545352419__root {
+            transition: all .25s ease;
+            border-radius: var(--radius-pill);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 36px;
+            text-decoration: none;
+            box-sizing: border-box;
+            cursor: none;
+        }
+
+        .StylableButton2545352419__label {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+        }
+
+        .StylableButton2545352419__icon {
+            width: 14px;
+            height: 14px;
+            margin-left: 10px;
+            fill: currentColor;
+            transition: transform .3s ease;
+        }
+
+        .StylableButton2545352419__root:hover .StylableButton2545352419__icon {
+            transform: rotate(45deg) scale(1.2);
+        }
+
+        /* Button Variant 1 — Black (wix: style-luhxljxy7) */
+        .style-luhxljxy7__root {
+            background: #000;
+            border: 1px solid #000;
+            color: var(--color_11);
+        }
+
+        .style-luhxljxy7__root:hover {
+            background: var(--color_11);
+            color: #000;
+        }
+
+        /* Button Variant 2 — Ghost white border (wix: style-luhxbq8e2) */
+        .style-luhxbq8e2__root {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, .7);
+            color: #fff;
+        }
+
+        .style-luhxbq8e2__root:hover {
+            background: #fff;
+            color: #000;
+        }
+
+        /* Button Variant 3 — Blue glow */
+        .btn-blue {
+            background: var(--accent-blue);
+            border: 1px solid var(--accent-blue);
+            color: #fff;
+            border-radius: var(--radius-pill);
+            padding: 14px 36px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: .14em;
+            text-transform: uppercase;
+            cursor: none;
+            transition: all .25s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-blue:hover {
+            box-shadow: 0 0 28px rgba(38, 106, 255, .6);
+            transform: translateY(-2px);
+        }
+
+        /* ══════════════════════════════════════════════
+       TYPOGRAPHY CLASSES (wix + parallax)
+       ══════════════════════════════════════════════ */
+        .font_0 {
+            font: var(--font_0);
+        }
+
+        .font_2 {
+            font: var(--font_2);
+        }
+
+        .font_5 {
+            font: var(--font_5);
+        }
+
+        .wixui-rich-text__text {
+            line-height: 1.2;
+        }
+
+        /* Transparent / outline lettering — core wix motif */
+        .text-outline {
+            -webkit-text-stroke: 1.5px rgba(255, 255, 255, .85);
+            color: transparent;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900;
+        }
+
+        .text-outline-thin {
+            -webkit-text-stroke: 1px rgba(255, 255, 255, .4);
+            color: transparent;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900;
+        }
+
+        .text-gradient {
+            background: linear-gradient(135deg, #fff 0%, rgba(255, 255, 255, .25) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .text-gradient-blue {
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* ══════════════════════════════════════════════
+       HERO  —  dobra 1
+       ══════════════════════════════════════════════ */
+        #hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            overflow: hidden;
+            padding: 0 40px;
+        }
+
+        .hero-gradient-bg {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            pointer-events: none;
+            background: linear-gradient(0deg,
+                    var(--bg) 0%,
+                    rgba(5, 10, 20, .6) 30%,
+                    rgba(38, 50, 80, .4) 60%,
+                    rgba(38, 106, 255, .08) 80%,
+                    transparent 100%);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 12;
+            max-width: 1100px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-pill);
+            padding: 6px 18px;
+            margin-bottom: 40px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            letter-spacing: .25em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, .5);
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, .03);
+        }
+
+        .hero-badge .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--accent-blue);
+            box-shadow: 0 0 8px var(--accent-blue);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1)
+            }
+
+            50% {
+                opacity: .5;
+                transform: scale(0.8)
+            }
+        }
+
+        .hero-title {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900;
+            font-size: clamp(72px, 10vw, 160px);
+            line-height: 0.88;
+            text-transform: uppercase;
+            margin-bottom: 32px;
+            letter-spacing: -.02em;
+        }
+
+        .hero-title .line-solid {
+            display: block;
+            color: #fff;
+        }
+
+        .hero-title .line-outline {
+            display: block;
+            -webkit-text-stroke: 2px rgba(255, 255, 255, .7);
+            color: transparent;
+        }
+
+        .hero-title .line-ghost {
+            display: block;
+            -webkit-text-stroke: 1px rgba(255, 255, 255, .25);
+            color: transparent;
+        }
+
+        .hero-sub {
+            font-size: clamp(14px, 1.6vw, 20px);
+            font-weight: 400;
+            line-height: 1.6;
+            letter-spacing: .25em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, .45);
+            margin-bottom: 60px;
+        }
+
+        .hero-cta-group {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* Floating geometric deco */
+        .hero-deco {
+            position: absolute;
+            z-index: 3;
+            pointer-events: none;
+        }
+
+        .hero-deco-ring {
+            width: 380px;
+            height: 380px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, .06);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: ringPulse 8s ease-in-out infinite;
+        }
+
+        .hero-deco-ring2 {
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, .03);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: ringPulse 12s ease-in-out infinite reverse;
+        }
+
+        @keyframes ringPulse {
+
+            0%,
+            100% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: .6;
+            }
+
+            50% {
+                transform: translate(-50%, -50%) scale(1.06);
+                opacity: 1;
+            }
+        }
+
+        /* wix star icon */
+        .star-icon {
+            display: inline-block;
+        }
+
+        /* scroll indicator */
+        .scroll-cue {
+            position: absolute;
+            bottom: 36px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 12;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .scroll-cue-text {
+            font-size: 9px;
+            letter-spacing: .3em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, .3);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .scroll-cue-line {
+            width: 1px;
+            height: 48px;
+            background: linear-gradient(to bottom, var(--accent-blue), transparent);
+        }
+
+        /* ══════════════════════════════════════════════
+       COLOR SWATCHES
+       ══════════════════════════════════════════════ */
+        .color-card {
+            border-radius: var(--radius);
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+
+        .color-preview {
+            width: 100%;
+            height: 110px;
+        }
+
+        .color-info {
+            padding: 18px;
+            font-size: 13px;
+        }
+
+        .color-name {
+            font-weight: 700;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .color-hex {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: rgba(255, 255, 255, .45);
+        }
+
+        .color-role {
+            font-size: 10px;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            color: var(--accent-blue);
+            margin-top: 4px;
+            display: block;
+        }
+
+        /* ══════════════════════════════════════════════
+       TYPE SCALE TABLE
+       ══════════════════════════════════════════════ */
+        .type-row {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255, 255, 255, .05);
+            padding-bottom: 28px;
+            margin-bottom: 28px;
+            gap: 24px;
+        }
+
+        .type-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            color: rgba(255, 255, 255, .3);
+            width: 120px;
+            flex-shrink: 0;
+        }
+
+        .type-spec {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            color: rgba(255, 255, 255, .25);
+            text-align: right;
+            flex-shrink: 0;
+        }
+
+        /* ══════════════════════════════════════════════
+       UI COMPONENT: CARDS
+       ══════════════════════════════════════════════ */
+        .comp-card {
+            border-radius: var(--radius);
+            padding: 32px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+            transition: all .4s cubic-bezier(.4, 0, .2, 1);
+        }
+
+        .comp-card:hover {
+            background: var(--surface-hover);
+            border-color: rgba(255, 255, 255, .22);
+            transform: translateY(-6px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, .4);
+        }
+
+        .comp-card-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, .08), transparent);
+            border: 1px solid rgba(255, 255, 255, .1);
+            display: grid;
+            place-items: center;
+            margin-bottom: 20px;
+            color: var(--accent-blue);
+            font-size: 22px;
+        }
+
+        .comp-card h3 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .comp-card p {
+            font-size: 14px;
+            color: rgba(255, 255, 255, .55);
+            line-height: 1.65;
+        }
+
+        .comp-card-arrow {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            opacity: .2;
+            transition: opacity .3s, transform .3s;
+            font-size: 18px;
+        }
+
+        .comp-card:hover .comp-card-arrow {
+            opacity: 1;
+            transform: translate(3px, -3px);
+        }
+
+        /* ══════════════════════════════════════════════
+       UI COMPONENT: BADGE
+       ══════════════════════════════════════════════ */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 12px;
+            border-radius: var(--radius-pill);
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+        }
+
+        .badge-blue {
+            background: rgba(38, 106, 255, .15);
+            color: var(--accent-blue);
+            border: 1px solid rgba(38, 106, 255, .3);
+        }
+
+        .badge-purple {
+            background: rgba(210, 197, 255, .1);
+            color: var(--accent-purple);
+            border: 1px solid rgba(210, 197, 255, .2);
+        }
+
+        .badge-teal {
+            background: rgba(52, 92, 89, .25);
+            color: #6dcdc8;
+            border: 1px solid rgba(52, 92, 89, .5);
+        }
+
+        .badge-gold {
+            background: rgba(251, 191, 36, .1);
+            color: var(--accent-gold);
+            border: 1px solid rgba(251, 191, 36, .25);
+        }
+
+        /* ══════════════════════════════════════════════
+       UI COMPONENT: INPUT
+       ══════════════════════════════════════════════ */
+        .input-group {
+            position: relative;
+        }
+
+        .input-group input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid rgba(255, 255, 255, .18);
+            padding: 12px 0;
+            color: #fff;
+            outline: none;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 15px;
+            transition: border-color .3s;
+        }
+
+        .input-group label {
+            position: absolute;
+            top: 12px;
+            left: 0;
+            color: rgba(255, 255, 255, .4);
+            pointer-events: none;
+            transition: .3s ease all;
+            font-size: 13px;
+            letter-spacing: .04em;
+        }
+
+        .input-group input:focus {
+            border-bottom-color: var(--accent-blue);
+        }
+
+        .input-group input:focus~label,
+        .input-group input:not(:placeholder-shown)~label {
+            top: -14px;
+            font-size: 10px;
+            color: var(--accent-blue);
+            letter-spacing: .15em;
+            text-transform: uppercase;
+        }
+
+        .input-group::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--accent-blue);
+            transition: width .4s ease;
+        }
+
+        .input-group:focus-within::after {
+            width: 100%;
+        }
+
+        /* ══════════════════════════════════════════════
+       UI COMPONENT: TOOLTIP
+       ══════════════════════════════════════════════ */
+        .tooltip-wrap {
+            position: relative;
+            display: inline-flex;
+        }
+
+        .tooltip-wrap .tooltip-box {
+            position: absolute;
+            bottom: calc(100% + 10px);
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(20, 28, 50, .95);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 8px 16px;
+            white-space: nowrap;
+            font-size: 11px;
+            color: rgba(255, 255, 255, .8);
+            letter-spacing: .04em;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .25s, transform .25s;
+            transform: translateX(-50%) translateY(4px);
+        }
+
+        .tooltip-wrap:hover .tooltip-box {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* ══════════════════════════════════════════════
+       UI COMPONENT: MODAL
+       ══════════════════════════════════════════════ */
+        .modal-demo {
+            background: rgba(5, 10, 20, .9);
+            backdrop-filter: blur(24px);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 480px;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .modal-demo::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(38, 106, 255, .6), transparent);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, .06);
+            border: 1px solid rgba(255, 255, 255, .1);
+            color: rgba(255, 255, 255, .5);
+            display: grid;
+            place-items: center;
+            font-size: 13px;
+            cursor: none;
+            transition: all .2s;
+        }
+
+        .modal-close:hover {
+            background: rgba(255, 255, 255, .15);
+            color: #fff;
+        }
+
+        /* ══════════════════════════════════════════════
+       UI COMPONENT: NAVBAR DEMO
+       ══════════════════════════════════════════════ */
+        .navbar-demo {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 28px;
+            border-radius: var(--radius-pill);
+            border: 1px solid var(--border);
+            backdrop-filter: blur(18px);
+            background: rgba(5, 10, 20, .6);
+        }
+
+        .navbar-demo-logo {
+            font-weight: 900;
+            font-size: 13px;
+            letter-spacing: .08em;
+        }
+
+        .navbar-demo-links {
+            display: flex;
+            gap: 28px;
+        }
+
+        .navbar-demo-links span {
+            font-size: 11px;
+            color: rgba(255, 255, 255, .4);
+            letter-spacing: .1em;
+            text-transform: uppercase;
+        }
+
+        /* ══════════════════════════════════════════════
+       MOTION SHOWCASE
+       ══════════════════════════════════════════════ */
+        .motion-box {
+            width: 100%;
+            height: 200px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+            background: rgba(5, 10, 20, .7);
+        }
+
+        .motion-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            color: rgba(255, 255, 255, .3);
+            letter-spacing: .15em;
+            text-transform: uppercase;
+            margin-top: 12px;
+        }
+
+        /* stack carousel — glass-effect2 lineage */
+        .stack-section {
+            --_offset-steps: 3.5rem;
+            --_scale-steps: 10;
+            --_opacity-steps: 12;
+            --_offset-steps-two: calc(var(--_offset-steps) * -1);
+            --_offset-steps-three: calc(var(--_offset-steps) * -2);
+            --scale-steps-two: calc(1 - var(--_scale-steps) * 0.01);
+            --scale-steps-three: calc(1 - var(--_scale-steps) * 0.02);
+            --opacity-steps-two: calc(1 - var(--_opacity-steps) * 0.02);
+            --opacity-steps-three: calc(1 - var(--_opacity-steps) * 0.04);
+            display: grid;
+            grid-template-areas: "stack";
+            width: min(calc(100% - 2rem), 28rem);
+            margin: 0 auto;
+        }
+
+        .stack-card {
+            grid-area: stack;
+            transition: 800ms cubic-bezier(.23, 1, .32, 1);
+            translate: var(--_offset) 0;
+            order: var(--_order);
+            z-index: var(--_order);
+            scale: var(--_scale);
+            opacity: var(--_opacity);
+            cursor: none;
+            user-select: none;
+        }
+
+        .stack-card:nth-of-type(1) {
+            --_order: var(--_1-order);
+            --_scale: var(--_1-scale);
+            --_opacity: var(--_1-opacity);
+            --_offset: var(--_1-offset);
+        }
+
+        .stack-card:nth-of-type(2) {
+            --_order: var(--_2-order);
+            --_scale: var(--_2-scale);
+            --_opacity: var(--_2-opacity);
+            --_offset: var(--_2-offset);
+        }
+
+        .stack-card:nth-of-type(3) {
+            --_order: var(--_3-order);
+            --_scale: var(--_3-scale);
+            --_opacity: var(--_3-opacity);
+            --_offset: var(--_3-offset);
+        }
+
+        .stack-section.card-1-active {
+            --_1-order: 3;
+            --_1-scale: 1;
+            --_1-opacity: 1;
+            --_1-offset: 0;
+            --_2-order: 2;
+            --_2-scale: var(--scale-steps-two);
+            --_2-opacity: var(--opacity-steps-two);
+            --_2-offset: var(--_offset-steps-two);
+            --_3-order: 1;
+            --_3-scale: var(--scale-steps-three);
+            --_3-opacity: var(--opacity-steps-three);
+            --_3-offset: var(--_offset-steps-three);
+        }
+
+        .stack-section.card-2-active {
+            --_2-order: 3;
+            --_2-scale: 1;
+            --_2-opacity: 1;
+            --_2-offset: 0;
+            --_3-order: 2;
+            --_3-scale: var(--scale-steps-two);
+            --_3-opacity: var(--opacity-steps-two);
+            --_3-offset: var(--_offset-steps-two);
+            --_1-order: 1;
+            --_1-scale: var(--scale-steps-three);
+            --_1-opacity: var(--opacity-steps-three);
+            --_1-offset: var(--_offset-steps-three);
+        }
+
+        .stack-section.card-3-active {
+            --_3-order: 3;
+            --_3-scale: 1;
+            --_3-opacity: 1;
+            --_3-offset: 0;
+            --_1-order: 2;
+            --_1-scale: var(--scale-steps-two);
+            --_1-opacity: var(--opacity-steps-two);
+            --_1-offset: var(--_offset-steps-two);
+            --_2-order: 1;
+            --_2-scale: var(--scale-steps-three);
+            --_2-opacity: var(--opacity-steps-three);
+            --_2-offset: var(--_offset-steps-three);
+        }
+
+        /* ══════════════════════════════════════════════
+       GRID LAYOUT DEMO
+       ══════════════════════════════════════════════ */
+        .grid-demo {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 16px;
+            height: 80px;
+        }
+
+        .grid-col {
+            background: rgba(255, 255, 255, .05);
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, .07);
+            display: grid;
+            place-items: center;
+            font-size: 10px;
+            font-family: 'JetBrains Mono', monospace;
+            color: rgba(255, 255, 255, .25);
+        }
+
+        /* ══════════════════════════════════════════════
+       ICON GRID  (wix lineage)
+       ══════════════════════════════════════════════ */
+        .icon-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            padding: 24px 16px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            background: var(--surface);
+            transition: all .3s;
+            cursor: none;
+        }
+
+        .icon-card:hover {
+            background: var(--surface-hover);
+            border-color: rgba(255, 255, 255, .22);
+            transform: translateY(-4px);
+        }
+
+        .icon-card svg {
+            transition: transform .3s;
+        }
+
+        .icon-card:hover svg {
+            transform: scale(1.15) rotate(-5deg);
+        }
+
+        .icon-label {
+            font-size: 10px;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, .35);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* ══════════════════════════════════════════════
+       RESPONSIVE
+       ══════════════════════════════════════════════ */
+        @media(max-width:768px) {
+            .ds-section {
+                padding: 80px 24px;
+            }
+
+            .ds-nav {
+                padding: 12px 20px;
+            }
+
+            .ds-nav-links {
+                display: none;
+            }
+
+            .hero-title {
+                font-size: clamp(56px, 14vw, 100px);
+            }
+
+            .hero-cta-group {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Custom Cursor -->
+    <div id="cursor"></div>
+
+    <!-- THREE.JS Canvas -->
+    <canvas id="canvas"></canvas>
+
+    <!-- Liquid Blobs BG -->
+    <div style="position:fixed;inset:0;pointer-events:none;z-index:1;overflow:hidden;">
+        <div class="liquid-blob"
+            style="width:520px;height:520px;top:-80px;left:-80px;background:#266aff;opacity:.12;animation-duration:18s;">
+        </div>
+        <div class="liquid-blob"
+            style="width:420px;height:420px;top:45%;right:-100px;background:#7c3aed;opacity:.10;animation-duration:22s;animation-delay:-6s;">
+        </div>
+        <div class="liquid-blob"
+            style="width:580px;height:580px;bottom:-140px;left:25%;background:#0ea5e9;opacity:.09;animation-duration:26s;animation-delay:-12s;">
+        </div>
+    </div>
+
+    <!-- Preloader -->
+    <div id="preloader">
+        <div class="loader-text">Initializing Design System</div>
+        <div class="loader-bar">
+            <div class="loader-progress" id="loader-progress"></div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="ds-nav">
+        <div class="ds-nav-inner">
+            <div class="ds-nav-glass">
+                <a href="#hero" class="ds-nav-logo">
+                    <div class="logo-dot">✦</div>
+                    DS3
+                </a>
+                <div class="ds-nav-links">
+                    <a href="#hero">Hero</a>
+                    <a href="#typography">Type</a>
+                    <a href="#colors">Colors</a>
+                    <a href="#components">Components</a>
+                    <a href="#motion">Motion</a>
+                    <a href="#icons">Icons</a>
+                </div>
+                <button class="ds-nav-cta">Explore</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ════════════════════════════════════════════════════
+     01 — HERO
+     ════════════════════════════════════════════════════ -->
+    <section id="hero" style="z-index:10;position:relative;">
+        <div class="hero-gradient-bg"></div>
+
+        <!-- Deco rings -->
+        <div class="hero-deco hero-deco-ring"></div>
+        <div class="hero-deco hero-deco-ring2"></div>
+
+        <div class="hero-content">
+            <div class="hero-badge reveal">
+                <span class="dot"></span>
+                Design System · Space × Liquid × Geometry
+            </div>
+
+            <h1 class="hero-title reveal delay-100">
+                <span class="line-solid">Design</span>
+                <span class="line-outline">System</span>
+                <span class="line-ghost">Three</span>
+            </h1>
+
+            <p class="hero-sub reveal delay-200">
+                Transparência · Movimento · Precisão Geométrica
+            </p>
+
+            <div class="hero-cta-group reveal delay-300">
+                <!-- wix button classes preserved -->
+                <a href="#components" class="StylableButton2545352419__root style-luhxbq8e2__root wixui-button">
+                    <span class="StylableButton2545352419__label">Explorar Sistema</span>
+                    <svg class="StylableButton2545352419__icon" viewBox="0 0 200 200">
+                        <path
+                            d="M20 100.002c41.21 6.266 54.993 20.886 54.993 20.886C92.289 135.827 99.952 180 99.952 180h.097s7.896-44.037 24.958-59.111c0 0 13.783-14.62 54.993-20.886v-.005c-41.21-6.266-54.993-20.886-54.993-20.886C107.944 64.037 100.048 20 100.048 20h-.097s-7.663 44.173-24.958 59.111c0 0-13.783 14.62-54.993 20.886v.005z" />
+                    </svg>
+                </a>
+                <a href="#typography" class="btn-blue glow-pulse">
+                    Ver Tipografia
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+
+        <!-- Scroll cue -->
+        <div class="scroll-cue reveal delay-500">
+            <span class="scroll-cue-text">Scroll</span>
+            <div class="scroll-cue-line"></div>
+        </div>
+
+        <!-- Floating wix star -->
+        <div style="position:absolute;right:8%;top:38%;z-index:13;opacity:.15;" class="float-anim">
+            <svg width="80" height="80" viewBox="0 0 130 130" fill="white">
+                <path
+                    d="m65 0 3.046 52.941c.096 1.67 2.078 2.492 3.327 1.379l39.589-35.282L75.68 58.627c-1.113 1.249-.292 3.231 1.379 3.327L130 65l-52.941 3.046c-1.67.096-2.492 2.078-1.379 3.327l35.282 39.589L71.373 75.68c-1.249-1.113-3.231-.292-3.327 1.379L65 130l-3.046-52.941c-.096-1.67-2.078-2.492-3.327-1.379l-39.589 35.282L54.32 71.373c1.113-1.249.292-3.231-1.379-3.327L0 65l52.941-3.046c1.67-.096 2.492-2.078 1.379-3.327L19.038 19.038 58.627 54.32c1.249 1.113 3.231.292 3.327-1.379L65 0Z" />
+            </svg>
+        </div>
+        <div style="position:absolute;left:6%;top:60%;z-index:13;opacity:.10;" class="spin-slow">
+            <svg width="60" height="60" viewBox="0 0 200 200" fill="none" stroke="white" stroke-width="2">
+                <circle cx="100" cy="100" r="80" />
+            </svg>
+        </div>
+    </section>
+
+    <!-- Marquee strip -->
+    <div
+        style="position:relative;z-index:10;border-top:1px solid rgba(255,255,255,.05);border-bottom:1px solid rgba(255,255,255,.05);padding:16px 0;overflow:hidden;background:rgba(0,0,0,.3);">
+        <div class="marquee-content" style="gap:60px;">
+            <span
+                style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:rgba(255,255,255,.25);white-space:nowrap;">✦
+                Design System 3 &nbsp;&nbsp; ✦ Transparência &nbsp;&nbsp; ✦ Geometria Paralaxe &nbsp;&nbsp; ✦ Efeito
+                Liquid Glass &nbsp;&nbsp; ✦ Animação GSAP &nbsp;&nbsp; ✦ Three.js Wireframe &nbsp;&nbsp; ✦ Tipografia
+                Montserrat &nbsp;&nbsp; ✦ Tokens CSS &nbsp;&nbsp;</span>
+            <span
+                style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:rgba(255,255,255,.25);white-space:nowrap;">✦
+                Design System 3 &nbsp;&nbsp; ✦ Transparência &nbsp;&nbsp; ✦ Geometria Paralaxe &nbsp;&nbsp; ✦ Efeito
+                Liquid Glass &nbsp;&nbsp; ✦ Animação GSAP &nbsp;&nbsp; ✦ Three.js Wireframe &nbsp;&nbsp; ✦ Tipografia
+                Montserrat &nbsp;&nbsp; ✦ Tokens CSS &nbsp;&nbsp;</span>
+        </div>
+    </div>
+
+
+    <!-- ════════════════════════════════════════════════════
+     02 — TYPOGRAPHY
+     ════════════════════════════════════════════════════ -->
+    <div class="section-bg" style="position:relative;z-index:10;background:rgba(5,10,20,.92);">
+        <div class="ds-section" id="typography">
+            <span class="ds-section-label gsap-reveal"><span>02</span> / Typography</span>
+
+            <!-- Display H1 -->
+            <div class="type-row gsap-reveal">
+                <span class="type-label">Display / H1</span>
+                <div class="font_0 text-outline" style="font-size:clamp(48px,6vw,106px);flex:1;">Space Scroll</div>
+                <span class="type-spec">Montserrat 900 · 106px/1.1 · -.02em</span>
+            </div>
+            <!-- H2 -->
+            <div class="type-row gsap-reveal">
+                <span class="type-label">Heading / H2</span>
+                <div class="font_2 text-gradient" style="flex:1;">THE BRIEF</div>
+                <span class="type-spec">Space Grotesk 700 · 54px/0.9 · normal</span>
+            </div>
+            <!-- H3 -->
+            <div class="type-row gsap-reveal">
+                <span class="type-label">Heading / H3</span>
+                <div style="font-family:'Montserrat',sans-serif;font-size:36px;font-weight:700;flex:1;color:#fff;">
+                    Outlined Dimensions</div>
+                <span class="type-spec">Montserrat 700 · 36px/1.2 · -.01em</span>
+            </div>
+            <!-- H4 -->
+            <div class="type-row gsap-reveal">
+                <span class="type-label">Heading / H4</span>
+                <div style="font-size:24px;font-weight:700;flex:1;letter-spacing:.05em;text-transform:uppercase;">FOCUS
+                    GEOMETRY</div>
+                <span class="type-spec">Space Grotesk 700 · 24px/1.3 · .05em</span>
+            </div>
+            <!-- H5 -->
+            <div class="type-row gsap-reveal">
+                <span class="type-label">Heading / H5</span>
+                <div style="font-size:18px;font-weight:600;flex:1;letter-spacing:.08em;text-transform:uppercase;">Linear
+                    Motion</div>
+                <span class="type-spec">Space Grotesk 600 · 18px/1.4 · .08em</span>
+            </div>
+            <!-- H6 -->
+            <div class="type-row gsap-reveal">
+                <span class="type-label">Heading / H6</span>
+                <div style="font-size:14px;font-weight:600;flex:1;letter-spacing:.15em;text-transform:uppercase;">
+                    Subsection Label</div>
+                <span class="type-spec">Space Grotesk 600 · 14px/1.4 · .15em</span>
+            </div>
+            <!-- Body Large -->
+            <div class="type-row gsap-reveal">
+                <span class="type-label">body-lg</span>
+                <div class="font_5" style="flex:1;">Get ready to embark on a voyage of illusion through spatial
+                    geometry.</div>
+                <span class="type-spec">Space Grotesk 400 · 20px/1.5</span>
+            </div>
+            <!-- Body -->
+            <div class="type-row gsap-reveal">
+                <span class="type-label">body</span>
+                <div style="font-size:16px;line-height:1.65;flex:1;color:rgba(255,255,255,.75);">Navigate through
+                    wireframe planes where each element exists as pure outline.</div>
+                <span class="type-spec">Space Grotesk 400 · 16px/1.65</span>
+            </div>
+            <!-- body-sm -->
+            <div class="type-row gsap-reveal">
+                <span class="type-label">body-sm</span>
+                <div style="font-size:13px;line-height:1.6;flex:1;color:rgba(255,255,255,.55);">Subtle supporting text
+                    for captions, helper notes, and annotations.</div>
+                <span class="type-spec">Space Grotesk 400 · 13px/1.6</span>
+            </div>
+            <!-- Mono / Caption -->
+            <div class="type-row gsap-reveal" style="border:none;margin-bottom:0;">
+                <span class="type-label">caption / mono</span>
+                <div
+                    style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.25em;text-transform:uppercase;flex:1;color:rgba(255,255,255,.35);">
+                    02 / token · css · ref</div>
+                <span class="type-spec">JetBrains Mono 400 · 11px · .25em</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════
+     03 — COLORS
+     ════════════════════════════════════════════════════ -->
+    <div class="section-bg" style="position:relative;z-index:10;background:rgba(5,10,20,.92);">
+        <div class="ds-section" id="colors">
+            <span class="ds-section-label gsap-reveal"><span>03</span> / Sistema de Cores</span>
+
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:24px;">
+
+                <!-- White -->
+                <div class="color-card gsap-reveal">
+                    <div class="color-preview" style="background:#ffffff;"></div>
+                    <div class="color-info">
+                        <span class="color-name" style="color:#000;">White</span>
+                        <span class="color-hex">#ffffff · rgb(255,255,255) · hsl(0,0%,100%)</span>
+                        <span class="color-role">Primary Text · var(--color_1)</span>
+                    </div>
+                </div>
+
+                <!-- Off-white -->
+                <div class="color-card gsap-reveal">
+                    <div class="color-preview" style="background:#F5F4F3;"></div>
+                    <div class="color-info">
+                        <span class="color-name" style="color:#000;">Off-White</span>
+                        <span class="color-hex">#F5F4F3 · rgb(245,244,243)</span>
+                        <span class="color-role">Light Background · var(--color_11)</span>
+                    </div>
+                </div>
+
+                <!-- Dark BG -->
+                <div class="color-card gsap-reveal">
+                    <div class="color-preview" style="background:#050a14;border:1px solid rgba(255,255,255,.1);"></div>
+                    <div class="color-info">
+                        <span class="color-name">Deep Dark</span>
+                        <span class="color-hex">#050a14 · rgb(5,10,20) · hsl(220,60%,5%)</span>
+                        <span class="color-role">Dark Background · var(--bg)</span>
+                    </div>
+                </div>
+
+                <!-- Accent Blue -->
+                <div class="color-card gsap-reveal">
+                    <div class="color-preview" style="background:#266aff;"></div>
+                    <div class="color-info">
+                        <span class="color-name">Accent Blue</span>
+                        <span class="color-hex">#266aff · rgb(38,106,255) · hsl(220,100%,57%)</span>
+                        <span class="color-role">Primary Accent · var(--color_18) · AA✓</span>
+                    </div>
+                </div>
+
+                <!-- Purple -->
+                <div class="color-card gsap-reveal">
+                    <div class="color-preview" style="background:#D2C5FF;"></div>
+                    <div class="color-info">
+                        <span class="color-name" style="color:#333;">Accent Purple</span>
+                        <span class="color-hex" style="color:#555;">#D2C5FF · rgb(210,197,255)</span>
+                        <span class="color-role">Decorative Gradient · var(--accent-purple)</span>
+                    </div>
+                </div>
+
+                <!-- Teal -->
+                <div class="color-card gsap-reveal">
+                    <div class="color-preview" style="background:#345C59;"></div>
+                    <div class="color-info">
+                        <span class="color-name">Accent Teal</span>
+                        <span class="color-hex">#345C59 · rgb(52,92,89) · hsl(176,28%,28%)</span>
+                        <span class="color-role">Secondary Accent · var(--accent-teal)</span>
+                    </div>
+                </div>
+
+                <!-- Gold -->
+                <div class="color-card gsap-reveal">
+                    <div class="color-preview" style="background:#fbbf24;"></div>
+                    <div class="color-info">
+                        <span class="color-name" style="color:#333;">Highlight Gold</span>
+                        <span class="color-hex" style="color:#555;">#fbbf24 · rgb(251,191,36)</span>
+                        <span class="color-role">Wireframe Highlight · var(--accent-gold)</span>
+                    </div>
+                </div>
+
+                <!-- Cyan -->
+                <div class="color-card gsap-reveal">
+                    <div class="color-preview" style="background:#29C5F6;"></div>
+                    <div class="color-info">
+                        <span class="color-name" style="color:#333;">Accent Cyan</span>
+                        <span class="color-hex" style="color:#555;">#29C5F6 · rgb(41,197,246)</span>
+                        <span class="color-role">Gradient Endpoint · var(--accent-cyan)</span>
+                    </div>
+                </div>
+
+                <!-- Main Gradient — full width -->
+                <div class="color-card gsap-reveal" style="grid-column:1/-1;">
+                    <div class="color-preview"
+                        style="background:linear-gradient(90deg,#F5F4F3 0%,#D2C5FF 35%,#345C59 65%,#266aff 80%,#050a14 100%);height:80px;">
+                    </div>
+                    <div class="color-info">
+                        <span class="color-name" style="color:#000;">Main Gradient — wix lineage</span>
+                        <span class="color-hex" style="color:#555;">linear-gradient(0deg, #F5F4F3 → #D2C5FF → #345C59 →
+                            #266aff → #000)</span>
+                        <span class="color-role">Hero Background Gradient</span>
+                    </div>
+                </div>
+
+                <!-- Glass opacity variants -->
+                <div class="color-card gsap-reveal" style="grid-column:1/-1;padding:24px;">
+                    <div
+                        style="font-size:12px;font-family:'JetBrains Mono',monospace;color:rgba(255,255,255,.4);letter-spacing:.15em;text-transform:uppercase;margin-bottom:16px;">
+                        Opacity Variants — Surface</div>
+                    <div style="display:flex;gap:12px;flex-wrap:wrap;">
+                        <div
+                            style="flex:1;min-width:80px;height:60px;border-radius:10px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.08);display:grid;place-items:center;font-size:10px;font-family:'JetBrains Mono',monospace;color:rgba(255,255,255,.4);">
+                            2%</div>
+                        <div
+                            style="flex:1;min-width:80px;height:60px;border-radius:10px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);display:grid;place-items:center;font-size:10px;font-family:'JetBrains Mono',monospace;color:rgba(255,255,255,.5);">
+                            4%</div>
+                        <div
+                            style="flex:1;min-width:80px;height:60px;border-radius:10px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);display:grid;place-items:center;font-size:10px;font-family:'JetBrains Mono',monospace;color:rgba(255,255,255,.6);">
+                            8%</div>
+                        <div
+                            style="flex:1;min-width:80px;height:60px;border-radius:10px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.2);display:grid;place-items:center;font-size:10px;font-family:'JetBrains Mono',monospace;color:rgba(255,255,255,.7);">
+                            15%</div>
+                        <div
+                            style="flex:1;min-width:80px;height:60px;border-radius:10px;background:rgba(255,255,255,.25);border:1px solid rgba(255,255,255,.3);display:grid;place-items:center;font-size:10px;font-family:'JetBrains Mono',monospace;color:rgba(255,255,255,.85);">
+                            25%</div>
+                        <div
+                            style="flex:1;min-width:80px;height:60px;border-radius:10px;background:rgba(255,255,255,.5);border:1px solid rgba(255,255,255,.5);display:grid;place-items:center;font-size:10px;font-family:'JetBrains Mono',monospace;color:#000;">
+                            50%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════
+     04 — UI COMPONENTS
+     ════════════════════════════════════════════════════ -->
+    <div class="section-bg" style="position:relative;z-index:10;background:rgba(5,10,20,.92);">
+        <div class="ds-section" id="components">
+            <span class="ds-section-label gsap-reveal"><span>04</span> / UI Components</span>
+
+            <!-- Buttons -->
+            <div style="margin-bottom:72px;">
+                <h3 style="font-size:13px;font-family:'JetBrains Mono',monospace;letter-spacing:.25em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:32px;"
+                    class="gsap-reveal">Buttons · comp-luhxljxw / comp-luhxbq8a</h3>
+                <div style="display:flex;flex-wrap:wrap;gap:20px;align-items:center;" class="gsap-reveal">
+                    <!-- Wix Primary -->
+                    <div class="comp-luhxljxw">
+                        <button class="StylableButton2545352419__root style-luhxljxy7__root wixui-button">
+                            <span style="display:flex;align-items:center;">
+                                <span class="StylableButton2545352419__label">START CREATING</span>
+                                <svg class="StylableButton2545352419__icon" viewBox="0 0 200 200">
+                                    <path
+                                        d="M20 100.002c41.21 6.266 54.993 20.886 54.993 20.886C92.289 135.827 99.952 180 99.952 180h.097s7.896-44.037 24.958-59.111c0 0 13.783-14.62 54.993-20.886v-.005c-41.21-6.266-54.993-20.886-54.993-20.886C107.944 64.037 100.048 20 100.048 20h-.097s-7.663 44.173-24.958 59.111c0 0-13.783 14.62-54.993 20.886v.005z" />
+                                </svg>
+                            </span>
+                        </button>
+                    </div>
+                    <!-- Wix Secondary -->
+                    <div class="comp-luhxbq8a">
+                        <button class="StylableButton2545352419__root style-luhxbq8e2__root wixui-button">
+                            <span style="display:flex;align-items:center;">
+                                <span class="StylableButton2545352419__label">LEARN MORE</span>
+                                <svg class="StylableButton2545352419__icon" viewBox="0 0 200 200">
+                                    <path
+                                        d="M20 100.002c41.21 6.266 54.993 20.886 54.993 20.886C92.289 135.827 99.952 180 99.952 180h.097s7.896-44.037 24.958-59.111c0 0 13.783-14.62 54.993-20.886v-.005c-41.21-6.266-54.993-20.886-54.993-20.886C107.944 64.037 100.048 20 100.048 20h-.097s-7.663 44.173-24.958 59.111c0 0-13.783 14.62-54.993 20.886v.005z" />
+                                </svg>
+                            </span>
+                        </button>
+                    </div>
+                    <!-- Blue glow -->
+                    <button class="btn-blue glow-pulse">
+                        Blue CTA
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5">
+                            <path d="M5 12h14M12 5l7 7-7 7" />
+                        </svg>
+                    </button>
+                    <!-- Glass -->
+                    <button
+                        style="padding:14px 32px;border-radius:9999px;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.06);backdrop-filter:blur(14px);color:#fff;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;cursor:none;transition:all .25s;">Glass
+                        Ghost</button>
+                    <!-- Disabled -->
+                    <button
+                        style="padding:14px 32px;border-radius:9999px;border:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.02);color:rgba(255,255,255,.2);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;cursor:not-allowed;">Disabled</button>
+                </div>
+            </div>
+
+            <!-- Inputs -->
+            <div style="margin-bottom:72px;">
+                <h3 style="font-size:13px;font-family:'JetBrains Mono',monospace;letter-spacing:.25em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:32px;"
+                    class="gsap-reveal">Inputs · .input-group</h3>
+                <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:40px;"
+                    class="gsap-reveal">
+                    <div class="input-group"><input type="text" placeholder=" "><label>Seu nome</label></div>
+                    <div class="input-group"><input type="email" placeholder=" "><label>Endereço de email</label></div>
+                    <div class="input-group"><input type="text" placeholder=" "
+                            value="Design System 3"><label>Projeto</label></div>
+                </div>
+            </div>
+
+            <!-- Cards -->
+            <div style="margin-bottom:72px;">
+                <h3 style="font-size:13px;font-family:'JetBrains Mono',monospace;letter-spacing:.25em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:32px;"
+                    class="gsap-reveal">Cards · .comp-card / .glass-panel</h3>
+                <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:24px;">
+                    <div class="comp-card gsap-reveal">
+                        <div class="comp-card-arrow">↗</div>
+                        <div class="comp-card-icon">✦</div>
+                        <h3>Space Scroll</h3>
+                        <p>Immersive geometric animations that respond to scroll position and mouse movements.</p>
+                    </div>
+                    <div class="comp-card gsap-reveal">
+                        <div class="comp-card-arrow">↗</div>
+                        <div class="comp-card-icon" style="color:var(--accent-purple);">◈</div>
+                        <h3>Liquid Glass</h3>
+                        <p>Frosted-glass surfaces with dynamic blur, saturation and light refraction effects.</p>
+                    </div>
+                    <div class="comp-card gsap-reveal">
+                        <div class="comp-card-arrow">↗</div>
+                        <div class="comp-card-icon" style="color:var(--accent-gold);">⬡</div>
+                        <h3>Parallax Depth</h3>
+                        <p>Multi-layer wireframe geometry at independent speeds creating infinite spatial depth.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navbar demo -->
+            <div style="margin-bottom:72px;">
+                <h3 style="font-size:13px;font-family:'JetBrains Mono',monospace;letter-spacing:.25em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:32px;"
+                    class="gsap-reveal">Navbar · .ds-nav-glass / .glass-panel</h3>
+                <div class="navbar-demo glass-panel gsap-reveal">
+                    <span class="navbar-demo-logo">DS3 ✦</span>
+                    <div class="navbar-demo-links">
+                        <span>Hero</span><span>Type</span><span>Colors</span><span>Motion</span>
+                    </div>
+                    <button
+                        style="padding:7px 20px;border-radius:9999px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.05);color:rgba(255,255,255,.7);font-size:10px;letter-spacing:.12em;text-transform:uppercase;cursor:none;">CTA</button>
+                </div>
+            </div>
+
+            <!-- Badges -->
+            <div style="margin-bottom:72px;">
+                <h3 style="font-size:13px;font-family:'JetBrains Mono',monospace;letter-spacing:.25em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:32px;"
+                    class="gsap-reveal">Badges · .badge</h3>
+                <div style="display:flex;flex-wrap:wrap;gap:12px;" class="gsap-reveal">
+                    <span class="badge badge-blue"><span
+                            style="width:5px;height:5px;border-radius:50%;background:currentColor;box-shadow:0 0 6px currentColor;"></span>Primary</span>
+                    <span class="badge badge-purple">Decorative</span>
+                    <span class="badge badge-teal">Accent</span>
+                    <span class="badge badge-gold">Highlight</span>
+                    <span class="badge"
+                        style="background:rgba(255,255,255,.05);color:rgba(255,255,255,.4);border:1px solid rgba(255,255,255,.1);">Neutral</span>
+                    <span class="badge"
+                        style="background:rgba(16,185,129,.1);color:#34d399;border:1px solid rgba(16,185,129,.2);">✓
+                        Success</span>
+                    <span class="badge"
+                        style="background:rgba(245,101,101,.1);color:#fc8181;border:1px solid rgba(245,101,101,.2);">✕
+                        Error</span>
+                </div>
+            </div>
+
+            <!-- Tooltip -->
+            <div style="margin-bottom:72px;">
+                <h3 style="font-size:13px;font-family:'JetBrains Mono',monospace;letter-spacing:.25em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:32px;"
+                    class="gsap-reveal">Tooltips · .tooltip-wrap</h3>
+                <div style="display:flex;gap:32px;flex-wrap:wrap;" class="gsap-reveal">
+                    <div class="tooltip-wrap">
+                        <button class="btn-blue" style="padding:10px 24px;">Hover me
+                            <div class="tooltip-box">✦ Design Token: --accent-blue</div>
+                        </button>
+                    </div>
+                    <div class="tooltip-wrap">
+                        <button class="StylableButton2545352419__root style-luhxbq8e2__root">
+                            <span class="StylableButton2545352419__label">Wix Button</span>
+                            <div class="tooltip-box">StylableButton2545352419__root · style-luhxbq8e2__root</div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal -->
+            <div>
+                <h3 style="font-size:13px;font-family:'JetBrains Mono',monospace;letter-spacing:.25em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:32px;"
+                    class="gsap-reveal">Modal · .modal-demo</h3>
+                <div style="display:flex;justify-content:center;" class="gsap-reveal">
+                    <div class="modal-demo">
+                        <button class="modal-close">✕</button>
+                        <span
+                            style="display:block;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:var(--accent-blue);margin-bottom:16px;">[
+                            System Modal ]</span>
+                        <h3 style="font-size:22px;font-weight:700;margin-bottom:12px;">Confirm Action</h3>
+                        <p style="font-size:14px;color:rgba(255,255,255,.55);line-height:1.7;margin-bottom:28px;">This
+                            dialog uses glassmorphism backdrop with a subtle top gradient border derived from the accent
+                            blue token.</p>
+                        <div style="display:flex;gap:12px;">
+                            <button class="btn-blue" style="padding:11px 28px;font-size:11px;">Confirm</button>
+                            <button
+                                style="padding:11px 28px;border-radius:9999px;border:1px solid rgba(255,255,255,.15);background:transparent;color:rgba(255,255,255,.5);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;cursor:none;">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════
+     05 — MOTION
+     ════════════════════════════════════════════════════ -->
+    <div class="section-bg" style="position:relative;z-index:10;background:rgba(5,10,20,.92);">
+        <div class="ds-section" id="motion">
+            <span class="ds-section-label gsap-reveal"><span>05</span> / Animações &amp; Motion</span>
+
+            <div
+                style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:32px;margin-bottom:60px;">
+
+                <!-- Clip Reveal -->
+                <div class="gsap-reveal">
+                    <div class="motion-box" style="background:#000;overflow:hidden;">
+                        <div class="clip-anim"
+                            style="position:absolute;inset:0;background:linear-gradient(135deg,var(--accent-blue),var(--accent-purple));">
+                        </div>
+                        <span
+                            style="position:relative;z-index:2;font-family:'Montserrat',sans-serif;font-size:28px;font-weight:900;-webkit-text-stroke:1px rgba(255,255,255,.8);color:transparent;">REVEAL</span>
+                    </div>
+                    <p class="motion-label">Clip Reveal · wix lineage · clipReveal @keyframes</p>
+                </div>
+
+                <!-- Float Anim -->
+                <div class="gsap-reveal">
+                    <div class="motion-box">
+                        <div class="float-anim"
+                            style="width:70px;height:70px;border:1.5px solid rgba(255,255,255,.7);border-radius:50%;display:flex;align-items:center;justify-content:center;">
+                            <svg width="28" height="28" viewBox="0 0 130 130" fill="white">
+                                <path
+                                    d="m65 0 3.046 52.941c.096 1.67 2.078 2.492 3.327 1.379l39.589-35.282L75.68 58.627c-1.113 1.249-.292 3.231 1.379 3.327L130 65l-52.941 3.046c-1.67.096-2.492 2.078-1.379 3.327l35.282 39.589L71.373 75.68c-1.249-1.113-3.231-.292-3.327 1.379L65 130l-3.046-52.941c-.096-1.67-2.078-2.492-3.327-1.379l-39.589 35.282L54.32 71.373c1.113-1.249.292-3.231-1.379-3.327L0 65l52.941-3.046c1.67-.096 2.492-2.078 1.379-3.327L19.038 19.038 58.627 54.32c1.249 1.113 3.231.292 3.327-1.379L65 0Z" />
+                            </svg>
+                        </div>
+                    </div>
+                    <p class="motion-label">Float · floatY @keyframes · 5s ease-in-out infinite</p>
+                </div>
+
+                <!-- Spin Slow -->
+                <div class="gsap-reveal">
+                    <div class="motion-box">
+                        <div class="spin-slow"
+                            style="width:100px;height:100px;border:1px solid rgba(255,255,255,.2);border-radius:50%;position:relative;">
+                            <div
+                                style="position:absolute;top:0;left:50%;width:6px;height:6px;background:var(--accent-blue);border-radius:50%;transform:translate(-50%,-50%);box-shadow:0 0 10px var(--accent-blue);">
+                            </div>
+                        </div>
+                    </div>
+                    <p class="motion-label">Spin Slow · spinSlow @keyframes · 12s linear infinite</p>
+                </div>
+
+                <!-- Glow Pulse -->
+                <div class="gsap-reveal">
+                    <div class="motion-box">
+                        <button class="btn-blue glow-pulse" style="font-size:11px;padding:12px 28px;">Glow
+                            Pulse</button>
+                    </div>
+                    <p class="motion-label">Glow Pulse · glowPulse @keyframes · 2.5s ease-in-out</p>
+                </div>
+
+                <!-- Motion Banner -->
+                <div class="gsap-reveal" style="grid-column:span 2;">
+                    <div class="motion-box" style="height:120px;overflow:hidden;">
+                        <div class="motion-banner-anim"
+                            style="white-space:nowrap;font-family:'Montserrat',sans-serif;font-size:72px;font-weight:900;-webkit-text-stroke:1px rgba(255,255,255,.3);color:transparent;letter-spacing:-.02em;">
+                            DESIGN SYSTEM THREE &nbsp;&nbsp; DESIGN SYSTEM THREE &nbsp;&nbsp;</div>
+                    </div>
+                    <p class="motion-label">Marquee Banner · motionBannerR / motionBannerL @keyframes</p>
+                </div>
+
+            </div>
+
+            <!-- GSAP Code reference (parallax-geometry lineage) -->
+            <div class="glass-panel gsap-reveal" style="border-radius:var(--radius);padding:32px;margin-bottom:32px;">
+                <p
+                    style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:16px;">
+                    GSAP Scroll Reveal Pattern · parallax-geometry lineage</p>
+                <pre
+                    style="font-family:'JetBrains Mono',monospace;font-size:13px;line-height:1.8;color:rgba(255,255,255,.7);overflow-x:auto;">gsap.to(element, {
+  opacity: 1,
+  y: 0,
+  duration: 0.9,
+  ease: "power3.out",
+  delay: 0.2
+});
+
+ScrollTrigger.create({
+  trigger: el,
+  start: "top 85%",
+  onEnter: () => gsap.to(el, { opacity: 1, y: 0, duration: 0.9, ease: "power3.out" })
+});</pre>
+            </div>
+
+            <!-- Stack carousel demo (glass-effect2 lineage) -->
+            <h3 style="font-size:13px;font-family:'JetBrains Mono',monospace;letter-spacing:.25em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:32px;"
+                class="gsap-reveal">Stack Carousel · .stack-section · glass-effect2 lineage</h3>
+            <div class="stack-section card-1-active gsap-reveal" id="stack-demo"
+                style="height:260px;position:relative;">
+                <div class="stack-card glass-panel"
+                    style="height:220px;border-radius:20px;border:1px solid rgba(255,255,255,.12);display:flex;flex-direction:column;justify-content:center;align-items:center;gap:12px;background:linear-gradient(135deg,rgba(38,106,255,.2),rgba(41,197,246,.05));">
+                    <span style="font-size:32px;">⚡</span>
+                    <span style="font-weight:700;">Card One</span>
+                    <span class="badge badge-blue">Active</span>
+                </div>
+                <div class="stack-card glass-panel"
+                    style="height:220px;border-radius:20px;border:1px solid rgba(255,255,255,.12);display:flex;flex-direction:column;justify-content:center;align-items:center;gap:12px;background:linear-gradient(135deg,rgba(124,58,237,.2),rgba(210,197,255,.05));">
+                    <span style="font-size:32px;">◈</span>
+                    <span style="font-weight:700;">Card Two</span>
+                    <span class="badge badge-purple">Depth 2</span>
+                </div>
+                <div class="stack-card glass-panel"
+                    style="height:220px;border-radius:20px;border:1px solid rgba(255,255,255,.12);display:flex;flex-direction:column;justify-content:center;align-items:center;gap:12px;background:linear-gradient(135deg,rgba(52,92,89,.3),rgba(109,205,200,.05));">
+                    <span style="font-size:32px;">⬡</span>
+                    <span style="font-weight:700;">Card Three</span>
+                    <span class="badge badge-teal">Depth 3</span>
+                </div>
+            </div>
+            <p
+                style="text-align:center;margin-top:16px;font-family:'JetBrains Mono',monospace;font-size:10px;color:rgba(255,255,255,.3);letter-spacing:.15em;">
+                Click cards to cycle stack ↑</p>
+
+        </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════
+     06 — ICONS
+     ════════════════════════════════════════════════════ -->
+    <div class="section-bg" style="position:relative;z-index:10;background:rgba(5,10,20,.92);">
+        <div class="ds-section" id="icons">
+            <span class="ds-section-label gsap-reveal"><span>06</span> / Ícones &amp; SVG Shapes</span>
+
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:16px;">
+
+                <div class="icon-card gsap-reveal">
+                    <svg width="36" height="36" viewBox="0 0 200 200" fill="white">
+                        <path
+                            d="M20 100.002c41.21 6.266 54.993 20.886 54.993 20.886C92.289 135.827 99.952 180 99.952 180h.097s7.896-44.037 24.958-59.111c0 0 13.783-14.62 54.993-20.886v-.005c-41.21-6.266-54.993-20.886-54.993-20.886C107.944 64.037 100.048 20 100.048 20h-.097s-7.663 44.173-24.958 59.111c0 0-13.783 14.62-54.993 20.886v.005z" />
+                    </svg>
+                    <span class="icon-label">Arrow Star</span>
+                </div>
+
+                <div class="icon-card gsap-reveal">
+                    <svg width="36" height="36" viewBox="0 0 130 130" fill="white">
+                        <path
+                            d="m65 0 3.046 52.941c.096 1.67 2.078 2.492 3.327 1.379l39.589-35.282L75.68 58.627c-1.113 1.249-.292 3.231 1.379 3.327L130 65l-52.941 3.046c-1.67.096-2.492 2.078-1.379 3.327l35.282 39.589L71.373 75.68c-1.249-1.113-3.231-.292-3.327 1.379L65 130l-3.046-52.941c-.096-1.67-2.078-2.492-3.327-1.379l-39.589 35.282L54.32 71.373c1.113-1.249.292-3.231-1.379-3.327L0 65l52.941-3.046c1.67-.096 2.492-2.078 1.379-3.327L19.038 19.038 58.627 54.32c1.249 1.113 3.231.292 3.327-1.379L65 0Z" />
+                    </svg>
+                    <span class="icon-label">Burst</span>
+                </div>
+
+                <div class="icon-card gsap-reveal">
+                    <svg width="36" height="36" viewBox="0 0 200 200" fill="none" stroke="white" stroke-width="8">
+                        <circle cx="100" cy="100" r="80" />
+                    </svg>
+                    <span class="icon-label">Circle</span>
+                </div>
+
+                <div class="icon-card gsap-reveal">
+                    <svg width="36" height="36" viewBox="0 0 200 200" fill="none" stroke="white" stroke-width="6">
+                        <polygon points="100,20 180,180 20,180" />
+                    </svg>
+                    <span class="icon-label">Triangle</span>
+                </div>
+
+                <div class="icon-card gsap-reveal">
+                    <svg width="36" height="36" viewBox="0 0 200 200" fill="none" stroke="white" stroke-width="6">
+                        <rect x="30" y="30" width="140" height="140" />
+                    </svg>
+                    <span class="icon-label">Square</span>
+                </div>
+
+                <div class="icon-card gsap-reveal">
+                    <svg width="36" height="36" viewBox="0 0 200 200" fill="none" stroke="white" stroke-width="6">
+                        <polygon points="100,10 190,74 154,182 46,182 10,74" />
+                    </svg>
+                    <span class="icon-label">Pentagon</span>
+                </div>
+
+                <div class="icon-card gsap-reveal">
+                    <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5">
+                        <path d="M5 12h14M12 5l7 7-7 7" />
+                    </svg>
+                    <span class="icon-label">Arrow →</span>
+                </div>
+
+                <div class="icon-card gsap-reveal">
+                    <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5">
+                        <circle cx="12" cy="12" r="4" />
+                        <path
+                            d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
+                    </svg>
+                    <span class="icon-label">Sun / Glow</span>
+                </div>
+
+                <div class="icon-card gsap-reveal">
+                    <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5">
+                        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+                    </svg>
+                    <span class="icon-label">Layers</span>
+                </div>
+
+                <div class="icon-card gsap-reveal">
+                    <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5">
+                        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+                    </svg>
+                    <span class="icon-label">Activity</span>
+                </div>
+
+            </div>
+
+            <!-- Layout Grid -->
+            <div style="margin-top:72px;">
+                <h3 style="font-size:13px;font-family:'JetBrains Mono',monospace;letter-spacing:.25em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:24px;"
+                    class="gsap-reveal">Grid System · 12 cols · .grid-demo</h3>
+                <div class="grid-demo gsap-reveal">
+                    <div class="grid-col">1</div>
+                    <div class="grid-col">2</div>
+                    <div class="grid-col">3</div>
+                    <div class="grid-col">4</div>
+                    <div class="grid-col">5</div>
+                    <div class="grid-col">6</div>
+                    <div class="grid-col">7</div>
+                    <div class="grid-col">8</div>
+                    <div class="grid-col">9</div>
+                    <div class="grid-col">10</div>
+                    <div class="grid-col">11</div>
+                    <div class="grid-col">12</div>
+                </div>
+                <p
+                    style="margin-top:14px;font-family:'JetBrains Mono',monospace;font-size:11px;color:rgba(255,255,255,.25);letter-spacing:.1em;">
+                    grid-template-columns: repeat(12, 1fr) · gap: 16px · max-width: 1280px</p>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Footer strip -->
+    <div
+        style="position:relative;z-index:10;padding:60px 60px;border-top:1px solid rgba(255,255,255,.05);text-align:center;">
+        <div
+            style="font-family:'Montserrat',sans-serif;font-size:clamp(40px,6vw,80px);font-weight:900;-webkit-text-stroke:1px rgba(255,255,255,.12);color:transparent;letter-spacing:-.02em;margin-bottom:24px;">
+            DESIGN SYSTEM THREE</div>
+        <p
+            style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:rgba(255,255,255,.2);">
+            Space Scroll × Liquid Glass × Parallax Geometry · 2025</p>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════
+     SCRIPTS
+     ════════════════════════════════════════════════════ -->
+    <script type="module">
+        import * as THREE from "https://esm.sh/three@0.160.0";
+
+        gsap.registerPlugin(ScrollTrigger);
+
+        // ─── PRELOADER ─────────────────────────────────────
+        const prog = document.getElementById('loader-progress');
+        let p = 0;
+        const iv = setInterval(() => {
+            p += Math.random() * 18;
+            if (p >= 100) { p = 100; clearInterval(iv); setTimeout(() => document.getElementById('preloader').classList.add('loaded'), 300); }
+            prog.style.width = p + '%';
+        }, 120);
+
+        // ─── CURSOR ──────────────────────────────────────────
+        const cursor = document.getElementById('cursor');
+        document.addEventListener('mousemove', e => { cursor.style.left = e.clientX + 'px'; cursor.style.top = e.clientY + 'px'; });
+        document.querySelectorAll('a,button,.comp-card,.glass-panel,.icon-card,.stack-card').forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
+            el.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
+        });
+
+        // ─── THREE.JS SCENE (parallax-geometry lineage) ───────
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, innerWidth / innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('canvas'), alpha: true, antialias: true });
+        renderer.setSize(innerWidth, innerHeight);
+        renderer.setClearColor(0x050a14, 1);
+        camera.position.z = 15;
+
+        const parallaxGroups = [new THREE.Group(), new THREE.Group(), new THREE.Group()];
+        parallaxGroups.forEach(g => scene.add(g));
+
+        const mats = {
+            bright: new THREE.MeshBasicMaterial({ color: 0xffffff, wireframe: true, transparent: true, opacity: 0.9 }),
+            blue: new THREE.MeshBasicMaterial({ color: 0x266aff, wireframe: true, transparent: true, opacity: 0.8 }),
+            dust: new THREE.MeshBasicMaterial({ color: 0x71717a, wireframe: true, transparent: true, opacity: 0.5 }),
+            gold: new THREE.MeshBasicMaterial({ color: 0xfbbf24, wireframe: true, transparent: true, opacity: 0.7 }),
+            purple: new THREE.MeshBasicMaterial({ color: 0xd2c5ff, wireframe: true, transparent: true, opacity: 0.6 }),
+        };
+
+        function createGeo(type, size, mat) {
+            let geo;
+            switch (type) {
+                case 'sphere': geo = new THREE.SphereGeometry(size, 16, 16); break;
+                case 'box': geo = new THREE.BoxGeometry(size, size, size); break;
+                case 'oct': geo = new THREE.OctahedronGeometry(size); break;
+                case 'tet': geo = new THREE.TetrahedronGeometry(size); break;
+                case 'torus': geo = new THREE.TorusGeometry(size, size * 0.3, 8, 16); break;
+                case 'icosa': geo = new THREE.IcosahedronGeometry(size, 0); break;
+                default: geo = new THREE.SphereGeometry(size, 12, 12);
+            }
+            return new THREE.Mesh(geo, mat);
+        }
+
+        const shapes = [];
+        const types = ['sphere', 'box', 'oct', 'tet', 'torus', 'icosa'];
+        const frontMats = [mats.bright, mats.blue, mats.gold, mats.purple];
+
+        // Layer 1 — foreground
+        for (let i = 0; i < 22; i++) {
+            const m = createGeo(types[Math.floor(Math.random() * types.length)], Math.random() * 1.2 + 0.5, frontMats[Math.floor(Math.random() * frontMats.length)]);
+            m.position.set((Math.random() - .5) * 55, (Math.random() - .5) * 38, Math.random() * 10 + 5);
+            m.rotation.set(Math.random() * Math.PI * 2, Math.random() * Math.PI * 2, Math.random() * Math.PI * 2);
+            parallaxGroups[0].add(m);
+            shapes.push({ mesh: m, layer: 0, rotSpeed: (Math.random() - .5) * .025, initY: m.position.y });
+        }
+        // Layer 2 — mid
+        for (let i = 0; i < 32; i++) {
+            const m = createGeo(types[Math.floor(Math.random() * types.length)], Math.random() * 1.5 + 0.8, mats.bright);
+            m.position.set((Math.random() - .5) * 72, (Math.random() - .5) * 46, Math.random() * 14 - 5);
+            m.rotation.set(Math.random() * Math.PI * 2, Math.random() * Math.PI * 2, Math.random() * Math.PI * 2);
+            parallaxGroups[1].add(m);
+            shapes.push({ mesh: m, layer: 1, rotSpeed: (Math.random() - .5) * .018, initY: m.position.y });
+        }
+        // Layer 3 — background
+        for (let i = 0; i < 42; i++) {
+            const m = createGeo(types[Math.floor(Math.random() * types.length)], Math.random() * 2 + 0.5, mats.dust);
+            m.position.set((Math.random() - .5) * 95, (Math.random() - .5) * 65, Math.random() * 20 - 20);
+            m.rotation.set(Math.random() * Math.PI * 2, Math.random() * Math.PI * 2, Math.random() * Math.PI * 2);
+            parallaxGroups[2].add(m);
+            shapes.push({ mesh: m, layer: 2, rotSpeed: (Math.random() - .5) * .012, initY: m.position.y });
+        }
+
+        let scrollY = 0, mouseX = 0, mouseY = 0;
+        document.addEventListener('mousemove', e => {
+            mouseX = (e.clientX / innerWidth) * 2 - 1;
+            mouseY = -(e.clientY / innerHeight) * 2 + 1;
+        });
+        ScrollTrigger.create({
+            trigger: "body", start: "top top", end: "bottom bottom", scrub: true,
+            onUpdate: s => { scrollY = s.progress; }
+        });
+
+        function animate() {
+            requestAnimationFrame(animate);
+            parallaxGroups[0].position.y = scrollY * 26;
+            parallaxGroups[1].position.y = scrollY * 16;
+            parallaxGroups[2].position.y = scrollY * 8;
+            parallaxGroups[0].rotation.x = mouseY * 0.12;
+            parallaxGroups[0].rotation.y = mouseX * 0.12;
+            parallaxGroups[1].rotation.x = mouseY * 0.06;
+            parallaxGroups[1].rotation.y = mouseX * 0.06;
+            parallaxGroups[2].rotation.x = mouseY * 0.03;
+            parallaxGroups[2].rotation.y = mouseX * 0.03;
+            shapes.forEach(s => {
+                s.mesh.rotation.x += s.rotSpeed;
+                s.mesh.rotation.y += s.rotSpeed * 0.8;
+                s.mesh.position.y += Math.sin(Date.now() * .001 + s.mesh.position.x) * .015;
+                if (s.mesh.position.y < -42) s.mesh.position.y = 42;
+                if (s.mesh.position.y > 42) s.mesh.position.y = -42;
+            });
+            renderer.render(scene, camera);
+        }
+        window.addEventListener('resize', () => {
+            camera.aspect = innerWidth / innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(innerWidth, innerHeight);
+        });
+        animate();
+
+        // ─── GSAP HERO ENTRANCE ──────────────────
+        gsap.to('.hero-badge', { opacity: 1, y: 0, duration: .9, ease: 'power3.out', delay: .2 });
+        gsap.to('.hero-title', { opacity: 1, y: 0, duration: .9, ease: 'power3.out', delay: .4 });
+        gsap.to('.hero-sub', { opacity: 1, y: 0, duration: .9, ease: 'power3.out', delay: .55 });
+        gsap.to('.hero-cta-group', { opacity: 1, y: 0, duration: .9, ease: 'power3.out', delay: .7 });
+        gsap.to('.scroll-cue', { opacity: 1, y: 0, duration: .9, ease: 'power3.out', delay: 1.0 });
+
+        // ─── GSAP SCROLL REVEALS ─────────────────
+        document.querySelectorAll('.gsap-reveal').forEach(el => {
+            ScrollTrigger.create({
+                trigger: el, start: 'top 86%',
+                onEnter: () => gsap.to(el, { opacity: 1, y: 0, duration: .9, ease: 'power3.out' })
+            });
+        });
+
+        // ─── INTERSECTION OBSERVER REVEALS ───────
+        const io = new IntersectionObserver(entries => {
+            entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('active'); });
+        }, { threshold: .15 });
+        document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+        // ─── STACK CAROUSEL ──────────────────────
+        const stack = document.getElementById('stack-demo');
+        if (stack) {
+            let active = 1;
+            stack.querySelectorAll('.stack-card').forEach((card, i) => {
+                card.addEventListener('click', () => {
+                    active = i + 1;
+                    stack.className = 'stack-section card-' + active + '-active';
+                });
+            });
+        }
+    </script>
+
+</body>
+
+</html>
