@@ -1186,7 +1186,7 @@
             <h2 class="conv__headline scroll-anim-item">O pré-treino que entrega performance e beleza.</h2>
             <h3 class="conv__subheadline scroll-anim-item">Força. Foco. Glow.</h3>
 
-            <a href="#checkout" class="btn--huge scroll-anim-item">QUERO MINHA RESET 24H AGORA</a>
+            <a href="#pricing" class="btn--huge scroll-anim-item">QUERO MINHA RESET 24H AGORA</a>
         </div>
     </section>
 
@@ -2665,7 +2665,7 @@
                     <!-- CTA Adicionado a Pedido do Usuário logo após o título -->
                     <div class="line-reveal" style="margin-top: 5rem;">
                         <div class="text-inner">
-                            <a href="#checkout" class="btn--premium">Garantir Meu Foco Agora</a>
+                            <a href="#pricing" class="btn--premium">Garantir Meu Foco Agora</a>
                         </div>
                     </div>
 
@@ -2788,7 +2788,7 @@
                     <span>é <span class="highlight-accent">agora.</span></span>
                 </h2>
                 <div class="comp-final-cta-divider"></div>
-                <a href="#checkout" class="btn-premium-gold"><span>Ativar Performance</span></a>
+                <a href="#pricing" class="btn-premium-gold"><span>Ativar Performance</span></a>
             </div>
         </section>
 
@@ -2892,24 +2892,31 @@
                         <div class="testimonials__slider-track">
                             <!-- Card 1 (Video) -->
                             <div class="testimonials__card">
-                                <video src="assets/Pouch_assembling_lightning_bolt_delpmaspu_.mp4" autoplay loop muted
-                                    playsinline></video>
+                                <video src="assets/3.mp4" autoplay loop muted playsinline></video>
+                                <div class="audio-indicator">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H2v6h4l5 4V5z"></path><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+                                </div>
                             </div>
                             <!-- Card 2 (Video) -->
                             <div class="testimonials__card">
-                                <video src="assets/Lemons_falling_sachet_opening_e26d169c44.mp4" autoplay loop muted playsinline></video>
+                                <video src="assets/2.mp4" autoplay loop muted playsinline></video>
+                                <div class="audio-indicator">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H2v6h4l5 4V5z"></path><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+                                </div>
                             </div>
-                            <!-- Card 3 (Image) -->
+                            <!-- Card 3 (Video) -->
                             <div class="testimonials__card">
-                                <img src="assets/Luxury_feminine_fitness_202604141608.png" alt="Testimonial 1">
+                                <video src="assets/1.mp4" autoplay loop muted playsinline></video>
+                                <div class="audio-indicator">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H2v6h4l5 4V5z"></path><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+                                </div>
                             </div>
-                            <!-- Card 4 (Image) -->
+                            <!-- Card 4 (Video) -->
                             <div class="testimonials__card">
-                                <img src="assets/female_fitness_model_202604141311 (1).png" alt="Testimonial 2">
-                            </div>
-                            <!-- Card 5 (Image) -->
-                            <div class="testimonials__card">
-                                <img src="assets/clean_feminine_fitness_202604141305.png" alt="Testimonial 3">
+                                <video src="assets/4.mp4" autoplay loop muted playsinline></video>
+                                <div class="audio-indicator">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H2v6h4l5 4V5z"></path><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -2931,7 +2938,7 @@
                 </div>
 
                 <div class="testimonials__cta scroll-anim-item">
-                    <a href="#checkout" class="testimonials__btn">
+                    <a href="#pricing" class="testimonials__btn">
                         ATIVAR MINHA PERFORMANCE
                     </a>
                 </div>
@@ -3427,6 +3434,116 @@
                 gap: 1rem;
             }
         }
+
+        /* Testimonials Audio Indicator Overlay */
+        .audio-indicator {
+            position: absolute;
+            bottom: 15px;
+            right: 15px;
+            width: 36px;
+            height: 36px;
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            z-index: 10;
+            pointer-events: none;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+        }
+
+        .testimonials__card:hover .audio-indicator {
+            background: rgba(242, 169, 0, 0.95);
+            color: #000;
+            border-color: rgba(242, 169, 0, 1);
+            transform: scale(1.1);
+        }
+        
+        .audio-indicator svg {
+            width: 16px;
+            height: 16px;
+            stroke: currentColor;
+            fill: none;
+        }
+
+        /* Responsive adjustments for comp-tech-master and comp-immersive */
+        @media (max-width: 992px) {
+            .comp-tech-container {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .comp-tech-left {
+                padding: 12vh 6% 0 6%;
+                text-align: center;
+                align-items: center;
+            }
+
+            .comp-tech-left .line-reveal {
+                justify-content: center;
+            }
+
+            .comp-tech-right {
+                height: 55vh;
+                margin-top: 2rem;
+                justify-content: center;
+                align-items: flex-end;
+            }
+
+            .tech-model-hero {
+                height: 55vh;
+                position: relative;
+                right: auto;
+                left: auto;
+                margin: 0 auto;
+                -webkit-mask-image: linear-gradient(to top, transparent 0%, white 12%, white 100%);
+                mask-image: linear-gradient(to top, transparent 0%, white 12%, white 100%);
+            }
+
+            .comp-immersive .content-layer {
+                padding: 6rem 6%;
+            }
+
+            .comp-text-block h3 {
+                font-size: clamp(38px, 8vw, 72px);
+                margin-bottom: 1.5rem;
+            }
+
+            .comp-text-block p {
+                font-size: 18px;
+                margin-bottom: 2.5rem;
+            }
+
+            .comp-benefit-item {
+                padding: 16px 0;
+            }
+
+            .comp-benefit-item .b-text {
+                font-size: 18px;
+            }
+
+            .comp-final-cta {
+                align-items: center;
+                padding-top: 120px;
+                min-height: 80vh;
+            }
+
+            .comp-final-cta-content {
+                align-items: center;
+                text-align: center;
+                max-width: 100%;
+                padding: 0 5%;
+            }
+
+            .comp-final-cta-divider {
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
     </style>
 
     <section class="pricing-section" id="pricing">
@@ -3444,20 +3561,20 @@
                     <div class="pricing__months">Experiência 1 Mês</div>
                     <div class="pricing__original-price">De R$ 247,00</div>
                     <div class="pricing__price">
-                        <span class="pricing__currency">R$</span>197
+                        <span class="pricing__currency">R$</span>179,90
                     </div>
-                    <div class="pricing__installments">ou 12x de R$ 19,78</div>
-                    <div class="pricing__save-badge">Economize R$ 50,00</div>
+                    <div class="pricing__installments">ou em até 12x no cartão</div>
+                    <div class="pricing__save-badge">Compre agora</div>
                     <div class="pricing__divider"></div>
                     <ul class="pricing__features">
                         <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M20 6L9 17l-5-5"></path>
-                            </svg> 1 Pote (30 Doses)</li>
+                            </svg> 1 Pouch (30 Doses)</li>
                         <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M20 6L9 17l-5-5"></path>
-                            </svg> R$ 6,56 por dose</li>
+                            </svg> R$ 5,99 por dose</li>
                     </ul>
-                    <a href="#checkout" class="pricing__btn pricing__btn--outline">Quero ativar meu foco</a>
+                    <a href="https://checkout.b4you.com.br/9CdoPnrD1l" class="pricing__btn pricing__btn--outline">Quero ativar meu foco</a>
                 </div>
 
                 <!-- Card 2 (Popular) -->
@@ -3470,23 +3587,23 @@
                     <div class="pricing__months">Experiência 2 Meses</div>
                     <div class="pricing__original-price">De R$ 494,00</div>
                     <div class="pricing__price">
-                        <span class="pricing__currency">R$</span>297
+                        <span class="pricing__currency">R$</span>339,90
                     </div>
-                    <div class="pricing__installments">ou 12x de R$ 29,82</div>
-                    <div class="pricing__save-badge">Economize R$ 197,00</div>
+                    <div class="pricing__installments">ou em até 12x no cartão</div>
+                    <div class="pricing__save-badge">Compre agora</div>
                     <div class="pricing__divider"></div>
                     <ul class="pricing__features">
                         <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M20 6L9 17l-5-5"></path>
-                            </svg> 2 Potes (60 Doses)</li>
+                            </svg> 2 Pouches (60 Doses)</li>
                         <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M20 6L9 17l-5-5"></path>
                             </svg> <b>Frete Grátis</b></li>
                         <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M20 6L9 17l-5-5"></path>
-                            </svg> R$ 4,95 por dose</li>
+                            </svg> R$ 5,66 por dose</li>
                     </ul>
-                    <a href="#checkout" class="pricing__btn pricing__btn--solid">Quero ativar meu foco</a>
+                    <a href="https://checkout.b4you.com.br/b8UJQCcrQR" class="pricing__btn pricing__btn--solid">Quero ativar meu foco</a>
                 </div>
 
                 <!-- Card 3 -->
@@ -3498,15 +3615,15 @@
                     <div class="pricing__months">Experiência 3 Meses</div>
                     <div class="pricing__original-price">De R$ 741,00</div>
                     <div class="pricing__price">
-                        <span class="pricing__currency">R$</span>397
+                        <span class="pricing__currency">R$</span>499,00
                     </div>
-                    <div class="pricing__installments">ou 12x de R$ 39,86</div>
-                    <div class="pricing__save-badge">Economize R$ 344,00</div>
+                    <div class="pricing__installments">ou em até 12x no cartão</div>
+                    <div class="pricing__save-badge">Compre agora</div>
                     <div class="pricing__divider"></div>
                     <ul class="pricing__features">
                         <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M20 6L9 17l-5-5"></path>
-                            </svg> 3 Potes (90 Doses)</li>
+                            </svg> 3 Pouches (90 Doses)</li>
                         <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M20 6L9 17l-5-5"></path>
                             </svg> <b>Frete Grátis</b></li>
@@ -3515,9 +3632,9 @@
                             </svg> E-book Nutrição Extra</li>
                         <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M20 6L9 17l-5-5"></path>
-                            </svg> R$ 4,41 por dose</li>
+                            </svg> R$ 5,54 por dose</li>
                     </ul>
-                    <a href="#checkout" class="pricing__btn pricing__btn--outline">Quero ativar meu foco</a>
+                    <a href="https://checkout.b4you.com.br/vVH6tY3BjG" class="pricing__btn pricing__btn--outline">Quero ativar meu foco</a>
                 </div>
             </div>
         </div>
@@ -4110,6 +4227,46 @@
                     slider.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
                 });
             }
+
+            // Video Sound toggle on click
+            const videoCards = document.querySelectorAll('.testimonials__card');
+            videoCards.forEach(card => {
+                const video = card.querySelector('video');
+                const audioIndicator = card.querySelector('.audio-indicator');
+                
+                if (video && audioIndicator) {
+                    card.addEventListener('click', () => {
+                        const isMuted = video.muted;
+                        
+                        // Mute all other videos first
+                        videoCards.forEach(otherCard => {
+                            const otherVid = otherCard.querySelector('video');
+                            const otherIndicator = otherCard.querySelector('.audio-indicator');
+                            if (otherVid && otherVid !== video) {
+                                otherVid.muted = true;
+                                if (otherIndicator) {
+                                    otherIndicator.innerHTML = `
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H2v6h4l5 4V5z"></path><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+                                    `;
+                                }
+                            }
+                        });
+
+                        // Toggle mute for this video
+                        video.muted = !isMuted;
+                        
+                        if (video.muted) {
+                            audioIndicator.innerHTML = `
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H2v6h4l5 4V5z"></path><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+                            `;
+                        } else {
+                            audioIndicator.innerHTML = `
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H2v6h4l5 4V5z"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+                            `;
+                        }
+                    });
+                }
+            });
         });
     </script>
     <script type="module">

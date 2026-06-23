@@ -15,3 +15,4 @@ assets/hero-sequence - Copia.rar
 .DS_Store
 Thumbs.db
 *.log
+.vercel
